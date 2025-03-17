@@ -7,14 +7,14 @@ The horizontal and vertical components of velocity are:
 - \( v_{0y} = v_0 \sin\theta \)  
 
 The time of flight is given by:  
-\[
-t = \frac{2 v_0 \sin\theta}{g}
-\]
+$$
+t = \frac{2 v_0 \sin 2\theta}{g}
+$$
 
 The range of the projectile is:  
-\[
+$$
 R = \frac{v_0^2 \sin 2\theta}{g}
-\]  
+$$  
 
 ## 2. Analysis of the Range  
 - The range is maximum when \( \theta = 45^\circ \).  
