@@ -1,72 +1,41 @@
 # Problem 
-Let's start with the **theoretical foundation** and derive the governing equations of projectile motion step by step.
+import numpy as np
+import matplotlib.pyplot as plt
 
----
+# Define constants
+g = 9.81  # Acceleration due to gravity (m/s^2)
 
-### **1. Derivation of Governing Equations**
-Projectile motion follows Newton’s second law. We assume:
-- No air resistance.
-- Motion happens in a uniform gravitational field \( g \).
-- The projectile is launched from the ground with an initial velocity \( v_0 \) at an angle \( \theta \).
+# Function to compute projectile motion
+def projectile_motion(v0, theta, t_max=10, dt=0.01):
+    """
+    Simulates projectile motion.
+    :param v0: Initial velocity (m/s)
+    :param theta: Launch angle (degrees)
+    :param t_max: Maximum simulation time (s)
+    :param dt: Time step (s)
+    :return: Arrays of x and y positions
+    """
+    theta_rad = np.radians(theta)
+    t = np.arange(0, t_max, dt)
+    x = v0 * np.cos(theta_rad) * t
+    y = v0 * np.sin(theta_rad) * t - 0.5 * g * t**2
+    
+    # Keep only points where y >= 0
+    valid_indices = y >= 0
+    return x[valid_indices], y[valid_indices]
 
-The motion is broken into two independent components:
+# Plot projectile motion for different angles
+angles = [30, 45, 60]  # Degrees
+v0 = 20  # Initial velocity (m/s)
 
-#### **Horizontal Motion** (constant velocity)
-\[
-x = v_0 \cos\theta \cdot t
-\]
+plt.figure(figsize=(10, 5))
+for theta in angles:
+    x, y = projectile_motion(v0, theta)
+    plt.plot(x, y, label=f"{theta} degrees")
 
-#### **Vertical Motion** (constant acceleration due to gravity)
-Using kinematic equations:
-\[
-y = v_0 \sin\theta \cdot t - \frac{1}{2} g t^2
-\]
-
-To find the **time of flight**, we set \( y = 0 \) (when the projectile lands):
-
-\[
-t_f = \frac{2 v_0 \sin\theta}{g}
-\]
-
-Now, the **range** (horizontal distance when \( y = 0 \)) is:
-
-\[
-R = v_0 \cos\theta \cdot t_f
-\]
-
-\[
-R = v_0 \cos\theta \cdot \frac{2 v_0 \sin\theta}{g}
-\]
-
-Using the identity \( 2\sin\theta\cos\theta = \sin2\theta \):
-
-\[
-R = \frac{v_0^2}{g} \sin2\theta
-\]
-
-This equation shows that:
-- The range is **maximized when \( \theta = 45^\circ \)**.
-- **Doubling \( v_0 \) quadruples the range**.
-- A higher gravity value reduces the range.
-
----
-
-### **2. Analyzing the Range**
-To better understand how the range changes:
-- If \( v_0 \) increases, \( R \) increases quadratically.
-- If \( g \) increases, \( R \) decreases.
-- If \( \theta \) changes, \( R \) follows a **sinusoidal pattern** due to \( \sin 2\theta \).
-
----
-
-### **3. Real-World Applications**
-- **Sports**: Optimizing a soccer ball’s kick angle for maximum distance.
-- **Engineering**: Missile and rocket trajectory planning.
-- **Environment**: Studying the effect of different gravities on planets.
-
----
-
-### **4. Python Simulation**
-Now, let's code a Python simulation that plots the **range as a function of launch angle**. I'll generate a graph showing how the range changes with different angles.
-
-This Python script generates a graph showing how the range of a projectile changes with the launch angle. You can modify \( v_0 \) to see how different initial velocities affect the range. Let me know if you need any modifications or explanations! 🚀
+plt.xlabel("Horizontal Distance (m)")
+plt.ylabel("Vertical Distance (m)")
+plt.title("Projectile Motion for Different Angles")
+plt.legend()
+plt.grid()
+plt.show()
