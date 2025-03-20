@@ -2,40 +2,31 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Define constants
-g = 9.81  # Acceleration due to gravity (m/s^2)
+# Constants
+g = 9.81  # Gravitational acceleration (m/s^2)
+v0 = 20   # Initial velocity (m/s)
+theta = np.radians(45)  # Angle (converted to radians)
 
-# Function to compute projectile motion
-def projectile_motion(v0, theta, t_max=10, dt=0.01):
-    """
-    Simulates projectile motion.
-    :param v0: Initial velocity (m/s)
-    :param theta: Launch angle (degrees)
-    :param t_max: Maximum simulation time (s)
-    :param dt: Time step (s)
-    :return: Arrays of x and y positions
-    """
-    theta_rad = np.radians(theta)
-    t = np.arange(0, t_max, dt)
-    x = v0 * np.cos(theta_rad) * t
-    y = v0 * np.sin(theta_rad) * t - 0.5 * g * t**2
-    
-    # Keep only points where y >= 0
-    valid_indices = y >= 0
-    return x[valid_indices], y[valid_indices]
+# Time interval
+t_flight = (2 * v0 * np.sin(theta)) / g  # Total flight time
+t = np.linspace(0, t_flight, num=100)  # Time points
 
-# Plot projectile motion for different angles
-angles = [30, 45, 60]  # Degrees
-v0 = 20  # Initial velocity (m/s)
+# Motion equations
+x = v0 * np.cos(theta) * t  # Horizontal distance
+y = v0 * np.sin(theta) * t - 0.5 * g * t**2  # Vertical distance
 
-plt.figure(figsize=(10, 5))
-for theta in angles:
-    x, y = projectile_motion(v0, theta)
-    plt.plot(x, y, label=f"{theta} degrees")
+# Plot
+plt.figure(figsize=(8, 5))
+plt.plot(x, y, label=r"$y = v_0 \sin(\theta) t - \frac{1}{2} g t^2$")
 
-plt.xlabel("Horizontal Distance (m)")
-plt.ylabel("Vertical Distance (m)")
-plt.title("Projectile Motion for Different Angles")
+# Labels
+plt.xlabel(r"Horizontal Distance (m)", fontsize=12)
+plt.ylabel(r"Vertical Distance (m)", fontsize=12)
+
+# Title and grid
+plt.title(r"Projectile Motion: $y = v_0 \sin(\theta) t - \frac{1}{2} g t^2$", fontsize=14)
 plt.legend()
 plt.grid()
+
+# Show plot
 plt.show()
