@@ -48,20 +48,6 @@
 <ul class="current">
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem</a>
 <ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="#1-derivation-of-governing-equations">1. Derivation of Governing Equations</a>
-<ul>
-<li class="toctree-l4"><a class="reference internal" href="#horizontal-motion-constant-velocity">Horizontal Motion (constant velocity)</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#vertical-motion-constant-acceleration-due-to-gravity">Vertical Motion (constant acceleration due to gravity)</a>
-</li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#2-analyzing-the-range">2. Analyzing the Range</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#3-real-world-applications">3. Real-World Applications</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#4-python-simulation">4. Python Simulation</a>
-</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Problem_2/">Problem 2</a>
@@ -134,59 +120,41 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem">Problem</h1>
-<p>Let's start with the <strong>theoretical foundation</strong> and derive the governing equations of projectile motion step by step.</p>
-<hr/>
-<h3 id="1-derivation-of-governing-equations"><strong>1. Derivation of Governing Equations</strong></h3>
-<p>Projectile motion follows Newton’s second law. We assume:
-- No air resistance.
-- Motion happens in a uniform gravitational field <span class="arithmatex">\( g \)</span>.
-- The projectile is launched from the ground with an initial velocity <span class="arithmatex">\( v_0 \)</span> at an angle <span class="arithmatex">\( \theta \)</span>.</p>
-<p>The motion is broken into two independent components:</p>
-<h4 id="horizontal-motion-constant-velocity"><strong>Horizontal Motion</strong> (constant velocity)</h4>
-<div class="arithmatex">\[
-x = v_0 \cos\theta \cdot t
-\]</div>
-<h4 id="vertical-motion-constant-acceleration-due-to-gravity"><strong>Vertical Motion</strong> (constant acceleration due to gravity)</h4>
-<p>Using kinematic equations:
-[
-y = v_0 \sin\theta \cdot t - \frac{1}{2} g t^2
-]</p>
-<p>To find the <strong>time of flight</strong>, we set <span class="arithmatex">\( y = 0 \)</span> (when the projectile lands):</p>
-<div class="arithmatex">\[
-t_f = \frac{2 v_0 \sin\theta}{g}
-\]</div>
-<p>Now, the <strong>range</strong> (horizontal distance when <span class="arithmatex">\( y = 0 \)</span>) is:</p>
-<div class="arithmatex">\[
-R = v_0 \cos\theta \cdot t_f
-\]</div>
-<div class="arithmatex">\[
-R = v_0 \cos\theta \cdot \frac{2 v_0 \sin\theta}{g}
-\]</div>
-<p>Using the identity <span class="arithmatex">\( 2\sin\theta\cos\theta = \sin2\theta \)</span>:</p>
-<div class="arithmatex">\[
-R = \frac{v_0^2}{g} \sin2\theta
-\]</div>
-<p>This equation shows that:
-- The range is <strong>maximized when <span class="arithmatex">\( \theta = 45^\circ \)</span></strong>.
-- <strong>Doubling <span class="arithmatex">\( v_0 \)</span> quadruples the range</strong>.
-- A higher gravity value reduces the range.</p>
-<hr/>
-<h3 id="2-analyzing-the-range"><strong>2. Analyzing the Range</strong></h3>
-<p>To better understand how the range changes:
-- If <span class="arithmatex">\( v_0 \)</span> increases, <span class="arithmatex">\( R \)</span> increases quadratically.
-- If <span class="arithmatex">\( g \)</span> increases, <span class="arithmatex">\( R \)</span> decreases.
-- If <span class="arithmatex">\( \theta \)</span> changes, <span class="arithmatex">\( R \)</span> follows a <strong>sinusoidal pattern</strong> due to <span class="arithmatex">\( \sin 2\theta \)</span>.</p>
-<hr/>
-<h3 id="3-real-world-applications"><strong>3. Real-World Applications</strong></h3>
-<ul>
-<li><strong>Sports</strong>: Optimizing a soccer ball’s kick angle for maximum distance.</li>
-<li><strong>Engineering</strong>: Missile and rocket trajectory planning.</li>
-<li><strong>Environment</strong>: Studying the effect of different gravities on planets.</li>
-</ul>
-<hr/>
-<h3 id="4-python-simulation"><strong>4. Python Simulation</strong></h3>
-<p>Now, let's code a Python simulation that plots the <strong>range as a function of launch angle</strong>. I'll generate a graph showing how the range changes with different angles.</p>
-<p>This Python script generates a graph showing how the range of a projectile changes with the launch angle. You can modify <span class="arithmatex">\( v_0 \)</span> to see how different initial velocities affect the range. Let me know if you need any modifications or explanations! 🚀</p>
+<p>import numpy as np
+import matplotlib.pyplot as plt</p>
+<h1 id="define-constants">Define constants</h1>
+<p>g = 9.81  # Acceleration due to gravity (m/s^2)</p>
+<h1 id="function-to-compute-projectile-motion">Function to compute projectile motion</h1>
+<p>def projectile_motion(v0, theta, t_max=10, dt=0.01):
+    """
+    Simulates projectile motion.
+    :param v0: Initial velocity (m/s)
+    :param theta: Launch angle (degrees)
+    :param t_max: Maximum simulation time (s)
+    :param dt: Time step (s)
+    :return: Arrays of x and y positions
+    """
+    theta_rad = np.radians(theta)
+    t = np.arange(0, t_max, dt)
+    x = v0 * np.cos(theta_rad) * t
+    y = v0 * np.sin(theta_rad) * t - 0.5 * g * t**2</p>
+<pre><code># Keep only points where y &gt;= 0
+valid_indices = y &gt;= 0
+return x[valid_indices], y[valid_indices]
+</code></pre>
+<h1 id="plot-projectile-motion-for-different-angles">Plot projectile motion for different angles</h1>
+<p>angles = [30, 45, 60]  # Degrees
+v0 = 20  # Initial velocity (m/s)</p>
+<p>plt.figure(figsize=(10, 5))
+for theta in angles:
+    x, y = projectile_motion(v0, theta)
+    plt.plot(x, y, label=f"{theta} degrees")</p>
+<p>plt.xlabel("Horizontal Distance (m)")
+plt.ylabel("Vertical Distance (m)")
+plt.title("Projectile Motion for Different Angles")
+plt.legend()
+plt.grid()
+plt.show()</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
