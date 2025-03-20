@@ -120,30 +120,6 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem">Problem</h1>
-<p>import numpy as np
-import matplotlib.pyplot as plt</p>
-<h1 id="constants">Constants</h1>
-<p>g = 9.81  # Gravitational acceleration (m/s^2)
-v0 = 20   # Initial velocity (m/s)
-theta = np.radians(45)  # Angle (converted to radians)</p>
-<h1 id="time-interval">Time interval</h1>
-<p>t_flight = (2 * v0 * np.sin(theta)) / g  # Total flight time
-t = np.linspace(0, t_flight, num=100)  # Time points</p>
-<h1 id="motion-equations">Motion equations</h1>
-<p>x = v0 * np.cos(theta) * t  # Horizontal distance
-y = v0 * np.sin(theta) * t - 0.5 * g * t**2  # Vertical distance</p>
-<h1 id="plot">Plot</h1>
-<p>plt.figure(figsize=(8, 5))
-plt.plot(x, y, label=r"<span class="arithmatex">\(y = v_0 \sin(\theta) t - \frac{1}{2} g t^2\)</span>")</p>
-<h1 id="labels">Labels</h1>
-<p>plt.xlabel(r"Horizontal Distance (m)", fontsize=12)
-plt.ylabel(r"Vertical Distance (m)", fontsize=12)</p>
-<h1 id="title-and-grid">Title and grid</h1>
-<p>plt.title(r"Projectile Motion: <span class="arithmatex">\(y = v_0 \sin(\theta) t - \frac{1}{2} g t^2\)</span>", fontsize=14)
-plt.legend()
-plt.grid()</p>
-<h1 id="show-plot">Show plot</h1>
-<p>plt.show()</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
