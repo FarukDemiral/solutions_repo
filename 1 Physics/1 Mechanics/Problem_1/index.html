@@ -120,6 +120,64 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem">Problem</h1>
+<h1 id="projectile-motion-analysis">Projectile Motion Analysis</h1>
+<h2 id="1-theoretical-foundation">1. Theoretical Foundation</h2>
+<h3 id="deriving-equations-of-motion">Deriving Equations of Motion</h3>
+<p>Projectile motion follows Newton’s second law:</p>
+<div class="arithmatex">\[ F = ma \]</div>
+<p>For a projectile launched with initial velocity <span class="arithmatex">\( v_0 \)</span> at an angle <span class="arithmatex">\( \theta \)</span>, we decompose motion into horizontal and vertical components:</p>
+<ul>
+<li>Horizontal: $$ v_{0x} = v_0 \cos\theta $$</li>
+<li>Vertical: $$ v_{0y} = v_0 \sin\theta $$</li>
+</ul>
+<p>Using kinematic equations:</p>
+<div class="arithmatex">\[ x(t) = v_{0x} t \]</div>
+<div class="arithmatex">\[ y(t) = v_{0y} t - \frac{1}{2} g t^2 \]</div>
+<p>To find the time of flight:</p>
+<div class="arithmatex">\[ t_f = \frac{2 v_{0y}}{g} = \frac{2 v_0 \sin\theta}{g} \]</div>
+<h3 id="family-of-solutions">Family of Solutions</h3>
+<p>Varying initial velocity and angle results in different trajectories, forming a family of solutions characterized by different maximum heights and ranges.</p>
+<hr/>
+<h2 id="2-analysis-of-the-range">2. Analysis of the Range</h2>
+<p>The horizontal range <span class="arithmatex">\( R \)</span> is given by:</p>
+<div class="arithmatex">\[ R = \frac{v_0^2 \sin 2\theta}{g} \]</div>
+<h3 id="factors-affecting-range">Factors Affecting Range</h3>
+<ul>
+<li>Increasing <span class="arithmatex">\(v_0\)</span> increases <span class="arithmatex">\(R\)</span> quadratically.</li>
+<li>Maximum range occurs at  <span class="arithmatex">\(theta = 45^\circ\)</span>.</li>
+<li>Increasing g$ (e.g., on different planets) decreases <span class="arithmatex">\(R\)</span>.</li>
+</ul>
+<hr/>
+<h2 id="3-practical-applications">3. Practical Applications</h2>
+<ul>
+<li><strong>Ballistics</strong>: Optimizing projectile launch angles for artillery.</li>
+<li><strong>Sports</strong>: Calculating optimal angles for throwing a ball.</li>
+<li><strong>Rocket Launches</strong>: Adjusting for air resistance and varying gravity.</li>
+</ul>
+<hr/>
+<h2 id="4-implementation">4. Implementation</h2>
+<h3 id="python-simulation">Python Simulation</h3>
+<p>Below is a Python script to simulate projectile motion and visualize range vs. angle:</p>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+
+def projectile_range(v0, theta, g=9.81):
+    theta_rad = np.radians(theta)
+    return (v0**2 * np.sin(2 * theta_rad)) / g
+
+angles = np.linspace(0, 90, 100)
+v0 = 20  # Initial velocity (m/s)
+
+ranges = [projectile_range(v0, theta) for theta in angles]
+
+plt.plot(angles, ranges)
+plt.xlabel("Launch Angle (degrees)")
+plt.ylabel("Range (m)")
+plt.title("Projectile Range vs. Launch Angle")
+plt.grid()
+plt.show()
+</code></pre>
+<p>This script plots the projectile range as a function of launch angle. The maximum range is achieved at <span class="arithmatex">\( 45^\circ \)</span>.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
