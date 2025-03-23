@@ -38,7 +38,7 @@ $$ R = \frac{v_0^2 \sin 2\theta}{g} $$
 ### Factors Affecting Range
 - Increasing $v_0$ increases $R$ quadratically.
 - Maximum range occurs at  $theta = 45^\circ$.
-- Increasing g$ (e.g., on different planets) decreases $R$.
+- Increasing $g$ (e.g., on different planets) decreases $R$.
 
 ---
 
