@@ -10,8 +10,8 @@ $$ F = ma $$
 
 For a projectile launched with initial velocity \( v_0 \) at an angle \( \theta \), we decompose motion into horizontal and vertical components:
 
-- Horizontal: $$ v_{0x} = v_0 \cos\theta $$
-- Vertical: $$ v_{0y} = v_0 \sin\theta $$
+- Horizontal: $ v_{0x} = v_0 \cos\theta $
+- Vertical: $ v_{0y} = v_0 \sin\theta $
 
 Using kinematic equations:
 
