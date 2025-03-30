@@ -13,7 +13,6 @@ For a projectile launched with initial velocity \( v_0 \) at an angle \( \theta 
 - Horizontal: $v_{0x} = v_0 \cos\theta$
 - Vertical: $v_{0y} = v_0 \sin\theta$
   
-
 Using kinematic equations:
 
 $$ x(t) = v_{0x} t $$
