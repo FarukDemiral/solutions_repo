@@ -1,4 +1,4 @@
-# Problem 1 TEST
+# Problem 1 
 # Projectile Motion Analysis
 
 ## 1. Theoretical Foundation
