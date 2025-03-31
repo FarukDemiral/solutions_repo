@@ -51,7 +51,7 @@ $$ R = \frac{v_0^2 \sin 2\theta}{g} $$
 
 ## 4. Implementation
 
-### Simulation
+### Simulation 
 
 <div class="container">
     <div class="controls">
