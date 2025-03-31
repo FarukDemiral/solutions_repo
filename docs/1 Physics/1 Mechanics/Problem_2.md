@@ -1,4 +1,4 @@
-# Problem 2  
+# Problem 2 
 ## Forced Damped Pendulum Simulation and Analysis
 
 ### 🧮 Differential Equation
