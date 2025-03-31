@@ -1,4 +1,4 @@
-# Problem 1 Fk
+# Problem 1
 # Projectile Motion Analysis
 
 ## 1. Theoretical Foundation
