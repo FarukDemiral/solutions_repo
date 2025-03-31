@@ -11,14 +11,14 @@ from scipy.integrate import solve_ivp
 # ----------------------------
 # 1. PARAMETERS
 # ----------------------------
-gamma = 0.5       # Damping coefficient (γ)
-A = 1.2           # Driving force amplitude (A)
-omega = 2/3       # Driving frequency (ω)
-omega_0 = 1.5     # Natural frequency (ω₀), related to gravity and length
-theta0 = 0.2      # Initial angle θ(0)
-theta_dot0 = 0.0  # Initial angular velocity θ'(0)
-t_max = 100       # Total simulation time in seconds
-dt = 0.01         # Time step
+gamma = $$ 0.5 $$       # Damping coefficient (γ)
+A = $$ 1.2 $$           # Driving force amplitude (A)
+omega = $$ 2/3 $$      # Driving frequency (ω)
+omega_0 = $$ 1.5 $$     # Natural frequency (ω₀), related to gravity and length
+theta0 = $$ 0.2 $$     # Initial angle θ(0)
+theta_dot0 = $$ 0.0 $$ # Initial angular velocity θ'(0)
+t_max = $$ 100 $$       # Total simulation time in seconds
+dt = $$ 0.01 $$         # Time step
 
 # ----------------------------
 # 2. DIFFERENTIAL EQUATION
