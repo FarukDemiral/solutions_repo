@@ -50,6 +50,16 @@
 </li>
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 2</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#forced-damped-pendulum-simulation-and-analysis">Forced Damped Pendulum Simulation and Analysis</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#differential-equation">🧮 Differential Equation</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#parameters">⚙️ Parameters</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#python-simulation-code">🧠 Python Simulation Code</a>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -120,45 +130,64 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-2">Problem 2</h1>
-<h1 id="forced-damped-pendulum-simulation-and-analysis">Forced Damped Pendulum Simulation and Analysis</h1>
-<h1 id="_1">==============================================</h1>
-<h1 id="differential-equation">Differential Equation:</h1>
-<h1 id="d2dt2-ddt-02-sin-a-cos-t">$$ d²θ/dt² + γ dθ/dt + ω₀² sin(θ) = A cos(ω t) $$</h1>
-<p>import numpy as np
+<h2 id="forced-damped-pendulum-simulation-and-analysis">Forced Damped Pendulum Simulation and Analysis</h2>
+<h3 id="differential-equation">🧮 Differential Equation</h3>
+<p>The forced damped pendulum is governed by the nonlinear second-order differential equation:</p>
+<div class="arithmatex">\[
+\frac{d^2\theta}{dt^2} + \gamma \frac{d\theta}{dt} + \omega_0^2 \sin(\theta) = A \cos(\omega t)
+\]</div>
+<p>Where:</p>
+<ul>
+<li><span class="arithmatex">\( \theta \)</span>: angular displacement  </li>
+<li><span class="arithmatex">\( \gamma \)</span>: damping coefficient  </li>
+<li><span class="arithmatex">\( \omega_0 \)</span>: natural frequency  </li>
+<li><span class="arithmatex">\( A \)</span>: driving amplitude  </li>
+<li><span class="arithmatex">\( \omega \)</span>: driving frequency  </li>
+</ul>
+<hr/>
+<h3 id="parameters">⚙️ Parameters</h3>
+<div class="arithmatex">\[
+\begin{align*}
+\gamma &amp;= 0.5 \quad \text{(Damping coefficient)} \\
+A &amp;= 1.2 \quad \text{(Driving amplitude)} \\
+\omega &amp;= \frac{2}{3} \quad \text{(Driving frequency)} \\
+\omega_0 &amp;= 1.5 \quad \text{(Natural frequency)} \\
+\theta(0) &amp;= 0.2 \quad \text{(Initial angle)} \\
+\dot{\theta}(0) &amp;= 0.0 \quad \text{(Initial angular velocity)} \\
+t_{max} &amp;= 100 \quad \text{(Simulation time)} \\
+\Delta t &amp;= 0.01 \quad \text{(Time step)} \\
+\end{align*}
+\]</div>
+<hr/>
+<h3 id="python-simulation-code">🧠 Python Simulation Code</h3>
+<p>```python
+import numpy as np
 import matplotlib.pyplot as plt
 from scipy.integrate import solve_ivp</p>
-<h1 id="-">----------------------------</h1>
-<h1 id="1-parameters">1. PARAMETERS</h1>
-<h1 id="-_1">----------------------------</h1>
-<p>gamma = $$ 0.5 $$       # Damping coefficient (γ)
-A = $$ 1.2 $$           # Driving force amplitude (A)
-omega = $$ 2/3 $$      # Driving frequency (ω)
-omega_0 = $$ 1.5 $$     # Natural frequency (ω₀), related to gravity and length
-theta0 = $$ 0.2 $$     # Initial angle θ(0)
-theta_dot0 = $$ 0.0 $$ # Initial angular velocity θ'(0)
-t_max = $$ 100 $$       # Total simulation time in seconds
-dt = $$ 0.01 $$         # Time step</p>
-<h1 id="-_2">----------------------------</h1>
-<h1 id="2-differential-equation">2. DIFFERENTIAL EQUATION</h1>
-<h1 id="-_3">----------------------------</h1>
+<h1 id="parameters_1">Parameters</h1>
+<p>gamma = 0.5
+A = 1.2
+omega = 2 / 3
+omega_0 = 1.5
+theta0 = 0.2
+theta_dot0 = 0.0
+t_max = 100
+dt = 0.01</p>
+<h1 id="differential-equation_1">Differential equation</h1>
 <p>def pendulum(t, y):
     theta, theta_dot = y
     dtheta_dt = theta_dot
     dtheta_dot_dt = -gamma * theta_dot - omega_0**2 * np.sin(theta) + A * np.cos(omega * t)
     return [dtheta_dt, dtheta_dot_dt]</p>
-<h1 id="-_4">----------------------------</h1>
-<h1 id="3-solve-the-system">3. SOLVE THE SYSTEM</h1>
-<h1 id="-_5">----------------------------</h1>
+<h1 id="solve-ode">Solve ODE</h1>
 <p>t_span = (0, t_max)
 t_eval = np.arange(0, t_max, dt)
-y0 = [theta0, theta_dot0]</p>
-<p>sol = solve_ivp(pendulum, t_span, y0, t_eval=t_eval, method='RK45')</p>
+y0 = [theta0, theta_dot0]
+sol = solve_ivp(pendulum, t_span, y0, t_eval=t_eval, method='RK45')</p>
 <p>theta = sol.y[0]
 theta_dot = sol.y[1]
 time = sol.t</p>
-<h1 id="-_6">----------------------------</h1>
-<h1 id="4-plot-angular-displacement-over-time">4. PLOT: ANGULAR DISPLACEMENT OVER TIME</h1>
-<h1 id="-_7">----------------------------</h1>
+<h1 id="plot-1-angular-displacement">Plot 1: Angular Displacement</h1>
 <p>plt.figure(figsize=(10, 4))
 plt.plot(time, theta, label='θ(t)')
 plt.title("Forced Damped Pendulum - Angular Displacement")
@@ -168,9 +197,7 @@ plt.grid()
 plt.legend()
 plt.tight_layout()
 plt.show()</p>
-<h1 id="-_8">----------------------------</h1>
-<h1 id="5-plot-phase-space-vs">5. PLOT: PHASE SPACE (θ vs θ̇)</h1>
-<h1 id="-_9">----------------------------</h1>
+<h1 id="plot-2-phase-space">Plot 2: Phase Space</h1>
 <p>plt.figure(figsize=(6, 6))
 plt.plot(theta, theta_dot, lw=0.7)
 plt.title("Phase Space (θ vs θ̇)")
@@ -179,10 +206,8 @@ plt.ylabel("θ̇ (radians/s)")
 plt.grid()
 plt.tight_layout()
 plt.show()</p>
-<h1 id="-_10">----------------------------</h1>
-<h1 id="6-plot-poincare-section">6. PLOT: POINCARÉ SECTION</h1>
-<h1 id="-_11">----------------------------</h1>
-<p>T_drive = 2 * np.pi / omega  # Driving period
+<h1 id="plot-3-poincare-section">Plot 3: Poincaré Section</h1>
+<p>T_drive = 2 * np.pi / omega
 indices = np.where(np.abs(np.mod(time, T_drive)) &lt; dt)[0]
 poincare_theta = theta[indices]
 poincare_theta_dot = theta_dot[indices]</p>
