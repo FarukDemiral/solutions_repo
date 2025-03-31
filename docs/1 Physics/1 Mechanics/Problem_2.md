@@ -2,7 +2,7 @@
 # Forced Damped Pendulum Simulation and Analysis
 # ==============================================
 # Differential Equation:
-# d²θ/dt² + γ dθ/dt + ω₀² sin(θ) = A cos(ω t)
+# $$ d²θ/dt² + γ dθ/dt + ω₀² sin(θ) = A cos(ω t) $$
 
 import numpy as np
 import matplotlib.pyplot as plt
