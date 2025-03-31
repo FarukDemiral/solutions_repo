@@ -50,16 +50,6 @@
 </li>
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 2</a>
 <ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="#forced-damped-pendulum-simulation-and-analysis">Forced Damped Pendulum Simulation and Analysis</a>
-<ul>
-<li class="toctree-l4"><a class="reference internal" href="#differential-equation">🧮 Differential Equation</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#parameters">⚙️ Parameters</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#python-simulation-code">🧠 Python Simulation Code</a>
-</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -130,95 +120,646 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-2">Problem 2</h1>
-<h2 id="forced-damped-pendulum-simulation-and-analysis">Forced Damped Pendulum Simulation and Analysis</h2>
-<h3 id="differential-equation">🧮 Differential Equation</h3>
-<p>The forced damped pendulum is governed by the nonlinear second-order differential equation:</p>
-<div class="arithmatex">\[
-\frac{d^2\theta}{dt^2} + \gamma \frac{d\theta}{dt} + \omega_0^2 \sin(\theta) = A \cos(\omega t)
-\]</div>
-<p>Where:</p>
+<ol>
+<li>pendulumPhysics.ts
+/**</li>
+<li>Forced Damped Pendulum Physics Module</li>
+<li></li>
+<li>This module implements the physics for a forced damped pendulum, which is a </li>
+<li>non-linear system that can exhibit chaotic behavior under certain conditions.</li>
+<li></li>
+<li>The pendulum is described by the differential equation:</li>
+<li>d²θ/dt² + γ·dθ/dt + ω₀²·sin(θ) = A·cos(ω·t)</li>
+<li></li>
+<li>Where:</li>
+<li>
 <ul>
-<li><span class="arithmatex">\( \theta \)</span>: angular displacement  </li>
-<li><span class="arithmatex">\( \gamma \)</span>: damping coefficient  </li>
-<li><span class="arithmatex">\( \omega_0 \)</span>: natural frequency  </li>
-<li><span class="arithmatex">\( A \)</span>: driving amplitude  </li>
-<li><span class="arithmatex">\( \omega \)</span>: driving frequency  </li>
+<li>θ is the angular displacement</li>
 </ul>
-<hr/>
-<h3 id="parameters">⚙️ Parameters</h3>
-<div class="arithmatex">\[
-\begin{align*}
-\gamma &amp;= 0.5 \quad \text{(Damping coefficient)} \\
-A &amp;= 1.2 \quad \text{(Driving amplitude)} \\
-\omega &amp;= \frac{2}{3} \quad \text{(Driving frequency)} \\
-\omega_0 &amp;= 1.5 \quad \text{(Natural frequency)} \\
-\theta(0) &amp;= 0.2 \quad \text{(Initial angle)} \\
-\dot{\theta}(0) &amp;= 0.0 \quad \text{(Initial angular velocity)} \\
-t_{max} &amp;= 100 \quad \text{(Simulation time)} \\
-\Delta t &amp;= 0.01 \quad \text{(Time step)} \\
-\end{align*}
-\]</div>
-<hr/>
-<h3 id="python-simulation-code">🧠 Python Simulation Code</h3>
-<p>```python
-import numpy as np
-import matplotlib.pyplot as plt
-from scipy.integrate import solve_ivp</p>
-<h1 id="parameters_1">Parameters</h1>
-<p>gamma = 0.5
-A = 1.2
-omega = 2 / 3
-omega_0 = 1.5
-theta0 = 0.2
-theta_dot0 = 0.0
-t_max = 100
-dt = 0.01</p>
-<h1 id="differential-equation_1">Differential equation</h1>
-<p>def pendulum(t, y):
-    theta, theta_dot = y
-    dtheta_dt = theta_dot
-    dtheta_dot_dt = -gamma * theta_dot - omega_0**2 * np.sin(theta) + A * np.cos(omega * t)
-    return [dtheta_dt, dtheta_dot_dt]</p>
-<h1 id="solve-ode">Solve ODE</h1>
-<p>t_span = (0, t_max)
-t_eval = np.arange(0, t_max, dt)
-y0 = [theta0, theta_dot0]
-sol = solve_ivp(pendulum, t_span, y0, t_eval=t_eval, method='RK45')</p>
-<p>theta = sol.y[0]
-theta_dot = sol.y[1]
-time = sol.t</p>
-<h1 id="plot-1-angular-displacement">Plot 1: Angular Displacement</h1>
-<p>plt.figure(figsize=(10, 4))
-plt.plot(time, theta, label='θ(t)')
-plt.title("Forced Damped Pendulum - Angular Displacement")
-plt.xlabel("Time (s)")
-plt.ylabel("Angle θ (radians)")
-plt.grid()
-plt.legend()
-plt.tight_layout()
-plt.show()</p>
-<h1 id="plot-2-phase-space">Plot 2: Phase Space</h1>
-<p>plt.figure(figsize=(6, 6))
-plt.plot(theta, theta_dot, lw=0.7)
-plt.title("Phase Space (θ vs θ̇)")
-plt.xlabel("θ (radians)")
-plt.ylabel("θ̇ (radians/s)")
-plt.grid()
-plt.tight_layout()
-plt.show()</p>
-<h1 id="plot-3-poincare-section">Plot 3: Poincaré Section</h1>
-<p>T_drive = 2 * np.pi / omega
-indices = np.where(np.abs(np.mod(time, T_drive)) &lt; dt)[0]
-poincare_theta = theta[indices]
-poincare_theta_dot = theta_dot[indices]</p>
-<p>plt.figure(figsize=(6, 6))
-plt.scatter(poincare_theta, poincare_theta_dot, s=10, c='red')
-plt.title("Poincaré Section")
-plt.xlabel("θ (radians)")
-plt.ylabel("θ̇ (radians/s)")
-plt.grid()
-plt.tight_layout()
-plt.show()</p>
+</li>
+<li>
+<ul>
+<li>γ is the damping coefficient</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>ω₀ is the natural frequency</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>A is the driving amplitude</li>
+</ul>
+</li>
+<li>
+<ul>
+<li>ω is the driving frequency
+ <em>/
+export interface PendulumPoint {
+  t: number;  // time
+  theta: number;  // angle
+  thetaDot: number;  // angular velocity
+}
+export interface PendulumResult {
+  points: PendulumPoint[];
+  poincarePoints: PendulumPoint[];
+  params: PendulumParameters;
+}
+export interface PendulumParameters {
+  gamma: number;     // damping coefficient
+  A: number;         // driving amplitude
+  omega: number;     // driving frequency
+  omega0: number;    // natural frequency
+  theta0: number;    // initial angle
+  thetaDot0: number; // initial angular velocity
+  tMax: number;      // simulation time
+  dt: number;        // time step
+}
+export const defaultParams: PendulumParameters = {
+  gamma: 0.5,
+  A: 1.2,
+  omega: 0.67,
+  omega0: 1.0,
+  theta0: 0.2,
+  thetaDot0: 0.0,
+  tMax: 100,
+  dt: 0.05
+};
+/</em>*</li>
+</ul>
+</li>
+<li>The pendulum ODE function.</li>
+<li></li>
+<li>Given the current state and parameters, computes the derivatives.</li>
+<li>Returns [dθ/dt, d²θ/dt²]
+ */
+function pendulumODE(t: number, y: [number, number], params: PendulumParameters): [number, number] {
+  const [theta, thetaDot] = y;
+  const { gamma, A, omega, omega0 } = params;</li>
+</ol>
+<p>// d²θ/dt² = -γ·dθ/dt - ω₀²·sin(θ) + A·cos(ωt)
+  const thetaDotDot = -gamma * thetaDot - omega0 * omega0 * Math.sin(theta) + A * Math.cos(omega * t);</p>
+<p>return [thetaDot, thetaDotDot];
+}
+/*<em>
+ * Runge-Kutta 4th order method for solving the pendulum ODE.
+ * 
+ * This is a numerical method for solving ordinary differential equations.
+ </em>/
+function rk4Step(t: number, y: [number, number], dt: number, params: PendulumParameters): [number, number] {
+  const k1 = pendulumODE(t, y, params);</p>
+<p>const y2: [number, number] = [
+    y[0] + k1[0] * dt / 2,
+    y[1] + k1[1] * dt / 2
+  ];
+  const k2 = pendulumODE(t + dt / 2, y2, params);</p>
+<p>const y3: [number, number] = [
+    y[0] + k2[0] * dt / 2,
+    y[1] + k2[1] * dt / 2
+  ];
+  const k3 = pendulumODE(t + dt / 2, y3, params);</p>
+<p>const y4: [number, number] = [
+    y[0] + k3[0] * dt,
+    y[1] + k3[1] * dt
+  ];
+  const k4 = pendulumODE(t + dt, y4, params);</p>
+<p>return [
+    y[0] + (dt / 6) * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]),
+    y[1] + (dt / 6) * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1])
+  ];
+}
+/*<em>
+ * Solve the pendulum differential equation and return the result.
+ * 
+ * This function generates both the full trajectory and the Poincaré section,
+ * which samples the phase space at intervals of the driving period.
+ </em>/
+export function solvePendulum(params: PendulumParameters): PendulumResult {
+  const { theta0, thetaDot0, tMax, dt, omega } = params;</p>
+<p>// Initialize state
+  let t = 0;
+  let theta = theta0;
+  let thetaDot = thetaDot0;</p>
+<p>const points: PendulumPoint[] = [];
+  const poincarePoints: PendulumPoint[] = [];</p>
+<p>// The driving period
+  const T = 2 * Math.PI / omega;</p>
+<p>// Time for next Poincaré section
+  let nextPoincareTime = T;</p>
+<p>// Add initial point
+  points.push({ t, theta, thetaDot });</p>
+<p>// Main integration loop
+  while (t &lt; tMax) {
+    // Calculate next state using RK4
+    const [newTheta, newThetaDot] = rk4Step(t, [theta, thetaDot], dt, params);</p>
+<pre><code>// Update time
+t += dt;
+
+// Normalize theta to [-π, π]
+theta = ((newTheta + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
+thetaDot = newThetaDot;
+
+// Add point to trajectory
+points.push({ t, theta, thetaDot });
+
+// Check if we should add a point to the Poincaré section
+if (t &gt;= nextPoincareTime) {
+  poincarePoints.push({ t, theta, thetaDot });
+  nextPoincareTime += T;
+}
+</code></pre>
+<p>}</p>
+<p>return { 
+    points, 
+    poincarePoints,
+    params 
+  };
+}
+2. PendulumSimulator.tsx
+import { useState, useCallback, useEffect } from "react";
+import SimulationControls from "./SimulationControls";
+import AngularDisplacementChart from "./AngularDisplacementChart";
+import PhaseSpaceChart from "./PhaseSpaceChart";
+import PoincareChart from "./PoincareChart";
+import { solvePendulum, PendulumParameters, PendulumResult, defaultParams } from "./pendulumPhysics";
+export default function PendulumSimulator() {
+  // State for simulation parameters and results
+  const [parameters, setParameters] = useState<pendulumparameters>(defaultParams);
+  const [simulationData, setSimulationData] = useState<pendulumresult null="" |="">(null);
+  const [loading, setLoading] = useState(false);</pendulumresult></pendulumparameters></p>
+<p>// Handle parameter changes from controls
+  const handleParametersChange = useCallback((newParams: PendulumParameters) =&gt; {
+    setParameters(newParams);
+  }, []);</p>
+<p>// Run simulation with current parameters
+  const runSimulation = useCallback(() =&gt; {
+    setLoading(true);</p>
+<pre><code>// Use setTimeout to prevent UI freezing during computation
+setTimeout(() =&gt; {
+  try {
+    const result = solvePendulum(parameters);
+    setSimulationData(result);
+  } catch (error) {
+    console.error("Simulation error:", error);
+    alert("An error occurred during simulation.");
+  } finally {
+    setLoading(false);
+  }
+}, 10);
+</code></pre>
+<p>}, [parameters]);</p>
+<p>// Run initial simulation on mount
+  useEffect(() =&gt; {
+    runSimulation();
+  }, []);</p>
+<p>return (
+    <div classname="max-w-7xl mx-auto px-4 py-8">
+<div classname="text-center mb-8">
+<h1 classname="text-3xl font-bold text-primary mb-2">Forced Damped Pendulum Simulation</h1>
+<p classname="text-gray-600 max-w-3xl mx-auto">
+          Interactive simulation of a forced damped pendulum described by the differential equation:
+          <span classname="block my-2 font-mono bg-gray-100 p-2 rounded">
+            d²θ/dt² + γ·dθ/dt + ω₀²·sin(θ) = A·cos(ω·t)
+          </span>
+</p>
+</div>
+<div classname="flex flex-col md:flex-row gap-6">
+        {/<em> Control Panel </em>/}
+        <div classname="md:w-1/3">
+<div classname="bg-white rounded-lg shadow-md p-6">
+<h2 classname="text-xl font-semibold mb-4">Simulation Parameters</h2>
+<simulationcontrols onparameterschange="{handleParametersChange}" onsimulate="{runSimulation}"></simulationcontrols>
+</div>
+</div></div></div></p>
+<pre><code>    {/* Charts */}
+    &lt;div className="md:w-2/3 space-y-6"&gt;
+      {loading ? (
+        &lt;div className="flex items-center justify-center h-64 bg-white rounded-lg shadow-md"&gt;
+          &lt;p className="text-lg"&gt;Calculating simulation... This may take a moment&lt;/p&gt;
+        &lt;/div&gt;
+      ) : (
+        &lt;&gt;
+          &lt;AngularDisplacementChart simulationData={simulationData} /&gt;
+
+          &lt;div className="grid md:grid-cols-2 gap-6"&gt;
+            &lt;PhaseSpaceChart simulationData={simulationData} /&gt;
+            &lt;PoincareChart simulationData={simulationData} /&gt;
+          &lt;/div&gt;
+          &lt;div className="bg-white rounded-lg shadow-md p-6"&gt;
+            &lt;h2 className="text-xl font-semibold mb-3"&gt;Equations &amp; Theory&lt;/h2&gt;
+            &lt;div className="text-sm space-y-2"&gt;
+              &lt;p&gt;
+                &lt;strong&gt;Differential Equation:&lt;/strong&gt;
+                &lt;span className="block font-mono my-1"&gt;d²θ/dt² + γ·dθ/dt + ω₀²·sin(θ) = A·cos(ω·t)&lt;/span&gt;
+              &lt;/p&gt;
+              &lt;div&gt;
+                &lt;strong&gt;Parameters:&lt;/strong&gt;
+                &lt;ul className="ml-5 list-disc"&gt;
+                  &lt;li&gt;γ (gamma): Damping coefficient&lt;/li&gt;
+                  &lt;li&gt;ω₀ (omega0): Natural frequency&lt;/li&gt;
+                  &lt;li&gt;A: Driving amplitude&lt;/li&gt;
+                  &lt;li&gt;ω (omega): Driving frequency&lt;/li&gt;
+                &lt;/ul&gt;
+              &lt;/div&gt;
+              &lt;p&gt;
+                &lt;strong&gt;Phase Space:&lt;/strong&gt; Shows the relationship between angle (θ) and angular velocity (θ̇).
+                The trajectory in phase space can reveal patterns in the pendulum's behavior.
+              &lt;/p&gt;
+              &lt;p&gt;
+                &lt;strong&gt;Poincaré Section:&lt;/strong&gt; Samples the phase space at regular intervals synchronized 
+                with the driving force, revealing the long-term behavior and potential chaos.
+              &lt;/p&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        
+      )}
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>);
+}
+3. SimulationControls.tsx
+import { useState, useEffect } from 'react';
+import { PendulumParameters, defaultParams } from './pendulumPhysics';
+interface SimulationControlsProps {
+  onParametersChange: (params: PendulumParameters) =&gt; void;
+  onSimulate: () =&gt; void;
+}
+export default function SimulationControls({ 
+  onParametersChange, 
+  onSimulate 
+}: SimulationControlsProps) {
+  const [params, setParams] = useState<pendulumparameters>({...defaultParams});
+  useEffect(() =&gt; {
+    onParametersChange(params);
+  }, [params, onParametersChange]);
+  const handleInputChange = (e: React.ChangeEvent<htmlinputelement>) =&gt; {
+    const { name, value } = e.target;
+    const numValue = parseFloat(value);</htmlinputelement></pendulumparameters></p>
+<pre><code>if (!isNaN(numValue)) {
+  setParams(prevParams =&gt; ({
+    ...prevParams,
+    [name]: numValue
+  }));
+}
+</code></pre>
+<p>};
+  const handleSliderChange = (name: keyof PendulumParameters, value: number) =&gt; {
+    setParams(prevParams =&gt; ({
+      ...prevParams,
+      [name]: value
+    }));
+  };
+  return (
+    <div classname="space-y-6">
+      {/<em> Damping Coefficient (gamma) </em>/}
+      <div classname="space-y-2">
+<div classname="flex justify-between">
+<label htmlfor="gamma">Damping Coefficient (γ)</label>
+<span>{params.gamma.toFixed(2)}</span>
+</div>
+<input =="" id="gamma" max="{2}" min="{0}" onchange="{(e)" step="{0.01}" type="range" value="{params.gamma}"/> handleSliderChange("gamma", parseFloat(e.target.value))}
+          className="w-full"
+        /&gt;
+        <input classname="w-full" name="gamma" onchange="{handleInputChange}" step="0.01" type="number" value="{params.gamma}">
+</input></div>
+      {/<em> Driving Amplitude (A) </em>/}
+      <div classname="space-y-2">
+<div classname="flex justify-between">
+<label htmlfor="A">Driving Amplitude (A)</label>
+<span>{params.A.toFixed(2)}</span>
+</div>
+<input =="" id="A" max="{5}" min="{0}" onchange="{(e)" step="{0.1}" type="range" value="{params.A}"/> handleSliderChange("A", parseFloat(e.target.value))}
+          className="w-full"
+        /&gt;
+        <input classname="w-full" name="A" onchange="{handleInputChange}" step="0.1" type="number" value="{params.A}">
+</input></div>
+      {/<em> Driving Frequency (omega) </em>/}
+      <div classname="space-y-2">
+<div classname="flex justify-between">
+<label htmlfor="omega">Driving Frequency (ω)</label>
+<span>{params.omega.toFixed(2)}</span>
+</div>
+<input =="" id="omega" max="{3}" min="{0.1}" onchange="{(e)" step="{0.01}" type="range" value="{params.omega}"/> handleSliderChange("omega", parseFloat(e.target.value))}
+          className="w-full"
+        /&gt;
+        <input classname="w-full" name="omega" onchange="{handleInputChange}" step="0.01" type="number" value="{params.omega}">
+</input></div>
+      {/<em> Natural Frequency (omega0) </em>/}
+      <div classname="space-y-2">
+<div classname="flex justify-between">
+<label htmlfor="omega0">Natural Frequency (ω₀)</label>
+<span>{params.omega0.toFixed(2)}</span>
+</div>
+<input =="" id="omega0" max="{3}" min="{0.1}" onchange="{(e)" step="{0.01}" type="range" value="{params.omega0}"/> handleSliderChange("omega0", parseFloat(e.target.value))}
+          className="w-full"
+        /&gt;
+        <input classname="w-full" name="omega0" onchange="{handleInputChange}" step="0.01" type="number" value="{params.omega0}">
+</input></div>
+      {/<em> Initial Angle (theta0) </em>/}
+      <div classname="space-y-2">
+<div classname="flex justify-between">
+<label htmlfor="theta0">Initial Angle (θ₀)</label>
+<span>{params.theta0.toFixed(2)}</span>
+</div>
+<input =="" id="theta0" max="{3.14}" min="{-3.14}" onchange="{(e)" step="{0.01}" type="range" value="{params.theta0}"/> handleSliderChange("theta0", parseFloat(e.target.value))}
+          className="w-full"
+        /&gt;
+        <input classname="w-full" name="theta0" onchange="{handleInputChange}" step="0.01" type="number" value="{params.theta0}">
+</input></div>
+      {/<em> Initial Angular Velocity (thetaDot0) </em>/}
+      <div classname="space-y-2">
+<div classname="flex justify-between">
+<label htmlfor="thetaDot0">Initial Angular Velocity (θ̇₀)</label>
+<span>{params.thetaDot0.toFixed(2)}</span>
+</div>
+<input =="" id="thetaDot0" max="{3}" min="{-3}" onchange="{(e)" step="{0.1}" type="range" value="{params.thetaDot0}"/> handleSliderChange("thetaDot0", parseFloat(e.target.value))}
+          className="w-full"
+        /&gt;
+        <input classname="w-full" name="thetaDot0" onchange="{handleInputChange}" step="0.1" type="number" value="{params.thetaDot0}">
+</input></div>
+      {/<em> Run Simulation Button </em>/}
+      <button classname="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded" onclick="{onSimulate}">
+        Run Simulation
+      </button>
+</div>
+  );
+}
+4. AngularDisplacementChart.tsx
+import { useEffect, useRef } from 'react';
+import { PendulumResult } from './pendulumPhysics';
+import { Chart, registerables } from 'chart.js';
+// Register Chart.js components
+Chart.register(...registerables);
+interface AngularDisplacementChartProps {
+  simulationData: PendulumResult | null;
+}
+export default function AngularDisplacementChart({ simulationData }: AngularDisplacementChartProps) {
+  const chartRef = useRef<htmlcanvaselement>(null);
+  const chartInstance = useRef<chart null="" |="">(null);</chart></htmlcanvaselement></p>
+<p>useEffect(() =&gt; {
+    if (!simulationData || !chartRef.current) return;</p>
+<pre><code>// Destroy previous chart instance if it exists
+if (chartInstance.current) {
+  chartInstance.current.destroy();
+}
+
+// Get every nth point to avoid too many points
+const stride = Math.max(1, Math.floor(simulationData.points.length / 500));
+const filteredPoints = simulationData.points.filter((_, i) =&gt; i % stride === 0);
+
+// Create new chart
+const ctx = chartRef.current.getContext('2d');
+if (!ctx) return;
+
+chartInstance.current = new Chart(ctx, {
+  type: 'line',
+  data: {
+    labels: filteredPoints.map(p =&gt; p.t.toFixed(1)),
+    datasets: [{
+      label: 'Angular Displacement (θ)',
+      data: filteredPoints.map(p =&gt; p.theta),
+      borderColor: 'rgb(75, 192, 192)',
+      backgroundColor: 'rgba(75, 192, 192, 0.5)',
+      tension: 0.2,
+    }]
+  },
+  options: {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: 'Angular Displacement Over Time',
+      },
+    },
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Time (s)'
+        }
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Angle (rad)'
+        }
+      }
+    }
+  }
+});
+
+// Cleanup function
+return () =&gt; {
+  if (chartInstance.current) {
+    chartInstance.current.destroy();
+  }
+};
+</code></pre>
+<p>}, [simulationData]);
+  return (
+    <div classname="bg-white rounded-lg shadow-md p-6">
+<h2 classname="text-xl font-semibold mb-4">Angular Displacement Over Time</h2>
+<div classname="h-64">
+<canvas ref="{chartRef}"></canvas>
+</div>
+</div>
+  );
+}
+5. PhaseSpaceChart.tsx
+import { useEffect, useRef } from 'react';
+import { PendulumResult } from './pendulumPhysics';
+import { Chart, registerables } from 'chart.js';
+// Register Chart.js components
+Chart.register(...registerables);
+interface PhaseSpaceChartProps {
+  simulationData: PendulumResult | null;
+}
+export default function PhaseSpaceChart({ simulationData }: PhaseSpaceChartProps) {
+  const chartRef = useRef<htmlcanvaselement>(null);
+  const chartInstance = useRef<chart null="" |="">(null);</chart></htmlcanvaselement></p>
+<p>useEffect(() =&gt; {
+    if (!simulationData || !chartRef.current) return;</p>
+<pre><code>// Destroy previous chart instance if it exists
+if (chartInstance.current) {
+  chartInstance.current.destroy();
+}
+
+// Sample points to avoid overcrowding
+const stride = Math.max(1, Math.floor(simulationData.points.length / 200));
+const filteredPoints = simulationData.points.filter((_, i) =&gt; i % stride === 0);
+
+// Create new chart
+const ctx = chartRef.current.getContext('2d');
+if (!ctx) return;
+
+chartInstance.current = new Chart(ctx, {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Phase Space',
+      data: filteredPoints.map(p =&gt; ({
+        x: p.theta,  // angle
+        y: p.thetaDot  // angular velocity
+      })),
+      backgroundColor: 'rgba(255, 99, 132, 0.5)',
+      pointRadius: 2,
+      showLine: true,
+      borderColor: 'rgba(255, 99, 132, 0.8)',
+      borderWidth: 1,
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Angle θ (rad)'
+        },
+        min: -Math.PI,
+        max: Math.PI
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Angular Velocity θ̇ (rad/s)'
+        }
+      }
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function(context: any) {
+            const point = context.raw;
+            return `θ: ${point.x.toFixed(2)}, θ̇: ${point.y.toFixed(2)}`;
+          }
+        }
+      },
+      legend: {
+        display: false
+      }
+    }
+  }
+});
+
+// Cleanup function
+return () =&gt; {
+  if (chartInstance.current) {
+    chartInstance.current.destroy();
+  }
+};
+</code></pre>
+<p>}, [simulationData]);
+  return (
+    <div classname="bg-white rounded-lg shadow-md p-6">
+<h2 classname="text-xl font-semibold mb-4">Phase Space</h2>
+<div classname="h-64">
+<canvas ref="{chartRef}"></canvas>
+</div>
+<p classname="text-xs text-gray-500 mt-2">
+        Plots angular velocity (θ̇) vs. angle (θ), showing system dynamics
+      </p>
+</div>
+  );
+}
+6. PoincareChart.tsx
+import { useEffect, useRef } from 'react';
+import { PendulumResult } from './pendulumPhysics';
+import { Chart, registerables } from 'chart.js';
+// Register Chart.js components
+Chart.register(...registerables);
+interface PoincareChartProps {
+  simulationData: PendulumResult | null;
+}
+export default function PoincareChart({ simulationData }: PoincareChartProps) {
+  const chartRef = useRef<htmlcanvaselement>(null);
+  const chartInstance = useRef<chart null="" |="">(null);</chart></htmlcanvaselement></p>
+<p>useEffect(() =&gt; {
+    if (!simulationData || !chartRef.current || !simulationData.poincarePoints.length) return;</p>
+<pre><code>// Destroy previous chart instance if it exists
+if (chartInstance.current) {
+  chartInstance.current.destroy();
+}
+
+// Create new chart
+const ctx = chartRef.current.getContext('2d');
+if (!ctx) return;
+
+chartInstance.current = new Chart(ctx, {
+  type: 'scatter',
+  data: {
+    datasets: [{
+      label: 'Poincaré Section',
+      data: simulationData.poincarePoints.map(p =&gt; ({
+        x: p.theta,
+        y: p.thetaDot
+      })),
+      backgroundColor: 'rgba(153, 102, 255, 0.6)',
+      pointRadius: 3,
+      pointHoverRadius: 5,
+      showLine: false,
+    }]
+  },
+  options: {
+    responsive: true,
+    scales: {
+      x: {
+        title: {
+          display: true,
+          text: 'Angle θ (rad)'
+        },
+        min: -Math.PI,
+        max: Math.PI
+      },
+      y: {
+        title: {
+          display: true,
+          text: 'Angular Velocity θ̇ (rad/s)'
+        }
+      }
+    },
+    plugins: {
+      tooltip: {
+        callbacks: {
+          label: function(context: any) {
+            const point = context.raw;
+            return `θ: ${point.x.toFixed(2)}, θ̇: ${point.y.toFixed(2)}`;
+          }
+        }
+      },
+      legend: {
+        display: false
+      }
+    }
+  }
+});
+
+// Cleanup function
+return () =&gt; {
+  if (chartInstance.current) {
+    chartInstance.current.destroy();
+  }
+};
+</code></pre>
+<p>}, [simulationData]);
+  return (
+    <div classname="bg-white rounded-lg shadow-md p-6">
+<h2 classname="text-xl font-semibold mb-4">Poincaré Section</h2>
+<div classname="h-64">
+<canvas ref="{chartRef}"></canvas>
+</div>
+<p classname="text-xs text-gray-500 mt-2">
+        Sample points at driving period intervals reveal chaotic or periodic behavior
+      </p>
+</div>
+  );
+}</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
