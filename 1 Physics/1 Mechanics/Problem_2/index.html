@@ -50,18 +50,6 @@
 </li>
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 2</a>
 <ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="#projectile-motion-analysis">Projectile Motion Analysis</a>
-<ul>
-<li class="toctree-l4"><a class="reference internal" href="#1-theoretical-foundation">1. Theoretical Foundation</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#2-simulation-example">2. Simulation Example</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#3-optional-interactive-simulation">3. Optional: Interactive Simulation</a>
-</li>
-<li class="toctree-l4"><a class="reference internal" href="#4-conclusion">4. Conclusion</a>
-</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -132,86 +120,84 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-2">Problem 2</h1>
-<h2 id="projectile-motion-analysis">Projectile Motion Analysis</h2>
-<h3 id="1-theoretical-foundation">1. Theoretical Foundation</h3>
-<p>Projectile motion is a form of motion experienced by an object that is launched into the air and influenced only by gravity.</p>
-<p>We split the motion into two components:</p>
-<ul>
-<li>
-<p><strong>Horizontal motion:</strong> constant velocity<br/>
-  $$ x(t) = v_0 \cos(\theta) \cdot t $$</p>
-</li>
-<li>
-<p><strong>Vertical motion:</strong> uniformly accelerated motion<br/>
-  $$ y(t) = v_0 \sin(\theta) \cdot t - \frac{1}{2} g t^2 $$</p>
-</li>
-</ul>
-<hr/>
-<h3 id="2-simulation-example">2. Simulation Example</h3>
-<p>Initial conditions:</p>
-<ul>
-<li>Initial velocity: $$ v_0 = 20\, \text{m/s} $$</li>
-<li>Angle: $$ \theta = 45^\circ $$</li>
-<li>Gravity: $$ g = 9.81\, \text{m/s}^2 $$</li>
-</ul>
-<h4 id="trajectory-table">Trajectory Table</h4>
-<table>
-<thead>
-<tr>
-<th>Time (s)</th>
-<th>X (m)</th>
-<th>Y (m)</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>0.0</td>
-<td>0.00</td>
-<td>0.00</td>
-</tr>
-<tr>
-<td>0.5</td>
-<td>7.07</td>
-<td>6.02</td>
-</tr>
-<tr>
-<td>1.0</td>
-<td>14.14</td>
-<td>9.82</td>
-</tr>
-<tr>
-<td>1.5</td>
-<td>21.21</td>
-<td>11.39</td>
-</tr>
-<tr>
-<td>2.0</td>
-<td>28.28</td>
-<td>10.73</td>
-</tr>
-<tr>
-<td>2.5</td>
-<td>35.35</td>
-<td>7.85</td>
-</tr>
-<tr>
-<td>3.0</td>
-<td>42.42</td>
-<td>2.74</td>
-</tr>
-</tbody>
-</table>
-<hr/>
-<h3 id="3-optional-interactive-simulation">3. Optional: Interactive Simulation</h3>
-<blockquote>
-<p>🔗 If you want to explore this simulation dynamically, visit:<br/>
-<a href="http://localhost:3000/">Open Projectile Simulator</a><br/>
-(<em>Make sure your simulator is running</em>)</p>
-</blockquote>
-<iframe height="600px" src="http://localhost:3000/" style="border:none;" width="100%"></iframe>
-<hr/>
-<h3 id="4-conclusion">4. Conclusion</h3>
-<p>Projectile motion can be analyzed easily using basic trigonometry and kinematic equations. This problem demonstrates the use of physics formulas to predict real-world behavior.</p>
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Forced Damped Pendulum</title>
+<style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 1rem;
+      text-align: center;
+    }
+    canvas {
+      background: white;
+      border: 1px solid #ccc;
+    }
+    h1 {
+      margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+<h1>Forced Damped Pendulum</h1>
+<canvas height="400" id="canvas" width="800"></canvas>
+<script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+
+    let gamma = 0.5, A = 1.2, omega = 0.67, omega0 = 1.0;
+    let theta = 0.2, thetaDot = 0.0, t = 0, dt = 0.05;
+    let points = [];
+
+    function rk4(t, y, dt) {
+      const f = (t, y) => {
+        const [theta, thetaDot] = y;
+        const dtheta = thetaDot;
+        const dthetaDot = -gamma * thetaDot - omega0**2 * Math.sin(theta) + A * Math.cos(omega * t);
+        return [dtheta, dthetaDot];
+      };
+      const k1 = f(t, y);
+      const k2 = f(t + dt/2, y.map((v,i) => v + dt*k1[i]/2));
+      const k3 = f(t + dt/2, y.map((v,i) => v + dt*k2[i]/2));
+      const k4 = f(t + dt, y.map((v,i) => v + dt*k3[i]));
+      return y.map((v,i) => v + dt/6*(k1[i] + 2*k2[i] + 2*k3[i] + k4[i]));
+    }
+
+    function step() {
+      [theta, thetaDot] = rk4(t, [theta, thetaDot], dt);
+      t += dt;
+      points.push([t, theta]);
+      if (points.length > canvas.width) points.shift();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      points.forEach(([_, y], i) => {
+        const x = i;
+        const yCoord = canvas.height / 2 - y * 100;
+        if (i === 0) ctx.moveTo(x, yCoord);
+        else ctx.lineTo(x, yCoord);
+      });
+      ctx.strokeStyle = "blue";
+      ctx.stroke();
+    }
+
+    function loop() {
+      step();
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    loop();
+  </script>
+</body>
+</html>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
