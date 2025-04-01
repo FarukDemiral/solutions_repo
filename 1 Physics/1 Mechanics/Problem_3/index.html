@@ -185,13 +185,12 @@
       border: 1px solid #e1e4e8;
       border-radius: 4px;
       margin-bottom: 1em;
+      background-color: #f8f9fa;
     }
 
-    canvas {
-      display: block;
+    #pendulum-canvas {
       width: 100%;
       height: 100%;
-      background-color: #f8f9fa;
     }
 
     .control-group {
@@ -233,33 +232,7 @@
       background-color: #364fc7;
     }
 
-    #phase-space, #time-series {
-      width: 100%;
-      height: 300px;
-      margin-bottom: 20px;
-      background-color: white;
-      border: 1px solid #e1e4e8;
-      border-radius: 4px;
-    }
-
-    #poincare {
-      width: 100%;
-      height: 300px;
-      background-color: white;
-      border: 1px solid #e1e4e8;
-      border-radius: 4px;
-    }
-
-    .chart-container {
-      background: white;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-top: 20px;
-      width: 100%;
-    }
-
-    .charts-row {
+    .chart-row {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
@@ -269,6 +242,19 @@
     .chart-box {
       flex: 1;
       min-width: 300px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+    }
+
+    .chart {
+      width: 100%;
+      height: 200px;
+      border: 1px solid #e1e4e8;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      background-color: #f8f9fa;
     }
 
     .equation {
@@ -318,7 +304,7 @@
 <label>Initial Angular Velocity (θ̇₀) <span class="value-display" id="thetaDot0-value">0.00</span></label>
 <input id="thetaDot0" max="3" min="-3" step="0.1" type="range" value="0"/>
 </div>
-<button id="simulate-btn">Run Simulation</button>
+<button id="run-btn">Run Simulation</button>
 </div>
 <div class="simulation-container">
 <h2>Pendulum Visualization</h2>
@@ -326,37 +312,67 @@
 <canvas id="pendulum-canvas"></canvas>
 </div>
 <div class="equation">
-<strong>Equation of Motion:</strong><br/>
         d²θ/dt² + γ·dθ/dt + ω₀²·sin(θ) = A·cos(ω·t)
       </div>
 <p>This simulation demonstrates the behavior of a forced damped pendulum. Adjust the parameters to observe how the pendulum responds under different conditions, from periodic motion to chaotic behavior.</p>
 </div>
 </div>
-<div class="chart-container">
-<h2>Pendulum Dynamics Analysis</h2>
-<div class="charts-row">
+<div class="chart-row">
 <div class="chart-box">
-<h3>Angular Displacement vs Time</h3>
-<div id="time-series"></div>
+<h2>Angular Displacement vs Time</h2>
+<canvas class="chart" id="time-chart"></canvas>
 <p>Shows how the pendulum angle changes over time, revealing periodic or chaotic patterns.</p>
 </div>
 <div class="chart-box">
-<h3>Phase Space</h3>
-<div id="phase-space"></div>
+<h2>Phase Space</h2>
+<canvas class="chart" id="phase-chart"></canvas>
 <p>Plots angular velocity against angle, showing the system's overall dynamic behavior.</p>
 </div>
 </div>
-<div class="chart-container">
-<h3>Poincaré Section</h3>
-<div id="poincare"></div>
+<div class="chart-box" style="margin-bottom: 30px;">
+<h2>Poincaré Section</h2>
+<canvas class="chart" id="poincare-chart"></canvas>
 <p>Samples the phase space at regular intervals synchronized with the driving force, revealing long-term behavior patterns and potential chaos.</p>
 </div>
-</div>
 <div class="footnote">
-<p>© 2025 Physics Simulation Project | Created with HTML, CSS, and JavaScript</p>
+<p>© 2025 Physics Simulation Project</p>
 </div>
 <script>
-    // Pendulum physics parameters
+    // Get DOM elements
+    const pendulumCanvas = document.getElementById('pendulum-canvas');
+    const timeChart = document.getElementById('time-chart');
+    const phaseChart = document.getElementById('phase-chart');
+    const poincareChart = document.getElementById('poincare-chart');
+    const runBtn = document.getElementById('run-btn');
+
+    // Set up canvas contexts
+    const pendulumCtx = pendulumCanvas.getContext('2d');
+    const timeCtx = timeChart.getContext('2d');
+    const phaseCtx = phaseChart.getContext('2d');
+    const poincareCtx = poincareChart.getContext('2d');
+
+    // Set proper canvas sizes
+    function setupCanvases() {
+      // Set pendulum canvas size
+      pendulumCanvas.width = pendulumCanvas.offsetWidth;
+      pendulumCanvas.height = pendulumCanvas.offsetHeight;
+
+      // Set chart canvas sizes
+      timeChart.width = timeChart.offsetWidth;
+      timeChart.height = timeChart.offsetHeight;
+
+      phaseChart.width = phaseChart.offsetWidth;
+      phaseChart.height = phaseChart.offsetHeight;
+
+      poincareChart.width = poincareChart.offsetWidth;
+      poincareChart.height = poincareChart.offsetHeight;
+    }
+
+    // Call setupCanvases when the page loads and on window resize
+    window.addEventListener('load', setupCanvases);
+    window.addEventListener('resize', setupCanvases);
+
+    // Simulation parameters
     let gamma = 0.5;       // damping coefficient
     let A = 1.2;           // driving amplitude
     let omega = 0.67;      // driving frequency
@@ -364,397 +380,314 @@
     let theta0 = 0.2;      // initial angle
     let thetaDot0 = 0.0;   // initial angular velocity
 
-    // Simulation variables
-    let t = 0;
-    let theta = theta0;
-    let thetaDot = thetaDot0;
-    let dt = 0.05;
-    let simulationData = [];
-    let poincareData = [];
-    const maxDataPoints = 2000;
-
-    // Get DOM elements
-    const pendulumCanvas = document.getElementById('pendulum-canvas');
-    const simulateBtn = document.getElementById('simulate-btn');
-    const timeSeriesCanvas = document.getElementById('time-series');
-    const phaseSpaceCanvas = document.getElementById('phase-space');
-    const poincareCanvas = document.getElementById('poincare');
-
-    // Setup context for drawing
-    const pendulumCtx = pendulumCanvas.getContext('2d');
-    const timeSeriesCtx = timeSeriesCanvas.getContext('2d');
-    const phaseSpaceCtx = phaseSpaceCanvas.getContext('2d');
-    const poincareCtx = poincareCanvas.getContext('2d');
-
-    // Set canvas size
-    function resizeCanvas() {
-      const devicePixelRatio = window.devicePixelRatio || 1;
-
-      // Pendulum canvas
-      pendulumCanvas.width = pendulumCanvas.clientWidth * devicePixelRatio;
-      pendulumCanvas.height = pendulumCanvas.clientHeight * devicePixelRatio;
-      pendulumCtx.scale(devicePixelRatio, devicePixelRatio);
-
-      // Time series canvas
-      timeSeriesCanvas.width = timeSeriesCanvas.clientWidth * devicePixelRatio;
-      timeSeriesCanvas.height = timeSeriesCanvas.clientHeight * devicePixelRatio;
-      timeSeriesCtx.scale(devicePixelRatio, devicePixelRatio);
-
-      // Phase space canvas
-      phaseSpaceCanvas.width = phaseSpaceCanvas.clientWidth * devicePixelRatio;
-      phaseSpaceCanvas.height = phaseSpaceCanvas.clientHeight * devicePixelRatio;
-      phaseSpaceCtx.scale(devicePixelRatio, devicePixelRatio);
-
-      // Poincare canvas
-      poincareCanvas.width = poincareCanvas.clientWidth * devicePixelRatio;
-      poincareCanvas.height = poincareCanvas.clientHeight * devicePixelRatio;
-      poincareCtx.scale(devicePixelRatio, devicePixelRatio);
-    }
-
-    // Initialize canvases
-    resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
-
-    // Update slider value displays
-    function updateSliderDisplay(id, value) {
-      document.getElementById(`${id}-value`).textContent = value.toFixed(2);
-    }
-
-    // Set up slider events
+    // Connect sliders to values
     document.getElementById('gamma').addEventListener('input', function() {
       gamma = parseFloat(this.value);
-      updateSliderDisplay('gamma', gamma);
+      document.getElementById('gamma-value').textContent = gamma.toFixed(2);
     });
 
     document.getElementById('amplitude').addEventListener('input', function() {
       A = parseFloat(this.value);
-      updateSliderDisplay('amplitude', A);
+      document.getElementById('amplitude-value').textContent = A.toFixed(2);
     });
 
     document.getElementById('omega').addEventListener('input', function() {
       omega = parseFloat(this.value);
-      updateSliderDisplay('omega', omega);
+      document.getElementById('omega-value').textContent = omega.toFixed(2);
     });
 
     document.getElementById('omega0').addEventListener('input', function() {
       omega0 = parseFloat(this.value);
-      updateSliderDisplay('omega0', omega0);
+      document.getElementById('omega0-value').textContent = omega0.toFixed(2);
     });
 
     document.getElementById('theta0').addEventListener('input', function() {
       theta0 = parseFloat(this.value);
-      updateSliderDisplay('theta0', theta0);
+      document.getElementById('theta0-value').textContent = theta0.toFixed(2);
     });
 
     document.getElementById('thetaDot0').addEventListener('input', function() {
       thetaDot0 = parseFloat(this.value);
-      updateSliderDisplay('thetaDot0', thetaDot0);
+      document.getElementById('thetaDot0-value').textContent = thetaDot0.toFixed(2);
     });
 
-    // Pendulum ODE function
-    function pendulumODE(t, y) {
-      const [theta, thetaDot] = y;
+    // Simulation data
+    let simData = [];
+    let poincareData = [];
+    let animationId = null;
 
+    // ODE for pendulum
+    function pendulumODE(t, theta, thetaDot) {
       // d²θ/dt² = -γ·dθ/dt - ω₀²·sin(θ) + A·cos(ωt)
-      const thetaDotDot = -gamma * thetaDot - omega0 * omega0 * Math.sin(theta) + A * Math.cos(omega * t);
-
-      return [thetaDot, thetaDotDot];
+      return -gamma * thetaDot - omega0 * omega0 * Math.sin(theta) + A * Math.cos(omega * t);
     }
 
-    // RK4 step function
-    function rk4Step(t, y, dt) {
-      const k1 = pendulumODE(t, y);
+    // RK4 method for solving ODEs
+    function rungeKutta4(t, theta, thetaDot, dt) {
+      const k1_v = thetaDot;
+      const k1_a = pendulumODE(t, theta, thetaDot);
 
-      const y2 = [
-        y[0] + k1[0] * dt / 2,
-        y[1] + k1[1] * dt / 2
-      ];
-      const k2 = pendulumODE(t + dt / 2, y2);
+      const k2_v = thetaDot + k1_a * dt/2;
+      const k2_a = pendulumODE(t + dt/2, theta + k1_v * dt/2, thetaDot + k1_a * dt/2);
 
-      const y3 = [
-        y[0] + k2[0] * dt / 2,
-        y[1] + k2[1] * dt / 2
-      ];
-      const k3 = pendulumODE(t + dt / 2, y3);
+      const k3_v = thetaDot + k2_a * dt/2;
+      const k3_a = pendulumODE(t + dt/2, theta + k2_v * dt/2, thetaDot + k2_a * dt/2);
 
-      const y4 = [
-        y[0] + k3[0] * dt,
-        y[1] + k3[1] * dt
-      ];
-      const k4 = pendulumODE(t + dt, y4);
+      const k4_v = thetaDot + k3_a * dt;
+      const k4_a = pendulumODE(t + dt, theta + k3_v * dt, thetaDot + k3_a * dt);
 
-      return [
-        y[0] + (dt / 6) * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]),
-        y[1] + (dt / 6) * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1])
-      ];
+      const new_theta = theta + (dt/6) * (k1_v + 2*k2_v + 2*k3_v + k4_v);
+      const new_thetaDot = thetaDot + (dt/6) * (k1_a + 2*k2_a + 2*k3_a + k4_a);
+
+      return [new_theta, new_thetaDot];
     }
 
     // Run simulation
     function runSimulation() {
-      // Reset simulation
-      t = 0;
-      theta = theta0;
-      thetaDot = thetaDot0;
-      simulationData = [];
+      // Cancel any previous animation
+      if (animationId) {
+        cancelAnimationFrame(animationId);
+      }
+
+      // Reset data
+      simData = [];
       poincareData = [];
 
-      // The driving period
+      // Initial conditions
+      let t = 0;
+      let theta = theta0;
+      let thetaDot = thetaDot0;
+      const dt = 0.05;
+      const simLength = 100; // seconds
+
+      // Period of driving force
       const T = 2 * Math.PI / omega;
       let nextPoincareTime = T;
 
-      // Add initial point
-      simulationData.push({ t, theta, thetaDot });
+      // Generate simulation data
+      while (t < simLength) {
+        // Save current state
+        simData.push({t, theta, thetaDot});
 
-      // Run simulation for a fixed number of steps
-      for (let i = 0; i < maxDataPoints; i++) {
-        // Calculate next state using RK4
-        [theta, thetaDot] = rk4Step(t, [theta, thetaDot], dt);
-
-        // Update time
-        t += dt;
-
-        // Normalize theta to [-π, π]
-        theta = ((theta + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
-
-        // Add point to trajectory
-        simulationData.push({ t, theta, thetaDot });
-
-        // Check if we should add a point to the Poincaré section
+        // Check if we should record a Poincaré point
         if (t >= nextPoincareTime) {
-          poincareData.push({ t, theta, thetaDot });
+          poincareData.push({t, theta, thetaDot});
           nextPoincareTime += T;
         }
+
+        // Calculate next state
+        [theta, thetaDot] = rungeKutta4(t, theta, thetaDot, dt);
+
+        // Normalize theta to be between -π and π
+        theta = ((theta + Math.PI) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI) - Math.PI;
+
+        // Increment time
+        t += dt;
       }
 
-      // Draw all visualizations
-      drawPendulum();
-      drawTimeSeries();
-      drawPhaseSpace();
-      drawPoincare();
+      // Start visualization
+      drawCharts();
+      startPendulumAnimation();
     }
 
-    // Draw pendulum animation
-    function drawPendulum() {
-      if (simulationData.length === 0) return;
-
-      const width = pendulumCanvas.width / window.devicePixelRatio;
-      const height = pendulumCanvas.height / window.devicePixelRatio;
-      const centerX = width / 2;
-      const centerY = height / 3;
-      const length = height / 2;
-
-      pendulumCtx.clearRect(0, 0, width, height);
-
-      // Draw pivot
-      pendulumCtx.beginPath();
-      pendulumCtx.arc(centerX, centerY, 5, 0, Math.PI * 2);
-      pendulumCtx.fillStyle = '#333';
-      pendulumCtx.fill();
-
-      // Get current state (last data point)
-      const { theta } = simulationData[simulationData.length - 1];
-
-      // Calculate pendulum position
-      const bobX = centerX + length * Math.sin(theta);
-      const bobY = centerY + length * Math.cos(theta);
-
-      // Draw rod
-      pendulumCtx.beginPath();
-      pendulumCtx.moveTo(centerX, centerY);
-      pendulumCtx.lineTo(bobX, bobY);
-      pendulumCtx.strokeStyle = '#555';
-      pendulumCtx.lineWidth = 2;
-      pendulumCtx.stroke();
-
-      // Draw bob
-      pendulumCtx.beginPath();
-      pendulumCtx.arc(bobX, bobY, 15, 0, Math.PI * 2);
-      pendulumCtx.fillStyle = '#4c6ef5';
-      pendulumCtx.fill();
-
-      // Draw trace
-      pendulumCtx.beginPath();
-
-      // Only show the last 100 points for the trace
-      const startIdx = Math.max(0, simulationData.length - 100);
-      for (let i = startIdx; i < simulationData.length; i++) {
-        const { theta } = simulationData[i];
-        const x = centerX + length * Math.sin(theta);
-        const y = centerY + length * Math.cos(theta);
-
-        if (i === startIdx) {
-          pendulumCtx.moveTo(x, y);
-        } else {
-          pendulumCtx.lineTo(x, y);
-        }
-      }
-
-      pendulumCtx.strokeStyle = 'rgba(76, 110, 245, 0.3)';
-      pendulumCtx.lineWidth = 2;
-      pendulumCtx.stroke();
-
-      // Continue animation
-      requestAnimationFrame(drawPendulum);
-    }
-
-    // Draw time series chart
-    function drawTimeSeries() {
-      if (simulationData.length === 0) return;
-
-      const width = timeSeriesCanvas.width / window.devicePixelRatio;
-      const height = timeSeriesCanvas.height / window.devicePixelRatio;
-      const padding = 30;
-
-      timeSeriesCtx.clearRect(0, 0, width, height);
+    // Draw the time series chart
+    function drawTimeChart() {
+      timeCtx.clearRect(0, 0, timeChart.width, timeChart.height);
 
       // Draw axes
-      timeSeriesCtx.beginPath();
-      timeSeriesCtx.moveTo(padding, height - padding);
-      timeSeriesCtx.lineTo(width - padding, height - padding);
-      timeSeriesCtx.moveTo(padding, padding);
-      timeSeriesCtx.lineTo(padding, height - padding);
-      timeSeriesCtx.strokeStyle = '#aaa';
-      timeSeriesCtx.lineWidth = 1;
-      timeSeriesCtx.stroke();
+      const padding = 30;
+      const width = timeChart.width;
+      const height = timeChart.height;
 
-      // Label axes
-      timeSeriesCtx.fillStyle = '#555';
-      timeSeriesCtx.textAlign = 'center';
-      timeSeriesCtx.fillText('Time (s)', width / 2, height - 10);
+      timeCtx.strokeStyle = '#aaa';
+      timeCtx.lineWidth = 1;
 
-      timeSeriesCtx.save();
-      timeSeriesCtx.translate(15, height / 2);
-      timeSeriesCtx.rotate(-Math.PI / 2);
-      timeSeriesCtx.fillText('Angle (rad)', 0, 0);
-      timeSeriesCtx.restore();
+      // x-axis
+      timeCtx.beginPath();
+      timeCtx.moveTo(padding, height/2);
+      timeCtx.lineTo(width - padding, height/2);
+      timeCtx.stroke();
 
-      // Draw time series
-      timeSeriesCtx.beginPath();
+      // y-axis
+      timeCtx.beginPath();
+      timeCtx.moveTo(padding, padding);
+      timeCtx.lineTo(padding, height - padding);
+      timeCtx.stroke();
 
-      // Sample data to avoid too many points
-      const stride = Math.max(1, Math.floor(simulationData.length / 300));
-      let maxTime = simulationData[simulationData.length - 1].t;
+      // Skip points to avoid too many data points
+      const skip = Math.max(1, Math.floor(simData.length / 200));
+      const maxTime = simData[simData.length - 1].t;
 
-      for (let i = 0; i < simulationData.length; i += stride) {
-        const { t, theta } = simulationData[i];
-        const x = padding + (width - 2 * padding) * (t / maxTime);
-        const y = (height - 2 * padding) / 2 - theta * (height - 2 * padding) / 6 + padding;
+      // Draw the time series
+      timeCtx.beginPath();
+      for (let i = 0; i < simData.length; i += skip) {
+        const x = padding + (width - 2 * padding) * (simData[i].t / maxTime);
+        const y = height/2 - simData[i].theta * 50;
 
         if (i === 0) {
-          timeSeriesCtx.moveTo(x, y);
+          timeCtx.moveTo(x, y);
         } else {
-          timeSeriesCtx.lineTo(x, y);
+          timeCtx.lineTo(x, y);
         }
       }
 
-      timeSeriesCtx.strokeStyle = '#4c6ef5';
-      timeSeriesCtx.lineWidth = 2;
-      timeSeriesCtx.stroke();
+      timeCtx.strokeStyle = '#4c6ef5';
+      timeCtx.lineWidth = 2;
+      timeCtx.stroke();
     }
 
-    // Draw phase space chart
-    function drawPhaseSpace() {
-      if (simulationData.length === 0) return;
-
-      const width = phaseSpaceCanvas.width / window.devicePixelRatio;
-      const height = phaseSpaceCanvas.height / window.devicePixelRatio;
-      const padding = 30;
-
-      phaseSpaceCtx.clearRect(0, 0, width, height);
+    // Draw the phase space chart
+    function drawPhaseChart() {
+      phaseCtx.clearRect(0, 0, phaseChart.width, phaseChart.height);
 
       // Draw axes
-      phaseSpaceCtx.beginPath();
-      phaseSpaceCtx.moveTo(padding, height / 2);
-      phaseSpaceCtx.lineTo(width - padding, height / 2);
-      phaseSpaceCtx.moveTo(width / 2, padding);
-      phaseSpaceCtx.lineTo(width / 2, height - padding);
-      phaseSpaceCtx.strokeStyle = '#aaa';
-      phaseSpaceCtx.lineWidth = 1;
-      phaseSpaceCtx.stroke();
+      const padding = 30;
+      const width = phaseChart.width;
+      const height = phaseChart.height;
 
-      // Label axes
-      phaseSpaceCtx.fillStyle = '#555';
-      phaseSpaceCtx.textAlign = 'center';
-      phaseSpaceCtx.fillText('Angle (rad)', width / 2, height - 10);
+      phaseCtx.strokeStyle = '#aaa';
+      phaseCtx.lineWidth = 1;
 
-      phaseSpaceCtx.save();
-      phaseSpaceCtx.translate(15, height / 2);
-      phaseSpaceCtx.rotate(-Math.PI / 2);
-      phaseSpaceCtx.fillText('Angular Velocity (rad/s)', 0, 0);
-      phaseSpaceCtx.restore();
+      // x-axis
+      phaseCtx.beginPath();
+      phaseCtx.moveTo(padding, height/2);
+      phaseCtx.lineTo(width - padding, height/2);
+      phaseCtx.stroke();
 
-      // Draw phase space
-      phaseSpaceCtx.beginPath();
+      // y-axis
+      phaseCtx.beginPath();
+      phaseCtx.moveTo(width/2, padding);
+      phaseCtx.lineTo(width/2, height - padding);
+      phaseCtx.stroke();
 
-      // Sample data to avoid too many points
-      const stride = Math.max(1, Math.floor(simulationData.length / 300));
+      // Skip points to avoid too many data points
+      const skip = Math.max(1, Math.floor(simData.length / 200));
 
-      for (let i = 0; i < simulationData.length; i += stride) {
-        const { theta, thetaDot } = simulationData[i];
-        const x = width / 2 + theta * (width - 2 * padding) / 6;
-        const y = height / 2 - thetaDot * (height - 2 * padding) / 6;
+      // Draw the phase space trajectory
+      phaseCtx.beginPath();
+      for (let i = 0; i < simData.length; i += skip) {
+        const x = width/2 + simData[i].theta * 50;
+        const y = height/2 - simData[i].thetaDot * 30;
 
         if (i === 0) {
-          phaseSpaceCtx.moveTo(x, y);
+          phaseCtx.moveTo(x, y);
         } else {
-          phaseSpaceCtx.lineTo(x, y);
+          phaseCtx.lineTo(x, y);
         }
       }
 
-      phaseSpaceCtx.strokeStyle = '#f06595';
-      phaseSpaceCtx.lineWidth = 1.5;
-      phaseSpaceCtx.stroke();
+      phaseCtx.strokeStyle = '#e64980';
+      phaseCtx.lineWidth = 2;
+      phaseCtx.stroke();
     }
 
-    // Draw Poincare section
-    function drawPoincare() {
-      if (poincareData.length === 0) return;
-
-      const width = poincareCanvas.width / window.devicePixelRatio;
-      const height = poincareCanvas.height / window.devicePixelRatio;
-      const padding = 30;
-
-      poincareCtx.clearRect(0, 0, width, height);
+    // Draw the Poincaré section
+    function drawPoincareChart() {
+      poincareCtx.clearRect(0, 0, poincareChart.width, poincareChart.height);
 
       // Draw axes
-      poincareCtx.beginPath();
-      poincareCtx.moveTo(padding, height / 2);
-      poincareCtx.lineTo(width - padding, height / 2);
-      poincareCtx.moveTo(width / 2, padding);
-      poincareCtx.lineTo(width / 2, height - padding);
+      const padding = 30;
+      const width = poincareChart.width;
+      const height = poincareChart.height;
+
       poincareCtx.strokeStyle = '#aaa';
       poincareCtx.lineWidth = 1;
+
+      // x-axis
+      poincareCtx.beginPath();
+      poincareCtx.moveTo(padding, height/2);
+      poincareCtx.lineTo(width - padding, height/2);
       poincareCtx.stroke();
 
-      // Label axes
-      poincareCtx.fillStyle = '#555';
-      poincareCtx.textAlign = 'center';
-      poincareCtx.fillText('Angle (rad)', width / 2, height - 10);
+      // y-axis
+      poincareCtx.beginPath();
+      poincareCtx.moveTo(width/2, padding);
+      poincareCtx.lineTo(width/2, height - padding);
+      poincareCtx.stroke();
 
-      poincareCtx.save();
-      poincareCtx.translate(15, height / 2);
-      poincareCtx.rotate(-Math.PI / 2);
-      poincareCtx.fillText('Angular Velocity (rad/s)', 0, 0);
-      poincareCtx.restore();
-
-      // Draw Poincare points
-      for (let i = 0; i < poincareData.length; i++) {
-        const { theta, thetaDot } = poincareData[i];
-        const x = width / 2 + theta * (width - 2 * padding) / 6;
-        const y = height / 2 - thetaDot * (height - 2 * padding) / 6;
+      // Draw Poincaré points
+      for (const point of poincareData) {
+        const x = width/2 + point.theta * 50;
+        const y = height/2 - point.thetaDot * 30;
 
         poincareCtx.beginPath();
-        poincareCtx.arc(x, y, 2, 0, Math.PI * 2);
+        poincareCtx.arc(x, y, 3, 0, 2*Math.PI);
         poincareCtx.fillStyle = '#7950f2';
         poincareCtx.fill();
       }
     }
 
-    // Set up simulation button
-    simulateBtn.addEventListener('click', runSimulation);
+    // Draw all charts
+    function drawCharts() {
+      drawTimeChart();
+      drawPhaseChart();
+      drawPoincareChart();
+    }
 
-    // Initialize the simulation on load
-    window.addEventListener('load', runSimulation);
+    // Animate the pendulum
+    function startPendulumAnimation() {
+      let frameIndex = 0;
+      const framesPerDataPoint = 2;
+
+      function drawPendulum() {
+        // Clear canvas
+        pendulumCtx.clearRect(0, 0, pendulumCanvas.width, pendulumCanvas.height);
+
+        // Get dimensions
+        const width = pendulumCanvas.width;
+        const height = pendulumCanvas.height;
+        const centerX = width / 2;
+        const centerY = height / 3;
+
+        // Length of pendulum
+        const pendulumLength = height / 2;
+
+        // Get current state
+        const dataIndex = Math.floor(frameIndex / framesPerDataPoint) % simData.length;
+        const currentTheta = simData[dataIndex].theta;
+
+        // Calculate pendulum position
+        const bobX = centerX + pendulumLength * Math.sin(currentTheta);
+        const bobY = centerY + pendulumLength * Math.cos(currentTheta);
+
+        // Draw pivot
+        pendulumCtx.beginPath();
+        pendulumCtx.arc(centerX, centerY, 5, 0, 2*Math.PI);
+        pendulumCtx.fillStyle = '#333';
+        pendulumCtx.fill();
+
+        // Draw rod
+        pendulumCtx.beginPath();
+        pendulumCtx.moveTo(centerX, centerY);
+        pendulumCtx.lineTo(bobX, bobY);
+        pendulumCtx.strokeStyle = '#555';
+        pendulumCtx.lineWidth = 2;
+        pendulumCtx.stroke();
+
+        // Draw bob
+        pendulumCtx.beginPath();
+        pendulumCtx.arc(bobX, bobY, 15, 0, 2*Math.PI);
+        pendulumCtx.fillStyle = '#4c6ef5';
+        pendulumCtx.fill();
+
+        // Increment frame counter
+        frameIndex++;
+
+        // Request next frame
+        animationId = requestAnimationFrame(drawPendulum);
+      }
+
+      // Start animation
+      drawPendulum();
+    }
+
+    // Run simulation button click handler
+    runBtn.addEventListener('click', runSimulation);
+
+    // Run the simulation when the page loads
+    window.addEventListener('load', function() {
+      setTimeout(runSimulation, 500);
+    });
   </script>
 </body>
 </html>
