@@ -43,6 +43,8 @@ Initial conditions:
 > 🔗 If you want to explore this simulation dynamically, visit:  
 [Open Projectile Simulator](http://localhost:3000/)  
 (*Make sure your simulator is running*)
+<iframe src="http://localhost:3000/" width="100%" height="600px" style="border:none;"></iframe>
+
 
 ---
 
