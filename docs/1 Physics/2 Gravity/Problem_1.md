@@ -406,11 +406,3 @@ You can extend this model for:
 - Exoplanet systems
 
 ---
-
-## 5. Deliverables
-
-- ✅ A Markdown document with Python simulation code ✅
-- ✅ Explanation of Kepler's Law and Newtonian mechanics ✅
-- ✅ Visual graph: Orbital Period vs Radius ✅
-- ✅ Real examples from Solar System ✅
-
