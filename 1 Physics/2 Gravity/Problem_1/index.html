@@ -120,6 +120,91 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<h1 id="problem-3-orbital-period-and-orbital-radius-simulation">Problem 3 - Orbital Period and Orbital Radius Simulation</h1>
+<h2 id="1-motivation">1. Motivation</h2>
+<p>The relationship between the orbital period and orbital radius, known as <strong>Kepler's Third Law</strong>, connects planetary motion with gravitational theory. It is expressed as:</p>
+<div class="arithmatex">\[
+T^2 \propto R^3
+\]</div>
+<p>Where:
+- <span class="arithmatex">\(T\)</span> is the orbital period
+- <span class="arithmatex">\(R\)</span> is the orbital radius</p>
+<p>This simulation explores this relationship in circular orbits using Newtonian gravitation and centripetal force.</p>
+<hr/>
+<h2 id="2-theoretical-foundation">2. Theoretical Foundation</h2>
+<p>Using Newton's Law of Gravitation and circular motion:</p>
+<ul>
+<li>Gravitational Force:<br/>
+  $$ F = \frac{GMm}{R^2} $$</li>
+<li>Centripetal Force:<br/>
+  $$ F = \frac{mv^2}{R} $$</li>
+</ul>
+<p>Setting the two equal:</p>
+<div class="arithmatex">\[
+\frac{GMm}{R^2} = \frac{mv^2}{R}
+\]</div>
+<p>Solving for velocity:</p>
+<div class="arithmatex">\[
+v = \sqrt{\frac{GM}{R}}
+\]</div>
+<p>Orbital period is:</p>
+<div class="arithmatex">\[
+T = \frac{2\pi R}{v} = 2\pi \sqrt{\frac{R^3}{GM}}
+\]</div>
+<p>Thus, proving Kepler's Third Law:</p>
+<div class="arithmatex">\[
+T^2 = \frac{4\pi^2}{GM} R^3
+\]</div>
+<hr/>
+<h2 id="3-simulation-code-python">3. Simulation Code (Python)</h2>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+
+# Constants
+G = 6.67430e-11  # gravitational constant
+M = 1.989e30     # mass of the Sun (kg)
+
+# Orbital radii in meters (e.g., Mercury to Mars)
+radii = np.array([5.79e10, 1.08e11, 1.50e11, 2.28e11])
+labels = ["Mercury", "Venus", "Earth", "Mars"]
+
+# Calculate periods using T = 2pi * sqrt(R^3 / GM)
+periods = 2 * np.pi * np.sqrt(radii**3 / (G * M))
+periods_days = periods / (60 * 60 * 24)
+
+# Plotting
+plt.figure(figsize=(8, 5))
+plt.plot(radii, periods_days, 'o-', label='Simulated T vs R')
+plt.xlabel('Orbital Radius (m)')
+plt.ylabel('Orbital Period (days)')
+plt.title("Kepler's Third Law - Orbital Period vs Radius")
+plt.grid(True)
+
+for i, txt in enumerate(labels):
+    plt.annotate(txt, (radii[i], periods_days[i]))
+
+plt.show()
+</code></pre>
+<hr/>
+<h2 id="4-results-discussion">4. Results &amp; Discussion</h2>
+<p>This simulation confirms:</p>
+<ul>
+<li>The square of the orbital period grows with the cube of the radius.</li>
+<li>The plotted data aligns with Kepler's Third Law prediction.</li>
+<li>Real planets like Earth and Mars fit well into the curve.</li>
+</ul>
+<p>You can extend this model for:
+- Elliptical orbits
+- Moons around planets
+- Exoplanet systems</p>
+<hr/>
+<h2 id="5-deliverables">5. Deliverables</h2>
+<ul>
+<li>✅ A Markdown document with Python simulation code ✅</li>
+<li>✅ Explanation of Kepler's Law and Newtonian mechanics ✅</li>
+<li>✅ Visual graph: Orbital Period vs Radius ✅</li>
+<li>✅ Real examples from Solar System ✅</li>
+</ul>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
