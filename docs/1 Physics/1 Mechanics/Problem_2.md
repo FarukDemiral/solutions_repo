@@ -40,7 +40,6 @@ Initial conditions:
 
 ### 3. Optional: Interactive Simulation
 
- # Problem 2
 
 <!DOCTYPE html>
 <html lang="en">
