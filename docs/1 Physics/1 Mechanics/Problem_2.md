@@ -40,10 +40,6 @@ Initial conditions:
 
 ### 3. Optional: Interactive Simulation
 
-To interact with the simulation, [click here to open the live demo](Problem_2/sim/index.html).
-
-<iframe src="Problem_2/sim/index.html" width="100%" height="600px" style="border: 1px solid #ccc;"></iframe>
-
 
 <!DOCTYPE html>
 <html lang="en">
