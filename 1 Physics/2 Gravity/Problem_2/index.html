@@ -6,13 +6,13 @@
 <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <link href="../../../img/favicon.ico" rel="shortcut icon"/>
-<title>Problem 2 - Physics and Mathematics</title>
+<title>Problem 2 - Escape &amp; Cosmic Velocities Simulation - Physics and Mathematics</title>
 <link href="../../../css/theme.css" rel="stylesheet"/>
 <link href="../../../css/theme_extra.css" rel="stylesheet"/>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" rel="stylesheet"/>
 <script>
         // Current page data
-        var mkdocs_page_name = "Problem 2";
+        var mkdocs_page_name = "Problem 2 - Escape \u0026amp; Cosmic Velocities Simulation";
         var mkdocs_page_input_path = "1 Physics/2 Gravity/Problem_2.md";
         var mkdocs_page_url = null;
       </script>
@@ -56,8 +56,18 @@
 <ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../Problem_1/">Problem 1</a>
 </li>
-<li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 2</a>
+<li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 2 - Escape &amp; Cosmic Velocities Simulation</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#1-motivation">1. Motivation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#2-theoretical-foundation">2. Theoretical Foundation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#3-simulation">3. Simulation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#4-results-discussion">4. Results &amp; Discussion</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#5-applications-in-space-exploration">5. Applications in Space Exploration</a>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Problem_3/">Problem 3</a>
@@ -111,7 +121,7 @@
 <li><a aria-label="Docs" class="icon icon-home" href="../../.."></a></li>
 <li class="breadcrumb-item">1 Physics</li>
 <li class="breadcrumb-item">2 Gravity</li>
-<li class="breadcrumb-item active">Problem 2</li>
+<li class="breadcrumb-item active">Problem 2 - Escape &amp; Cosmic Velocities Simulation</li>
 <li class="wy-breadcrumbs-aside">
 </li>
 </ul>
@@ -119,7 +129,6 @@
 </div>
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
-<h1 id="problem-2">Problem 2</h1>
 <h1 id="problem-2-escape-cosmic-velocities-simulation">Problem 2 - Escape &amp; Cosmic Velocities Simulation</h1>
 <h2 id="1-motivation">1. Motivation</h2>
 <p>The concept of escape velocity is crucial for understanding the conditions required to leave a celestial body's gravitational influence. Extending this concept, the first, second, and third cosmic velocities define the thresholds for orbiting, escaping, and leaving a star system. These principles underpin modern space exploration, from launching satellites to interplanetary missions.</p>
@@ -128,33 +137,159 @@
 <p>The gravitational potential energy and kinetic energy concepts are used to derive these velocities.</p>
 <ul>
 <li>
-<p><strong>1st Cosmic Velocity (Orbital):</strong>
-  The minimum speed needed to stay in circular orbit around a planet:
+<p><strong>1st Cosmic Velocity (Orbital):</strong><br/>
+  The minimum speed needed to stay in circular orbit around a planet:<br/>
   $$ v_1 = \sqrt{\frac{GM}{R}} $$</p>
 </li>
 <li>
-<p><strong>2nd Cosmic Velocity (Escape):</strong>
-  The minimum speed needed to escape the planet's gravity:
+<p><strong>2nd Cosmic Velocity (Escape):</strong><br/>
+  The minimum speed needed to escape the planet's gravity:<br/>
   $$ v_2 = \sqrt{2} \cdot v_1 = \sqrt{\frac{2GM}{R}} $$</p>
 </li>
 <li>
-<p><strong>3rd Cosmic Velocity (Solar Escape):</strong>
-  The speed needed to escape the entire solar system, relative to the Sun:
+<p><strong>3rd Cosmic Velocity (Solar Escape):</strong><br/>
+  The speed needed to escape the entire solar system, relative to the Sun:<br/>
   $$ v_3 = v_2 + v_{\text{orbital}} $$</p>
 </li>
 </ul>
-<p>Where:
-- <span class="arithmatex">\(G = 6.67430 \times 10^{-11} \text{ m}^3 \text{kg}^{-1} \text{s}^{-2}\)</span>
-- <span class="arithmatex">\(M\)</span> is the mass of the celestial body
+<p>Where:<br/>
+- <span class="arithmatex">\(G = 6.67430 \times 10^{-11} \text{ m}^3 \text{kg}^{-1} \text{s}^{-2}\)</span><br/>
+- <span class="arithmatex">\(M\)</span> is the mass of the celestial body<br/>
 - <span class="arithmatex">\(R\)</span> is the radius of the celestial body</p>
 <hr/>
 <h2 id="3-simulation">3. Simulation</h2>
-<p>To view the interactive simulation:</p>
-<blockquote>
-<p>✅ <a href="sim/index.html">Click here to view the simulation</a></p>
-</blockquote>
-<iframe height="600px" src="sim/index.html" style="border: 1px solid #ccc;" width="100%"></iframe>
-<p>The simulation compares the cosmic velocities for Earth, Mars, and Jupiter, using classical mechanics and visualizing the results with a bar chart and table.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Escape &amp; Cosmic Velocities&lt;/title&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/chart.js"&gt;&lt;/script&gt;
+  &lt;style&gt;
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9fbfd;
+      margin: 0;
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+    canvas {
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      display: block;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #f0f4f8;
+    }
+    .note {
+      font-size: 0.9em;
+      color: #555;
+      text-align: center;
+      margin-top: 40px;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Escape &amp; Cosmic Velocities&lt;/h1&gt;
+  &lt;div class="container"&gt;
+    &lt;h2&gt;Velocity Comparison&lt;/h2&gt;
+    &lt;canvas id="velocityChart"&gt;&lt;/canvas&gt;
+    &lt;table&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Planet&lt;/th&gt;
+          &lt;th&gt;1st Cosmic (km/s)&lt;/th&gt;
+          &lt;th&gt;2nd Cosmic (km/s)&lt;/th&gt;
+          &lt;th&gt;3rd Cosmic (km/s)&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody id="velocityTable"&gt;&lt;/tbody&gt;
+    &lt;/table&gt;
+    &lt;div class="note"&gt;
+      Based on standard planetary masses and radii.
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
+    const G = 6.67430e-11;
+    const solarVelocity = 42.1;
+    const bodies = [
+      { name: "Earth", mass: 5.972e24, radius: 6371000 },
+      { name: "Mars", mass: 6.417e23, radius: 3389500 },
+      { name: "Jupiter", mass: 1.898e27, radius: 69911000 }
+    ];
+
+    const table = document.getElementById("velocityTable");
+    const chartData = {
+      labels: [],
+      datasets: [
+        { label: "1st Cosmic", data: [], backgroundColor: "#4c6ef5" },
+        { label: "2nd Cosmic", data: [], backgroundColor: "#82c91e" },
+        { label: "3rd Cosmic", data: [], backgroundColor: "#f59f00" }
+      ]
+    };
+
+    bodies.forEach(body =&gt; {
+      const v1 = Math.sqrt(G * body.mass / body.radius) / 1000;
+      const v2 = Math.sqrt(2) * v1;
+      const v3 = v2 + solarVelocity;
+      chartData.labels.push(body.name);
+      chartData.datasets[0].data.push(v1);
+      chartData.datasets[1].data.push(v2);
+      chartData.datasets[2].data.push(v3);
+
+      const row = `&lt;tr&gt;
+        &lt;td&gt;${body.name}&lt;/td&gt;
+        &lt;td&gt;${v1.toFixed(2)}&lt;/td&gt;
+        &lt;td&gt;${v2.toFixed(2)}&lt;/td&gt;
+        &lt;td&gt;${v3.toFixed(2)}&lt;/td&gt;
+      &lt;/tr&gt;`;
+      table.innerHTML += row;
+    });
+
+    new Chart(document.getElementById("velocityChart"), {
+      type: "bar",
+      data: chartData,
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: "top" },
+          title: { display: true, text: "Cosmic Velocities (km/s)" }
+        },
+        scales: {
+          y: {
+            title: { display: true, text: "Velocity (km/s)" }
+          }
+        }
+      }
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 <hr/>
 <h2 id="4-results-discussion">4. Results &amp; Discussion</h2>
 <ul>
