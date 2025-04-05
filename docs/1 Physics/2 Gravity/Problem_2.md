@@ -31,88 +31,159 @@ Where:
 
 ## 3. Simulation
 
-HTML("""
-<iframe width="100%" height="600" srcdoc="
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset='UTF-8'>
-  <script src='https://cdn.jsdelivr.net/npm/chart.js'></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Escape & Cosmic Velocities Simulation</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    body { font-family: sans-serif; background: #f4f7fa; padding: 20px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px; }
-    th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
-    th { background-color: #e2eafc; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f9fbfd;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    .container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-top: 20px;
+    }
+    canvas {
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      display: block;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: center;
+    }
+    th {
+      background: #f0f4f8;
+    }
+    .note {
+      font-size: 0.9em;
+      color: #555;
+      text-align: center;
+      margin-top: 40px;
+    }
   </style>
 </head>
 <body>
-  <h2 style='text-align:center;'>Escape & Cosmic Velocities</h2>
-  <canvas id='velocityChart' width='700' height='350'></canvas>
-  <table>
-    <thead>
-      <tr>
-        <th>Planet</th>
-        <th>1st Cosmic (km/s)</th>
-        <th>2nd Cosmic (km/s)</th>
-        <th>3rd Cosmic (km/s)</th>
-      </tr>
-    </thead>
-    <tbody id='velocityTable'></tbody>
-  </table>
+  <h1>Escape & Cosmic Velocities</h1>
+  <div class="container">
+    <h2>Velocity Comparison for Celestial Bodies</h2>
+    <canvas id="velocityChart"></canvas>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Planet</th>
+          <th>1st Cosmic (km/s)</th>
+          <th>2nd Cosmic (km/s)</th>
+          <th>3rd Cosmic (km/s)</th>
+        </tr>
+      </thead>
+      <tbody id="velocityTable"></tbody>
+    </table>
+
+    <div class="note">
+      Based on standard values for mass and radius. Calculated using classical Newtonian mechanics.
+    </div>
+  </div>
 
   <script>
     const G = 6.67430e-11;
     const solarVelocity = 42.1;
 
     const bodies = [
-      { name: 'Earth', mass: 5.972e24, radius: 6371000 },
-      { name: 'Mars', mass: 6.417e23, radius: 3389500 },
-      { name: 'Jupiter', mass: 1.898e27, radius: 69911000 }
+      { name: "Earth", mass: 5.972e24, radius: 6371000 },
+      { name: "Mars", mass: 6.417e23, radius: 3389500 },
+      { name: "Jupiter", mass: 1.898e27, radius: 69911000 },
+      { name: "Moon", mass: 7.342e22, radius: 1737000 },
+      { name: "Venus", mass: 4.867e24, radius: 6052000 },
+      { name: "Saturn", mass: 5.683e26, radius: 58232000 }
     ];
 
-    const table = document.getElementById('velocityTable');
-    const labels = [];
-    const v1Data = [], v2Data = [], v3Data = [];
+    const tableBody = document.getElementById("velocityTable");
+    const chartData = {
+      labels: [],
+      datasets: [
+        {
+          label: "1st Cosmic Velocity",
+          data: [],
+          backgroundColor: "#4c6ef5"
+        },
+        {
+          label: "2nd Cosmic Velocity",
+          data: [],
+          backgroundColor: "#82c91e"
+        },
+        {
+          label: "3rd Cosmic Velocity",
+          data: [],
+          backgroundColor: "#f59f00"
+        }
+      ]
+    };
 
     bodies.forEach(body => {
       const v1 = Math.sqrt(G * body.mass / body.radius) / 1000;
       const v2 = Math.sqrt(2) * v1;
       const v3 = v2 + solarVelocity;
 
-      labels.push(body.name);
-      v1Data.push(v1);
-      v2Data.push(v2);
-      v3Data.push(v3);
+      chartData.labels.push(body.name);
+      chartData.datasets[0].data.push(v1);
+      chartData.datasets[1].data.push(v2);
+      chartData.datasets[2].data.push(v3);
 
-      table.innerHTML += '<tr><td>' + body.name + '</td><td>' +
-        v1.toFixed(2) + '</td><td>' +
-        v2.toFixed(2) + '</td><td>' +
-        v3.toFixed(2) + '</td></tr>';
+      const row = `
+        <tr>
+          <td>${body.name}</td>
+          <td>${v1.toFixed(2)}</td>
+          <td>${v2.toFixed(2)}</td>
+          <td>${v3.toFixed(2)}</td>
+        </tr>
+      `;
+      tableBody.innerHTML += row;
     });
 
-    new Chart(document.getElementById('velocityChart'), {
-      type: 'bar',
-      data: {
-        labels: labels,
-        datasets: [
-          { label: '1st Cosmic', data: v1Data, backgroundColor: '#4c6ef5' },
-          { label: '2nd Cosmic', data: v2Data, backgroundColor: '#82c91e' },
-          { label: '3rd Cosmic', data: v3Data, backgroundColor: '#f59f00' }
-        ]
-      },
+    new Chart(document.getElementById("velocityChart"), {
+      type: "bar",
+      data: chartData,
       options: {
         responsive: true,
         plugins: {
+          legend: {
+            position: "top"
+          },
           title: {
             display: true,
-            text: 'Escape & Cosmic Velocities (km/s)'
+            text: "Cosmic Velocities (km/s)"
           }
         },
         scales: {
           y: {
             title: {
               display: true,
-              text: 'Velocity (km/s)'
+              text: "Velocity (km/s)"
             }
           }
         }
@@ -121,9 +192,7 @@ HTML("""
   </script>
 </body>
 </html>
-">
-</iframe>
-""")
+
 
 ## 4. Results & Discussion
 
