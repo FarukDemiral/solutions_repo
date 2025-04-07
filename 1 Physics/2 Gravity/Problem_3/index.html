@@ -280,26 +280,18 @@ v_{\text{escape}} = \sqrt{\frac{2GM}{R}}
 <hr/>
 <h2 id="5-how-it-works-numerical-model">5. How It Works (Numerical Model)</h2>
 <p>We simulate motion using a basic <strong>Euler Integration</strong> scheme:</p>
-<ul>
-<li>
-<p><strong>Position update:</strong><br>
-  $$
-  \vec{r}<em>{\text{new}} = \vec{r}</em>{\text{old}} + \vec{v} \cdot \Delta t
-  $$</br></p>
-</li>
-<li>
-<p><strong>Velocity update:</strong><br>
-  $$
-  \vec{v}<em>{\text{new}} = \vec{v}</em>{\text{old}} + \vec{a} \cdot \Delta t
-  $$</br></p>
-</li>
-<li>
-<p><strong>Acceleration from gravity:</strong><br/>
-  $$
-  \vec{a} = -\frac{GM}{r^2} \cdot \hat{r}
-  $$</p>
-</li>
-</ul>
+<p><strong>Position update</strong></p>
+<div class="arithmatex">\[
+\vec{r}_{\text{new}} = \vec{r}_{\text{old}} + \vec{v} \cdot \Delta t
+\]</div>
+<p><strong>Velocity update</strong></p>
+<div class="arithmatex">\[
+\vec{v}_{\text{new}} = \vec{v}_{\text{old}} + \vec{a} \cdot \Delta t
+\]</div>
+<p><strong>Acceleration from gravity</strong></p>
+<div class="arithmatex">\[
+\vec{a} = -\frac{GM}{r^2} \cdot \hat{r}
+\]</div>
 <hr/>
 <h2 id="7-conclusion">7. Conclusion</h2>
 <p>This project helps you visualize how gravitational physics works in real missions, and how trajectory decisions affect the fate of a payload. It combines <strong>physics</strong>, <strong>programming</strong>, and <strong>space engineering</strong>.</p>
