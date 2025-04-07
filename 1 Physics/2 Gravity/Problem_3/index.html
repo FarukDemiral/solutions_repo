@@ -60,17 +60,15 @@
 </li>
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 3 - Trajectories of a Freely Released Payload Near Earth</a>
 <ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="#1-motivation">1. Motivation</a>
+<li class="toctree-l3"><a class="reference internal" href="#1-theoretical-background">1. Theoretical Background</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#2-theoretical-background">2. Theoretical Background</a>
+<li class="toctree-l3"><a class="reference internal" href="#2-interactive-simulation">2. Interactive Simulation</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#3-interactive-simulation">3. Interactive Simulation</a>
+<li class="toctree-l3"><a class="reference internal" href="#3-real-world-examples">3. Real World Examples</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#4-real-world-examples">4. Real World Examples</a>
+<li class="toctree-l3"><a class="reference internal" href="#4-how-it-works-numerical-model">4. How It Works (Numerical Model)</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#5-how-it-works-numerical-model">5. How It Works (Numerical Model)</a>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="#7-conclusion">7. Conclusion</a>
+<li class="toctree-l3"><a class="reference internal" href="#5-conclusion">5. Conclusion</a>
 </li>
 </ul>
 </li>
@@ -132,11 +130,7 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-3-trajectories-of-a-freely-released-payload-near-earth">Problem 3 - Trajectories of a Freely Released Payload Near Earth</h1>
-<h2 id="1-motivation">1. Motivation</h2>
-<p>When a payload is released from a moving rocket near Earth, its motion is governed by Newton’s Law of Gravitation. The object’s trajectory—whether <strong>elliptical</strong>, <strong>parabolic</strong>, or <strong>hyperbolic</strong>—depends on its <strong>initial speed</strong>, <strong>direction</strong>, and <strong>altitude</strong>.</p>
-<p>This simulation demonstrates how different initial conditions affect the path of a released object. This is key in <strong>satellite launches</strong>, <strong>orbital missions</strong>, and <strong>planetary escape</strong>.</p>
-<hr/>
-<h2 id="2-theoretical-background">2. Theoretical Background</h2>
+<h2 id="1-theoretical-background">1. Theoretical Background</h2>
 <p>We use Newton's law of gravity:</p>
 <div class="arithmatex">\[
 F = \frac{GMm}{r^2}
@@ -151,12 +145,14 @@ F = \frac{GMm}{r^2}
 <div class="arithmatex">\[
 v_{\text{escape}} = \sqrt{\frac{2GM}{R}}
 \]</div>
-<p>If:
-- <span class="arithmatex">\( v &lt; v_{\text{escape}} \)</span> → elliptical or reentry
-- <span class="arithmatex">\( v = v_{\text{escape}} \)</span> → parabolic trajectory
-- <span class="arithmatex">\( v &gt; v_{\text{escape}} \)</span> → hyperbolic escape</p>
+<p>If:</p>
+<ul>
+<li><span class="arithmatex">\( v &lt; v_{\text{escape}} \)</span> → elliptical or reentry</li>
+<li><span class="arithmatex">\( v = v_{\text{escape}} \)</span> → parabolic trajectory</li>
+<li><span class="arithmatex">\( v &gt; v_{\text{escape}} \)</span> → hyperbolic escape</li>
+</ul>
 <hr/>
-<h2 id="3-interactive-simulation">3. Interactive Simulation</h2>
+<h2 id="2-interactive-simulation">2. Interactive Simulation</h2>
 <p>🎯 Test different <strong>initial velocities</strong> and <strong>angles</strong> to explore:
 - 🌍 Orbital insertion
 - 🚀 Escape
@@ -250,7 +246,8 @@ v_{\text{escape}} = \sqrt{\frac{2GM}{R}}
   </script>
 </body>
 </html>
-<h2 id="4-real-world-examples">4. Real World Examples</h2>
+<hr/>
+<h2 id="3-real-world-examples">3. Real World Examples</h2>
 <table>
 <thead>
 <tr>
@@ -278,7 +275,7 @@ v_{\text{escape}} = \sqrt{\frac{2GM}{R}}
 </tbody>
 </table>
 <hr/>
-<h2 id="5-how-it-works-numerical-model">5. How It Works (Numerical Model)</h2>
+<h2 id="4-how-it-works-numerical-model">4. How It Works (Numerical Model)</h2>
 <p>We simulate motion using a basic <strong>Euler Integration</strong> scheme:</p>
 <p><strong>Position update</strong></p>
 <div class="arithmatex">\[
@@ -293,9 +290,8 @@ v_{\text{escape}} = \sqrt{\frac{2GM}{R}}
 \vec{a} = -\frac{GM}{r^2} \cdot \hat{r}
 \]</div>
 <hr/>
-<h2 id="7-conclusion">7. Conclusion</h2>
-<p>This project helps you visualize how gravitational physics works in real missions, and how trajectory decisions affect the fate of a payload. It combines <strong>physics</strong>, <strong>programming</strong>, and <strong>space engineering</strong>.</p>
-<hr/>
+<h2 id="5-conclusion">5. Conclusion</h2>
+<p>This project helps you visualize how gravitational physics works in real missions, and how trajectory decisions affect the fate of a payload. It combines <strong>physics</strong>, <strong>programming</strong>, and <strong>space engineering</strong> in a powerful, visual way.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
