@@ -146,22 +146,25 @@ If:
 
 We simulate motion using a basic **Euler Integration** scheme:
 
-- **Position update:**  
-  $$
-  \vec{r}_{\text{new}} = \vec{r}_{\text{old}} + \vec{v} \cdot \Delta t
-  $$
+**Position update**
 
-- **Velocity update:**  
-  $$
-  \vec{v}_{\text{new}} = \vec{v}_{\text{old}} + \vec{a} \cdot \Delta t
-  $$
+$$
+\vec{r}_{\text{new}} = \vec{r}_{\text{old}} + \vec{v} \cdot \Delta t
+$$
 
-- **Acceleration from gravity:**  
-  $$
-  \vec{a} = -\frac{GM}{r^2} \cdot \hat{r}
-  $$
+**Velocity update**
+
+$$
+\vec{v}_{\text{new}} = \vec{v}_{\text{old}} + \vec{a} \cdot \Delta t
+$$
+
+**Acceleration from gravity**
+
+$$
+\vec{a} = -\frac{GM}{r^2} \cdot \hat{r}
+$$
+
 ---
-
 
 
 ## 7. Conclusion
