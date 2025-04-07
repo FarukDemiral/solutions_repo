@@ -806,4 +806,3 @@ This simulation bridges physics with real aerospace design, showing how theoreti
 
 This enhanced visualization and expanded data illustrate how escape and orbital velocities vary across celestial bodies. It highlights the necessity for precise calculation and engineering in space science.
 
-> 🚀 Next step? Try adding your own planet or simulate launch requirements using fuel-to-mass ratios!
