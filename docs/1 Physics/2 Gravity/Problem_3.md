@@ -145,13 +145,21 @@ If:
 ## 5. How It Works (Numerical Model)
 
 We simulate motion using a basic **Euler Integration** scheme:
-- Position update:  
-  $$ \vec{r}_{\text{new}} = \vec{r}_{\text{old}} + \vec{v} \cdot \Delta t $$
-- Velocity update:  
-  $$ \vec{v}_{\text{new}} = \vec{v}_{\text{old}} + \vec{a} \cdot \Delta t $$
-- Acceleration from gravity:  
-  $$ \vec{a} = -\frac{GM}{r^2} \cdot \hat{r} $$
 
+- **Position update:**  
+  $$
+  \vec{r}_{\text{new}} = \vec{r}_{\text{old}} + \vec{v} \cdot \Delta t
+  $$
+
+- **Velocity update:**  
+  $$
+  \vec{v}_{\text{new}} = \vec{v}_{\text{old}} + \vec{a} \cdot \Delta t
+  $$
+
+- **Acceleration from gravity:**  
+  $$
+  \vec{a} = -\frac{GM}{r^2} \cdot \hat{r}
+  $$
 ---
 
 
