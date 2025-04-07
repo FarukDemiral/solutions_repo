@@ -62,11 +62,29 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#2-theoretical-foundation">2. Theoretical Foundation</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#3-simulation">3. Simulation</a>
+<li class="toctree-l3"><a class="reference internal" href="#3-step-by-step-derivation">3. Step-by-Step Derivation</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#4-results-discussion">4. Results &amp; Discussion</a>
+<li class="toctree-l3"><a class="reference internal" href="#4-additional-examples-and-data-table">4. Additional Examples and Data Table</a>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="#5-applications-in-space-exploration">5. Applications in Space Exploration</a>
+<li class="toctree-l3"><a class="reference internal" href="#5-simulation">5. Simulation</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#6-interactive-simulation-code">6. Interactive Simulation Code</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#7-interactive-graphs-and-charts">7. Interactive Graphs and Charts</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#71-cosmic-velocities-by-planet-mass">7.1 Cosmic Velocities by Planet Mass</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#72-velocity-vs-radius-comparison">7.2 Velocity vs. Radius Comparison</a>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#8-bonus-gravitational-potential-vs-distance-graph">8. Bonus: Gravitational Potential vs Distance Graph</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#9-results-discussion">9. Results &amp; Discussion</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#10-applications-in-space-exploration">10. Applications in Space Exploration</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#11-conclusion">11. Conclusion</a>
 </li>
 </ul>
 </li>
@@ -157,16 +175,68 @@
 - <span class="arithmatex">\(M\)</span> is the mass of the celestial body<br/>
 - <span class="arithmatex">\(R\)</span> is the radius of the celestial body</p>
 <hr/>
-<h2 id="3-simulation">3. Simulation</h2>
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Escape &amp; Cosmic Velocities Simulation</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
+<h2 id="3-step-by-step-derivation">3. Step-by-Step Derivation</h2>
+<p>We start with energy conservation:
+- Total mechanical energy at surface = 0 at escape point (infinity)</p>
+<div class="arithmatex">\[ \frac{1}{2}mv^2 - \frac{GMm}{R} = 0 \]</div>
+<p>Solving for escape velocity:
+$$ v = \sqrt{\frac{2GM}{R}} $$</p>
+<p>This equation explains how <strong>mass</strong> and <strong>radius</strong> influence the energy needed to escape.</p>
+<hr/>
+<h2 id="4-additional-examples-and-data-table">4. Additional Examples and Data Table</h2>
+<table>
+<thead>
+<tr>
+<th>Celestial Body</th>
+<th>Mass (kg)</th>
+<th>Radius (m)</th>
+<th>v₁ (km/s)</th>
+<th>v₂ (km/s)</th>
+<th>v₃ (km/s)*</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Moon</td>
+<td>7.342×10²²</td>
+<td>1.737×10⁶</td>
+<td>1.68</td>
+<td>2.38</td>
+<td>44.48</td>
+</tr>
+<tr>
+<td>Venus</td>
+<td>4.867×10²´</td>
+<td>6.052×10⁶</td>
+<td>7.28</td>
+<td>10.30</td>
+<td>52.40</td>
+</tr>
+<tr>
+<td>Saturn</td>
+<td>5.683×10²¶</td>
+<td>5.823×10⁷</td>
+<td>9.68</td>
+<td>13.69</td>
+<td>55.79</td>
+</tr>
+</tbody>
+</table>
+<p>* Estimated using Earth's orbital speed around Sun (42.1 km/s)</p>
+<p>These examples emphasize how mass and radius determine the effort required to escape a celestial body's gravity.</p>
+<hr/>
+<h2 id="5-simulation">5. Simulation</h2>
+<iframe height="600px" src="sim/index.html" style="border: 1px solid #ccc;" width="100%"></iframe>
+<hr/>
+<h2 id="6-interactive-simulation-code">6. Interactive Simulation Code</h2>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8" /&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0" /&gt;
+  &lt;title&gt;Escape &amp; Cosmic Velocities Simulation&lt;/title&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/chart.js"&gt;&lt;/script&gt;
+  &lt;style&gt;
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #f9fbfd;
@@ -212,29 +282,32 @@
       text-align: center;
       margin-top: 40px;
     }
-  </style>
-</head>
-<body>
-<h1>Escape &amp; Cosmic Velocities</h1>
-<div class="container">
-<h2>Velocity Comparison for Celestial Bodies</h2>
-<canvas id="velocityChart"></canvas>
-<table>
-<thead>
-<tr>
-<th>Planet</th>
-<th>1st Cosmic (km/s)</th>
-<th>2nd Cosmic (km/s)</th>
-<th>3rd Cosmic (km/s)</th>
-</tr>
-</thead>
-<tbody id="velocityTable"></tbody>
-</table>
-<div class="note">
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h1&gt;Escape &amp; Cosmic Velocities&lt;/h1&gt;
+  &lt;div class="container"&gt;
+    &lt;h2&gt;Velocity Comparison for Celestial Bodies&lt;/h2&gt;
+    &lt;canvas id="velocityChart"&gt;&lt;/canvas&gt;
+
+    &lt;table&gt;
+      &lt;thead&gt;
+        &lt;tr&gt;
+          &lt;th&gt;Planet&lt;/th&gt;
+          &lt;th&gt;1st Cosmic (km/s)&lt;/th&gt;
+          &lt;th&gt;2nd Cosmic (km/s)&lt;/th&gt;
+          &lt;th&gt;3rd Cosmic (km/s)&lt;/th&gt;
+        &lt;/tr&gt;
+      &lt;/thead&gt;
+      &lt;tbody id="velocityTable"&gt;&lt;/tbody&gt;
+    &lt;/table&gt;
+
+    &lt;div class="note"&gt;
       Based on standard values for mass and radius. Calculated using classical Newtonian mechanics.
-    </div>
-</div>
-<script>
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;script&gt;
     const G = 6.67430e-11;
     const solarVelocity = 42.1;
 
@@ -269,7 +342,7 @@
       ]
     };
 
-    bodies.forEach(body => {
+    bodies.forEach(body =&gt; {
       const v1 = Math.sqrt(G * body.mass / body.radius) / 1000;
       const v2 = Math.sqrt(2) * v1;
       const v3 = v2 + solarVelocity;
@@ -280,12 +353,12 @@
       chartData.datasets[2].data.push(v3);
 
       const row = `
-        <tr>
-          <td>${body.name}</td>
-          <td>${v1.toFixed(2)}</td>
-          <td>${v2.toFixed(2)}</td>
-          <td>${v3.toFixed(2)}</td>
-        </tr>
+        &lt;tr&gt;
+          &lt;td&gt;${body.name}&lt;/td&gt;
+          &lt;td&gt;${v1.toFixed(2)}&lt;/td&gt;
+          &lt;td&gt;${v2.toFixed(2)}&lt;/td&gt;
+          &lt;td&gt;${v3.toFixed(2)}&lt;/td&gt;
+        &lt;/tr&gt;
       `;
       tableBody.innerHTML += row;
     });
@@ -314,27 +387,46 @@
         }
       }
     });
-  </script>
-</body>
-</html>
-<h2 id="4-results-discussion">4. Results &amp; Discussion</h2>
-<ul>
-<li>Jupiter has the highest escape velocities due to its mass.</li>
-<li>Earth and Mars have significantly lower values.</li>
-<li>The third cosmic velocity is always highest because it includes escape from the solar system.</li>
-</ul>
-<p>These values help us:
-- Understand satellite orbits
-- Plan interplanetary missions
-- Estimate launch speeds and fuel requirements</p>
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 <hr/>
-<h2 id="5-applications-in-space-exploration">5. Applications in Space Exploration</h2>
+<h2 id="7-interactive-graphs-and-charts">7. Interactive Graphs and Charts</h2>
+<p>We visualize two relationships for better understanding:</p>
+<h3 id="71-cosmic-velocities-by-planet-mass">7.1 Cosmic Velocities by Planet Mass</h3>
+<iframe height="400px" src="charts/mass_vs_velocity.html" style="border: 1px solid #ccc;" width="100%"></iframe>
+<h3 id="72-velocity-vs-radius-comparison">7.2 Velocity vs. Radius Comparison</h3>
+<iframe height="400px" src="charts/radius_vs_velocity.html" style="border: 1px solid #ccc;" width="100%"></iframe>
+<hr/>
+<h2 id="8-bonus-gravitational-potential-vs-distance-graph">8. Bonus: Gravitational Potential vs Distance Graph</h2>
+<p>This graph illustrates how gravitational potential changes with distance from a celestial body.</p>
+<iframe height="400px" src="charts/potential_vs_distance.html" style="border: 1px solid #ccc;" width="100%"></iframe>
+<hr/>
+<h2 id="9-results-discussion">9. Results &amp; Discussion</h2>
 <ul>
-<li><strong>1st velocity:</strong> Used by satellites orbiting planets (e.g., ISS around Earth)</li>
-<li><strong>2nd velocity:</strong> Required for rockets to leave a planet's surface</li>
-<li><strong>3rd velocity:</strong> Required for missions beyond the solar system (e.g., Voyager probes)</li>
+<li><strong>Jupiter</strong> has the highest escape velocities due to its massive size.</li>
+<li><strong>Earth and Mars</strong> require less velocity.</li>
+<li><strong>The 3rd cosmic velocity</strong> includes Sun escape speed, making it the highest.</li>
 </ul>
-<p>This problem demonstrates the interplay of gravity, motion, and engineering, offering insight into both theoretical physics and practical aerospace applications.</p>
+<p>These results are useful in:
+- Planning satellite orbits
+- Launching interplanetary missions
+- Estimating required energy and fuel</p>
+<hr/>
+<h2 id="10-applications-in-space-exploration">10. Applications in Space Exploration</h2>
+<ul>
+<li><strong>1st velocity:</strong> Satellite orbits (e.g., Hubble, ISS)</li>
+<li><strong>2nd velocity:</strong> Planetary escape (e.g., Apollo missions)</li>
+<li><strong>3rd velocity:</strong> Deep space exploration (e.g., Voyager probes)</li>
+</ul>
+<p>This simulation bridges physics with real aerospace design, showing how theoretical formulas apply to modern technology.</p>
+<hr/>
+<h2 id="11-conclusion">11. Conclusion</h2>
+<p>This enhanced visualization and expanded data illustrate how escape and orbital velocities vary across celestial bodies. It highlights the necessity for precise calculation and engineering in space science.</p>
+<blockquote>
+<p>🚀 Next step? Try adding your own planet or simulate launch requirements using fuel-to-mass ratios!</p>
+</blockquote>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
