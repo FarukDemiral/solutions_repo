@@ -43,13 +43,16 @@ This equation explains how **mass** and **radius** influence the energy needed t
 
 ---
 
-## 4. Additional Examples and Data Table
+## 4. Additional Examples and Data Table (Expanded)
 
 | Celestial Body | Mass (kg)         | Radius (m)   | v₁ (km/s) | v₂ (km/s) | v₃ (km/s)* |
 |----------------|-------------------|--------------|-----------|-----------|------------|
+| Earth          | 5.972×10²⁴        | 6.371×10⁶    | 7.91      | 11.19     | 53.29      |
+| Mars           | 6.417×10²³        | 3.389×10⁶    | 3.55      | 5.03      | 47.13      |
+| Jupiter        | 1.898×10²⁷        | 6.991×10⁷    | 42.57     | 60.20     | 102.30     |
 | Moon           | 7.342×10²²        | 1.737×10⁶    | 1.68      | 2.38      | 44.48      |
-| Venus          | 4.867×10²´        | 6.052×10⁶    | 7.28      | 10.30     | 52.40      |
-| Saturn         | 5.683×10²¶        | 5.823×10⁷    | 9.68      | 13.69     | 55.79      |
+| Venus          | 4.867×10²⁴        | 6.052×10⁶    | 7.33      | 10.36     | 52.46      |
+| Saturn         | 5.683×10²⁶        | 5.823×10⁷    | 25.52     | 36.09     | 78.19      |
 
 \* Estimated using Earth's orbital speed around Sun (42.1 km/s)
 
