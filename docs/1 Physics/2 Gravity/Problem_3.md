@@ -1,14 +1,6 @@
 # Problem 3 - Trajectories of a Freely Released Payload Near Earth
 
-## 1. Motivation
-
-When a payload is released from a moving rocket near Earth, its motion is governed by Newton’s Law of Gravitation. The object’s trajectory—whether **elliptical**, **parabolic**, or **hyperbolic**—depends on its **initial speed**, **direction**, and **altitude**.
-
-This simulation demonstrates how different initial conditions affect the path of a released object. This is key in **satellite launches**, **orbital missions**, and **planetary escape**.
-
----
-
-## 2. Theoretical Background
+## 1. Theoretical Background
 
 We use Newton's law of gravity:
 
@@ -28,13 +20,14 @@ v_{\text{escape}} = \sqrt{\frac{2GM}{R}}
 $$
 
 If:
+
 - \( v < v_{\text{escape}} \) → elliptical or reentry
 - \( v = v_{\text{escape}} \) → parabolic trajectory
 - \( v > v_{\text{escape}} \) → hyperbolic escape
 
 ---
 
-## 3. Interactive Simulation
+## 2. Interactive Simulation
 
 🎯 Test different **initial velocities** and **angles** to explore:
 - 🌍 Orbital insertion
@@ -131,8 +124,9 @@ If:
 </body>
 </html>
 
+---
 
-## 4. Real World Examples
+## 3. Real World Examples
 
 | Scenario              | Trajectory       | Mission Example        |
 |----------------------|------------------|------------------------|
@@ -142,7 +136,7 @@ If:
 
 ---
 
-## 5. How It Works (Numerical Model)
+## 4. How It Works (Numerical Model)
 
 We simulate motion using a basic **Euler Integration** scheme:
 
@@ -166,9 +160,6 @@ $$
 
 ---
 
+## 5. Conclusion
 
-## 7. Conclusion
-
-This project helps you visualize how gravitational physics works in real missions, and how trajectory decisions affect the fate of a payload. It combines **physics**, **programming**, and **space engineering**.
-
----
+This project helps you visualize how gravitational physics works in real missions, and how trajectory decisions affect the fate of a payload. It combines **physics**, **programming**, and **space engineering** in a powerful, visual way.
