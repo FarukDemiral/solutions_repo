@@ -29,8 +29,43 @@ Where:
 
 ---
 
-## 3. Simulation
+## 3. Step-by-Step Derivation
 
+We start with energy conservation:
+- Total mechanical energy at surface = 0 at escape point (infinity)
+
+$$ \frac{1}{2}mv^2 - \frac{GMm}{R} = 0 $$
+
+Solving for escape velocity:
+$$ v = \sqrt{\frac{2GM}{R}} $$
+
+This equation explains how **mass** and **radius** influence the energy needed to escape.
+
+---
+
+## 4. Additional Examples and Data Table
+
+| Celestial Body | Mass (kg)         | Radius (m)   | v₁ (km/s) | v₂ (km/s) | v₃ (km/s)* |
+|----------------|-------------------|--------------|-----------|-----------|------------|
+| Moon           | 7.342×10²²        | 1.737×10⁶    | 1.68      | 2.38      | 44.48      |
+| Venus          | 4.867×10²´        | 6.052×10⁶    | 7.28      | 10.30     | 52.40      |
+| Saturn         | 5.683×10²¶        | 5.823×10⁷    | 9.68      | 13.69     | 55.79      |
+
+\* Estimated using Earth's orbital speed around Sun (42.1 km/s)
+
+These examples emphasize how mass and radius determine the effort required to escape a celestial body's gravity.
+
+---
+
+## 5. Simulation
+
+<iframe src="sim/index.html" width="100%" height="600px" style="border: 1px solid #ccc;"></iframe>
+
+---
+
+## 6. Interactive Simulation Code
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -192,25 +227,57 @@ Where:
   </script>
 </body>
 </html>
-
-
-## 4. Results & Discussion
-
-- Jupiter has the highest escape velocities due to its mass.
-- Earth and Mars have significantly lower values.
-- The third cosmic velocity is always highest because it includes escape from the solar system.
-
-These values help us:
-- Understand satellite orbits
-- Plan interplanetary missions
-- Estimate launch speeds and fuel requirements
+```
 
 ---
 
-## 5. Applications in Space Exploration
+## 7. Interactive Graphs and Charts
 
-- **1st velocity:** Used by satellites orbiting planets (e.g., ISS around Earth)
-- **2nd velocity:** Required for rockets to leave a planet's surface
-- **3rd velocity:** Required for missions beyond the solar system (e.g., Voyager probes)
+We visualize two relationships for better understanding:
 
-This problem demonstrates the interplay of gravity, motion, and engineering, offering insight into both theoretical physics and practical aerospace applications.
+### 7.1 Cosmic Velocities by Planet Mass
+
+<iframe src="charts/mass_vs_velocity.html" width="100%" height="400px" style="border: 1px solid #ccc;"></iframe>
+
+### 7.2 Velocity vs. Radius Comparison
+
+<iframe src="charts/radius_vs_velocity.html" width="100%" height="400px" style="border: 1px solid #ccc;"></iframe>
+
+---
+
+## 8. Bonus: Gravitational Potential vs Distance Graph
+
+This graph illustrates how gravitational potential changes with distance from a celestial body.
+
+<iframe src="charts/potential_vs_distance.html" width="100%" height="400px" style="border: 1px solid #ccc;"></iframe>
+
+---
+
+## 9. Results & Discussion
+
+- **Jupiter** has the highest escape velocities due to its massive size.
+- **Earth and Mars** require less velocity.
+- **The 3rd cosmic velocity** includes Sun escape speed, making it the highest.
+
+These results are useful in:
+- Planning satellite orbits
+- Launching interplanetary missions
+- Estimating required energy and fuel
+
+---
+
+## 10. Applications in Space Exploration
+
+- **1st velocity:** Satellite orbits (e.g., Hubble, ISS)
+- **2nd velocity:** Planetary escape (e.g., Apollo missions)
+- **3rd velocity:** Deep space exploration (e.g., Voyager probes)
+
+This simulation bridges physics with real aerospace design, showing how theoretical formulas apply to modern technology.
+
+---
+
+## 11. Conclusion
+
+This enhanced visualization and expanded data illustrate how escape and orbital velocities vary across celestial bodies. It highlights the necessity for precise calculation and engineering in space science.
+
+> 🚀 Next step? Try adding your own planet or simulate launch requirements using fuel-to-mass ratios!
