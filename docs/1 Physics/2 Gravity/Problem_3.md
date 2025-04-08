@@ -37,199 +37,180 @@ If:
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Payload Trajectory near Earth</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8" />
+  <title>Payload Trajectory Simulations</title>
   <style>
     body {
-      font-family: sans-serif;
-      background: #f0f4f8;
-      text-align: center;
+      font-family: Arial, sans-serif;
+      background: #f4f7fa;
+      color: #333;
       padding: 20px;
     }
+    h1, h2 {
+      text-align: center;
+      color: #2c3e50;
+    }
     canvas {
+      display: block;
+      margin: 20px auto;
       border: 1px solid #ccc;
       background: #000;
-      display: block;
-      margin: 30px auto;
     }
-    input, button {
-      margin: 10px;
-      padding: 6px;
-      font-size: 16px;
-    }
-    h2 {
-      margin-top: 40px;
-      color: #2c3e50;
+    .section {
+      margin-bottom: 60px;
     }
   </style>
 </head>
 <body>
 
-  <h2>Payload Trajectory near Earth</h2>
-  <label>Initial Velocity (m/s): <input id="speed" type="number" value="8000"></label><br>
-  <label>Launch Angle (°): <input id="angle" type="number" value="45"></label><br>
-  <button onclick="start()">Simulate</button>
-  <canvas id="simCanvas" width="600" height="600"></canvas>
+  <h1>🚀 Trajectories of a Freely Released Payload</h1>
 
-  <!-- First simulation script -->
-  <script>
-    const G = 6.6743e-11;
-    const M = 5.972e24;
-    const R = 6371000;
-    let ctx = document.getElementById("simCanvas").getContext("2d");
+  <div class="section">
+    <h2>1️⃣ Payload Trajectory near Earth (Interactive)</h2>
+    <label>Initial Velocity (m/s): <input id="speed" type="number" value="8000"></label>
+    <label>Launch Angle (°): <input id="angle" type="number" value="45"></label>
+    <button onclick="start()">Simulate</button>
+    <canvas id="simCanvas" width="600" height="600"></canvas>
+  </div>
 
-    function start() {
-      let v = parseFloat(document.getElementById("speed").value);
-      let angle = parseFloat(document.getElementById("angle").value) * Math.PI / 180;
+  <div class="section">
+    <h2>2️⃣ Trajectory Comparison Based On Initial Velocity</h2>
+    <canvas id="comparisonChart" width="800" height="400"></canvas>
+  </div>
 
-      let x = 0;
-      let y = R + 500000;
-      let vx = v * Math.cos(angle);
-      let vy = -v * Math.sin(angle);
+  <div class="section">
+    <h2>3️⃣ Payload Trajectories by Velocity Type</h2>
+    <canvas id="velocityTypeChart" width="800" height="400"></canvas>
+  </div>
 
-      let path = [];
-      let dt = 0.1;
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // First Simulation
+  const G = 6.6743e-11;
+  const M = 5.972e24;
+  const R = 6371000;
+  const ctx1 = document.getElementById("simCanvas").getContext("2d");
 
-      function update() {
-        let r = Math.sqrt(x * x + y * y);
-        let a = G * M / (r * r);
-        let ax = -a * x / r;
-        let ay = -a * y / r;
+  function start() {
+    let v = parseFloat(document.getElementById("speed").value);
+    let angle = parseFloat(document.getElementById("angle").value) * Math.PI / 180;
+    let x = 0;
+    let y = R + 500000;
+    let vx = v * Math.cos(angle);
+    let vy = -v * Math.sin(angle);
+    let path = [];
+    let dt = 0.1;
 
-        vx += ax * dt;
-        vy += ay * dt;
-        x += vx * dt;
-        y += vy * dt;
-
-        path.push([x, y]);
-
-        ctx.clearRect(0, 0, 600, 600);
-        ctx.fillStyle = "#2c3e50";
-        ctx.beginPath();
-        ctx.arc(300, 300, 50, 0, 2 * Math.PI);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.strokeStyle = "#fff";
-        for (let i = 0; i < path.length; i++) {
-          let px = 300 + path[i][0] / 200000;
-          let py = 300 - path[i][1] / 200000;
-          if (i === 0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
-        }
-        ctx.stroke();
-
-        ctx.fillStyle = "#f59f00";
-        ctx.beginPath();
-        ctx.arc(300 + x / 200000, 300 - y / 200000, 4, 0, 2 * Math.PI);
-        ctx.fill();
-
-        if (r < R) {
-          alert("Payload crashed!");
-          return;
-        }
-        if (r > 1.5e7) {
-          alert("Payload escaped!");
-          return;
-        }
-
-        requestAnimationFrame(update);
+    function update() {
+      let r = Math.sqrt(x*x + y*y);
+      let a = G * M / (r * r);
+      let ax = -a * x / r;
+      let ay = -a * y / r;
+      vx += ax * dt;
+      vy += ay * dt;
+      x += vx * dt;
+      y += vy * dt;
+      path.push([x, y]);
+      ctx1.clearRect(0, 0, 600, 600);
+      ctx1.fillStyle = "#2c3e50";
+      ctx1.beginPath();
+      ctx1.arc(300, 300, 50, 0, 2 * Math.PI);
+      ctx1.fill();
+      ctx1.beginPath();
+      ctx1.strokeStyle = "#fff";
+      for (let i = 0; i < path.length; i++) {
+        let px = 300 + path[i][0] / 200000;
+        let py = 300 - path[i][1] / 200000;
+        if (i === 0) ctx1.moveTo(px, py);
+        else ctx1.lineTo(px, py);
       }
-
-      update();
+      ctx1.stroke();
+      ctx1.fillStyle = "#f59f00";
+      ctx1.beginPath();
+      ctx1.arc(300 + x/200000, 300 - y/200000, 4, 0, 2*Math.PI);
+      ctx1.fill();
+      if (path.length < 800) requestAnimationFrame(update);
     }
-  </script>
+    update();
+  }
 
-  <!-- Second simulation: Trajectory Comparison -->
-  <h2>Trajectory Comparison Based on Initial Velocity</h2>
-  <canvas id="trajectoryChart" width="600" height="400"></canvas>
-  <script>
-    new Chart(document.getElementById("trajectoryChart"), {
-      type: 'bar',
-      data: {
-        labels: ['Reentry (< vₑ)', 'Orbit (≈ vₑ)', 'Escape (> vₑ)'],
-        datasets: [{
-          label: 'Initial Velocity (m/s)',
-          data: [6000, 11200, 14000],
-          backgroundColor: ['#ef476f', '#ffd166', '#06d6a0']
-        }]
+  // Second Simulation - Trajectory Comparison
+  const ctx2 = document.getElementById("comparisonChart").getContext("2d");
+  new Chart(ctx2, {
+    type: 'line',
+    data: {
+      labels: ['0 km', '2000 km', '4000 km', '6000 km', '8000 km'],
+      datasets: [
+        {
+          label: 'Elliptical (7.5 km/s)',
+          data: [0, 250, 400, 450, 300],
+          borderColor: '#4c6ef5',
+          fill: false
+        },
+        {
+          label: 'Parabolic (11.2 km/s)',
+          data: [0, 500, 1000, 1500, 2000],
+          borderColor: '#82c91e',
+          fill: false
+        },
+        {
+          label: 'Hyperbolic (14.0 km/s)',
+          data: [0, 800, 1600, 3000, 5000],
+          borderColor: '#f59f00',
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Trajectory Comparison Based on Initial Velocity'
+        }
       },
-      options: {
-        plugins: {
+      scales: {
+        y: { title: { display: true, text: 'Altitude (km)' } },
+        x: { title: { display: true, text: 'Horizontal Distance' } }
+      }
+    }
+  });
+
+  // Third Simulation - Payload Velocities
+  const ctx3 = document.getElementById("velocityTypeChart").getContext("2d");
+  new Chart(ctx3, {
+    type: 'bar',
+    data: {
+      labels: ['Elliptical', 'Parabolic', 'Hyperbolic'],
+      datasets: [{
+        label: 'Velocity (km/s)',
+        data: [7.5, 11.2, 14.0],
+        backgroundColor: ['#4c6ef5', '#82c91e', '#f59f00']
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Payload Trajectories by Velocity Type'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
           title: {
             display: true,
-            text: 'Trajectory Comparison Based on Initial Velocity'
-          }
-        },
-        scales: {
-          y: {
-            title: {
-              display: true,
-              text: 'Velocity (m/s)'
-            }
+            text: 'Velocity (km/s)'
           }
         }
       }
-    });
-  </script>
-
-  <!-- Third simulation: Velocity vs Altitude -->
-  <h2>Payload Trajectories by Velocity</h2>
-  <canvas id="velocityChart" width="600" height="400"></canvas>
-  <script>
-    new Chart(document.getElementById("velocityChart"), {
-      type: 'line',
-      data: {
-        labels: Array.from({length: 10}, (_, i) => i + 1),
-        datasets: [
-          {
-            label: 'Reentry Path',
-            data: [0, 1, 3, 2.5, 2, 1.5, 1.2, 0.8, 0.4, 0.1],
-            borderColor: '#ef476f',
-            fill: false
-          },
-          {
-            label: 'Orbital Path',
-            data: [1, 2, 2.8, 3.5, 3.2, 3.5, 3.2, 3.5, 3.2, 3.5],
-            borderColor: '#ffd166',
-            fill: false
-          },
-          {
-            label: 'Escape Path',
-            data: [2, 3, 4.5, 5, 6, 7, 8, 10, 12, 14],
-            borderColor: '#06d6a0',
-            fill: false
-          }
-        ]
-      },
-      options: {
-        plugins: {
-          title: {
-            display: true,
-            text: 'Payload Trajectories by Velocity'
-          }
-        },
-        scales: {
-          y: {
-            title: {
-              display: true,
-              text: 'Relative Altitude'
-            }
-          },
-          x: {
-            title: {
-              display: true,
-              text: 'Time Step'
-            }
-          }
-        }
-      }
-    });
-  </script>
+    }
+  });
+</script>
 
 </body>
 </html>
+
 
 ---
 
