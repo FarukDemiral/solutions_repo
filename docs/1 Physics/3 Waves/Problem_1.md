@@ -1,3 +1,125 @@
 # Problem 1
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Payload Trajectory near Earth</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #f0f4f8;
+      text-align: center;
+      padding: 20px;
+    }
+    canvas {
+      border: 1px solid #ccc;
+      background: #000;
+      display: block;
+      margin: 20px auto;
+    }
+    input, button {
+      margin: 10px;
+      padding: 6px;
+      font-size: 16px;
+    }
+    #statusMessage {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 17px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Payload Trajectory near Earth</h2>
+  <label>Initial Velocity (m/s): <input id="speed" type="number" value="8000"></label><br>
+  <label>Launch Angle (°): <input id="angle" type="number" value="45"></label><br>
+  <button onclick="start()">Simulate</button>
+
+  <canvas id="simCanvas" width="600" height="600"></canvas>
+  <div id="statusMessage"></div>
+
+  <script>
+    const G = 6.6743e-11;
+    const M = 5.972e24;
+    const R = 6371000;
+    let ctx = document.getElementById("simCanvas").getContext("2d");
+    let statusMessage = document.getElementById("statusMessage");
+
+    function start() {
+      let v = parseFloat(document.getElementById("speed").value);
+      let angle = parseFloat(document.getElementById("angle").value) * Math.PI / 180;
+
+      // Warning if velocity is likely too low
+      if (v < 7000) {
+        statusMessage.style.color = "orange";
+        statusMessage.innerText = "⚠️ Warning: Velocity may be too low for stable orbit.";
+      } else {
+        statusMessage.innerText = "";
+      }
+
+      let x = 0;
+      let y = R + 500000;
+      let vx = v * Math.cos(angle);
+      let vy = -v * Math.sin(angle);
+
+      let path = [];
+      let dt = 0.1;
+
+      function update() {
+        let r = Math.sqrt(x * x + y * y);
+        let a = G * M / (r * r);
+        let ax = -a * x / r;
+        let ay = -a * y / r;
+
+        vx += ax * dt;
+        vy += ay * dt;
+        x += vx * dt;
+        y += vy * dt;
+
+        path.push([x, y]);
+
+        // Draw Earth and path
+        ctx.clearRect(0, 0, 600, 600);
+        ctx.fillStyle = "#2c3e50";
+        ctx.beginPath();
+        ctx.arc(300, 300, 50, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.strokeStyle = "#fff";
+        for (let i = 0; i < path.length; i++) {
+          let px = 300 + path[i][0] / 200000;
+          let py = 300 - path[i][1] / 200000;
+          if (i === 0) ctx.moveTo(px, py);
+          else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+
+        // Draw payload
+        ctx.fillStyle = "#f59f00";
+        ctx.beginPath();
+        ctx.arc(300 + x / 200000, 300 - y / 200000, 4, 0, 2 * Math.PI);
+        ctx.fill();
+
+        // Check crash or escape
+        if (r < R) {
+          statusMessage.style.color = "red";
+          statusMessage.innerText = "💥 Payload crashed into Earth! Try higher velocity.";
+          return;
+        }
+        if (r > 1.5e7) {
+          statusMessage.style.color = "green";
+          statusMessage.innerText = "✅ Payload escaped Earth's gravity!";
+          return;
+        }
+
+        requestAnimationFrame(update);
+      }
+
+      update();
+    }
+  </script>
+</body>
+</html>
 
