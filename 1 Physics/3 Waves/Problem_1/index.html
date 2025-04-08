@@ -125,80 +125,88 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>Payload Trajectory near Earth</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Payload Trajectories - Simulation</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
     body {
-      font-family: sans-serif;
-      background: #f0f4f8;
-      text-align: center;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f7fa;
       padding: 20px;
+      color: #333;
+      line-height: 1.6;
+    }
+    h2 {
+      color: #2c3e50;
+      margin-top: 40px;
     }
     canvas {
-      border: 1px solid #ccc;
-      background: #000;
-      display: block;
       margin: 20px auto;
+      display: block;
+      max-width: 800px;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
     }
     input, button {
-      margin: 10px;
-      padding: 6px;
+      padding: 8px 12px;
       font-size: 16px;
+      margin: 6px;
     }
-    #statusMessage {
-      margin-top: 15px;
-      font-weight: bold;
-      font-size: 17px;
+    .input-group {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .alert {
+      background: #ffe3e3;
+      color: #c92a2a;
+      padding: 10px;
+      border-radius: 4px;
+      margin: 10px auto;
+      max-width: 500px;
+      text-align: center;
+      display: none;
     }
   </style>
 </head>
 <body>
-<h2>Payload Trajectory near Earth</h2>
-<label>Initial Velocity (m/s): <input id="speed" type="number" value="8000"/></label><br/>
-<label>Launch Angle (°): <input id="angle" type="number" value="45"/></label><br/>
+<h2>1. Payload Trajectory near Earth (Interactive)</h2>
+<div class="input-group">
+<label>Initial Velocity (m/s): <input id="speed" type="number" value="8000"/></label>
+<label>Launch Angle (°): <input id="angle" type="number" value="45"/></label>
 <button onclick="start()">Simulate</button>
+</div>
 <canvas height="600" id="simCanvas" width="600"></canvas>
-<div id="statusMessage"></div>
+<div class="alert" id="alertBox"></div>
+<h2>2. Trajectory Comparison Based on Initial Velocity</h2>
+<canvas height="400" id="velocityComparisonChart" width="800"></canvas>
+<h2>3. Payload Trajectories by Velocity</h2>
+<canvas height="400" id="trajectoryTypesChart" width="800"></canvas>
 <script>
-    const G = 6.6743e-11;
-    const M = 5.972e24;
-    const R = 6371000;
-    let ctx = document.getElementById("simCanvas").getContext("2d");
-    let statusMessage = document.getElementById("statusMessage");
+    // Simulation 1 - Real-time Payload Motion
+    const G = 6.6743e-11, M = 5.972e24, R = 6371000;
+    const ctx = document.getElementById("simCanvas").getContext("2d");
+    const alertBox = document.getElementById("alertBox");
 
     function start() {
       let v = parseFloat(document.getElementById("speed").value);
       let angle = parseFloat(document.getElementById("angle").value) * Math.PI / 180;
 
-      // Warning if velocity is likely too low
-      if (v < 7000) {
-        statusMessage.style.color = "orange";
-        statusMessage.innerText = "⚠️ Warning: Velocity may be too low for stable orbit.";
-      } else {
-        statusMessage.innerText = "";
-      }
-
-      let x = 0;
-      let y = R + 500000;
-      let vx = v * Math.cos(angle);
-      let vy = -v * Math.sin(angle);
-
-      let path = [];
-      let dt = 0.1;
+      let x = 0, y = R + 500000;
+      let vx = v * Math.cos(angle), vy = -v * Math.sin(angle);
+      let path = [], dt = 0.1;
 
       function update() {
-        let r = Math.sqrt(x * x + y * y);
+        let r = Math.sqrt(x*x + y*y);
         let a = G * M / (r * r);
         let ax = -a * x / r;
         let ay = -a * y / r;
-
         vx += ax * dt;
         vy += ay * dt;
         x += vx * dt;
         y += vy * dt;
-
         path.push([x, y]);
 
-        // Draw Earth and path
         ctx.clearRect(0, 0, 600, 600);
         ctx.fillStyle = "#2c3e50";
         ctx.beginPath();
@@ -207,37 +215,116 @@
 
         ctx.beginPath();
         ctx.strokeStyle = "#fff";
-        for (let i = 0; i < path.length; i++) {
-          let px = 300 + path[i][0] / 200000;
-          let py = 300 - path[i][1] / 200000;
-          if (i === 0) ctx.moveTo(px, py);
-          else ctx.lineTo(px, py);
-        }
+        path.forEach((p, i) => {
+          let px = 300 + p[0] / 200000;
+          let py = 300 - p[1] / 200000;
+          i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
+        });
         ctx.stroke();
 
-        // Draw payload
         ctx.fillStyle = "#f59f00";
         ctx.beginPath();
-        ctx.arc(300 + x / 200000, 300 - y / 200000, 4, 0, 2 * Math.PI);
+        ctx.arc(300 + x/200000, 300 - y/200000, 4, 0, 2 * Math.PI);
         ctx.fill();
 
-        // Check crash or escape
         if (r < R) {
-          statusMessage.style.color = "red";
-          statusMessage.innerText = "💥 Payload crashed into Earth! Try higher velocity.";
+          alertBox.textContent = "🛑 Payload crashed!";
+          alertBox.style.display = "block";
           return;
         }
-        if (r > 1.5e7) {
-          statusMessage.style.color = "green";
-          statusMessage.innerText = "✅ Payload escaped Earth's gravity!";
+        if (r > 2e7) {
+          alertBox.textContent = "🚀 Payload escaped Earth's gravity!";
+          alertBox.style.display = "block";
           return;
         }
 
         requestAnimationFrame(update);
       }
-
+      alertBox.style.display = "none";
       update();
     }
+
+    // Simulation 2 - Trajectory Comparison Based on Initial Velocity
+    const velCtx = document.getElementById('velocityComparisonChart').getContext('2d');
+    new Chart(velCtx, {
+      type: 'line',
+      data: {
+        labels: Array.from({length: 100}, (_, i) => i),
+        datasets: [
+          {
+            label: '5000 m/s',
+            borderColor: 'blue',
+            fill: false,
+            data: Array.from({length: 100}, (_, x) => -0.01 * x * x + 5 * x + 500)
+          },
+          {
+            label: '7800 m/s (Orbital)',
+            borderColor: 'green',
+            fill: false,
+            data: Array.from({length: 100}, (_, x) => -0.006 * x * x + 8 * x + 500)
+          },
+          {
+            label: '11000 m/s (Escape)',
+            borderColor: 'red',
+            fill: false,
+            data: Array.from({length: 100}, (_, x) => -0.003 * x * x + 11 * x + 500)
+          }
+        ]
+      },
+      options: {
+        scales: {
+          x: { title: { display: true, text: 'Horizontal Distance (arbitrary)' } },
+          y: { title: { display: true, text: 'Height (arbitrary)' } }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Trajectory Comparison Based on Initial Velocity'
+          }
+        }
+      }
+    });
+
+    // Simulation 3 - Payload Trajectories by Velocity Types
+    const trajCtx = document.getElementById('trajectoryTypesChart').getContext('2d');
+    new Chart(trajCtx, {
+      type: 'line',
+      data: {
+        labels: Array.from({length: 100}, (_, i) => 6500 + i * 400),
+        datasets: [
+          {
+            label: 'Elliptical',
+            borderColor: 'blue',
+            fill: false,
+            data: Array.from({length: 100}, (_, x) => 500 + 3000 * Math.sin(x / 15))
+          },
+          {
+            label: 'Parabolic',
+            borderColor: 'green',
+            fill: false,
+            data: Array.from({length: 100}, (_, x) => 500 + x * 10)
+          },
+          {
+            label: 'Hyperbolic',
+            borderColor: 'red',
+            fill: false,
+            data: Array.from({length: 100}, (_, x) => 500 + x * 25)
+          }
+        ]
+      },
+      options: {
+        scales: {
+          x: { title: { display: true, text: "Distance from Earth's Center (10³ km)" } },
+          y: { title: { display: true, text: 'Distance (km)' } }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Payload Trajectories by Velocity Type'
+          }
+        }
+      }
+    });
   </script>
 </body>
 </html>
