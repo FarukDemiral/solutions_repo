@@ -4,209 +4,175 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Payload Trajectories - Simulation</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Payload Trajectory Simulations</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: Arial, sans-serif;
       background: #f4f7fa;
-      padding: 20px;
       color: #333;
-      line-height: 1.6;
+      padding: 20px;
     }
-    h2 {
+    h1, h2 {
+      text-align: center;
       color: #2c3e50;
-      margin-top: 40px;
     }
     canvas {
-      margin: 20px auto;
       display: block;
-      max-width: 800px;
-      background: #fff;
+      margin: 20px auto;
       border: 1px solid #ccc;
-      border-radius: 6px;
+      background: #000;
     }
-    input, button {
-      padding: 8px 12px;
-      font-size: 16px;
-      margin: 6px;
-    }
-    .input-group {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .alert {
-      background: #ffe3e3;
-      color: #c92a2a;
-      padding: 10px;
-      border-radius: 4px;
-      margin: 10px auto;
-      max-width: 500px;
-      text-align: center;
-      display: none;
+    .section {
+      margin-bottom: 60px;
     }
   </style>
 </head>
 <body>
-  <h2>1. Payload Trajectory near Earth (Interactive)</h2>
-  <div class="input-group">
-    <label>Initial Velocity (m/s): <input id="speed" type="number" value="8000" /></label>
-    <label>Launch Angle (°): <input id="angle" type="number" value="45" /></label>
+
+  <h1>🚀 Trajectories of a Freely Released Payload</h1>
+
+  <div class="section">
+    <h2>1️⃣ Payload Trajectory near Earth (Interactive)</h2>
+    <label>Initial Velocity (m/s): <input id="speed" type="number" value="8000"></label>
+    <label>Launch Angle (°): <input id="angle" type="number" value="45"></label>
     <button onclick="start()">Simulate</button>
+    <canvas id="simCanvas" width="600" height="600"></canvas>
   </div>
-  <canvas id="simCanvas" width="600" height="600"></canvas>
-  <div id="alertBox" class="alert"></div>
 
-  <h2>2. Trajectory Comparison Based on Initial Velocity</h2>
-  <canvas id="velocityComparisonChart" width="800" height="400"></canvas>
+  <div class="section">
+    <h2>2️⃣ Trajectory Comparison Based On Initial Velocity</h2>
+    <canvas id="comparisonChart" width="800" height="400"></canvas>
+  </div>
 
-  <h2>3. Payload Trajectories by Velocity</h2>
-  <canvas id="trajectoryTypesChart" width="800" height="400"></canvas>
+  <div class="section">
+    <h2>3️⃣ Payload Trajectories by Velocity Type</h2>
+    <canvas id="velocityTypeChart" width="800" height="400"></canvas>
+  </div>
 
-  <script>
-    // Simulation 1 - Real-time Payload Motion
-    const G = 6.6743e-11, M = 5.972e24, R = 6371000;
-    const ctx = document.getElementById("simCanvas").getContext("2d");
-    const alertBox = document.getElementById("alertBox");
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // First Simulation
+  const G = 6.6743e-11;
+  const M = 5.972e24;
+  const R = 6371000;
+  const ctx1 = document.getElementById("simCanvas").getContext("2d");
 
-    function start() {
-      let v = parseFloat(document.getElementById("speed").value);
-      let angle = parseFloat(document.getElementById("angle").value) * Math.PI / 180;
+  function start() {
+    let v = parseFloat(document.getElementById("speed").value);
+    let angle = parseFloat(document.getElementById("angle").value) * Math.PI / 180;
+    let x = 0;
+    let y = R + 500000;
+    let vx = v * Math.cos(angle);
+    let vy = -v * Math.sin(angle);
+    let path = [];
+    let dt = 0.1;
 
-      let x = 0, y = R + 500000;
-      let vx = v * Math.cos(angle), vy = -v * Math.sin(angle);
-      let path = [], dt = 0.1;
-
-      function update() {
-        let r = Math.sqrt(x*x + y*y);
-        let a = G * M / (r * r);
-        let ax = -a * x / r;
-        let ay = -a * y / r;
-        vx += ax * dt;
-        vy += ay * dt;
-        x += vx * dt;
-        y += vy * dt;
-        path.push([x, y]);
-
-        ctx.clearRect(0, 0, 600, 600);
-        ctx.fillStyle = "#2c3e50";
-        ctx.beginPath();
-        ctx.arc(300, 300, 50, 0, 2 * Math.PI);
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.strokeStyle = "#fff";
-        path.forEach((p, i) => {
-          let px = 300 + p[0] / 200000;
-          let py = 300 - p[1] / 200000;
-          i === 0 ? ctx.moveTo(px, py) : ctx.lineTo(px, py);
-        });
-        ctx.stroke();
-
-        ctx.fillStyle = "#f59f00";
-        ctx.beginPath();
-        ctx.arc(300 + x/200000, 300 - y/200000, 4, 0, 2 * Math.PI);
-        ctx.fill();
-
-        if (r < R) {
-          alertBox.textContent = "🛑 Payload crashed!";
-          alertBox.style.display = "block";
-          return;
-        }
-        if (r > 2e7) {
-          alertBox.textContent = "🚀 Payload escaped Earth's gravity!";
-          alertBox.style.display = "block";
-          return;
-        }
-
-        requestAnimationFrame(update);
+    function update() {
+      let r = Math.sqrt(x*x + y*y);
+      let a = G * M / (r * r);
+      let ax = -a * x / r;
+      let ay = -a * y / r;
+      vx += ax * dt;
+      vy += ay * dt;
+      x += vx * dt;
+      y += vy * dt;
+      path.push([x, y]);
+      ctx1.clearRect(0, 0, 600, 600);
+      ctx1.fillStyle = "#2c3e50";
+      ctx1.beginPath();
+      ctx1.arc(300, 300, 50, 0, 2 * Math.PI);
+      ctx1.fill();
+      ctx1.beginPath();
+      ctx1.strokeStyle = "#fff";
+      for (let i = 0; i < path.length; i++) {
+        let px = 300 + path[i][0] / 200000;
+        let py = 300 - path[i][1] / 200000;
+        if (i === 0) ctx1.moveTo(px, py);
+        else ctx1.lineTo(px, py);
       }
-      alertBox.style.display = "none";
-      update();
+      ctx1.stroke();
+      ctx1.fillStyle = "#f59f00";
+      ctx1.beginPath();
+      ctx1.arc(300 + x/200000, 300 - y/200000, 4, 0, 2*Math.PI);
+      ctx1.fill();
+      if (path.length < 800) requestAnimationFrame(update);
     }
+    update();
+  }
 
-    // Simulation 2 - Trajectory Comparison Based on Initial Velocity
-    const velCtx = document.getElementById('velocityComparisonChart').getContext('2d');
-    new Chart(velCtx, {
-      type: 'line',
-      data: {
-        labels: Array.from({length: 100}, (_, i) => i),
-        datasets: [
-          {
-            label: '5000 m/s',
-            borderColor: 'blue',
-            fill: false,
-            data: Array.from({length: 100}, (_, x) => -0.01 * x * x + 5 * x + 500)
-          },
-          {
-            label: '7800 m/s (Orbital)',
-            borderColor: 'green',
-            fill: false,
-            data: Array.from({length: 100}, (_, x) => -0.006 * x * x + 8 * x + 500)
-          },
-          {
-            label: '11000 m/s (Escape)',
-            borderColor: 'red',
-            fill: false,
-            data: Array.from({length: 100}, (_, x) => -0.003 * x * x + 11 * x + 500)
-          }
-        ]
-      },
-      options: {
-        scales: {
-          x: { title: { display: true, text: 'Horizontal Distance (arbitrary)' } },
-          y: { title: { display: true, text: 'Height (arbitrary)' } }
+  // Second Simulation - Trajectory Comparison
+  const ctx2 = document.getElementById("comparisonChart").getContext("2d");
+  new Chart(ctx2, {
+    type: 'line',
+    data: {
+      labels: ['0 km', '2000 km', '4000 km', '6000 km', '8000 km'],
+      datasets: [
+        {
+          label: 'Elliptical (7.5 km/s)',
+          data: [0, 250, 400, 450, 300],
+          borderColor: '#4c6ef5',
+          fill: false
         },
-        plugins: {
+        {
+          label: 'Parabolic (11.2 km/s)',
+          data: [0, 500, 1000, 1500, 2000],
+          borderColor: '#82c91e',
+          fill: false
+        },
+        {
+          label: 'Hyperbolic (14.0 km/s)',
+          data: [0, 800, 1600, 3000, 5000],
+          borderColor: '#f59f00',
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Trajectory Comparison Based on Initial Velocity'
+        }
+      },
+      scales: {
+        y: { title: { display: true, text: 'Altitude (km)' } },
+        x: { title: { display: true, text: 'Horizontal Distance' } }
+      }
+    }
+  });
+
+  // Third Simulation - Payload Velocities
+  const ctx3 = document.getElementById("velocityTypeChart").getContext("2d");
+  new Chart(ctx3, {
+    type: 'bar',
+    data: {
+      labels: ['Elliptical', 'Parabolic', 'Hyperbolic'],
+      datasets: [{
+        label: 'Velocity (km/s)',
+        data: [7.5, 11.2, 14.0],
+        backgroundColor: ['#4c6ef5', '#82c91e', '#f59f00']
+      }]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Payload Trajectories by Velocity Type'
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true,
           title: {
             display: true,
-            text: 'Trajectory Comparison Based on Initial Velocity'
+            text: 'Velocity (km/s)'
           }
         }
       }
-    });
+    }
+  });
+</script>
 
-    // Simulation 3 - Payload Trajectories by Velocity Types
-    const trajCtx = document.getElementById('trajectoryTypesChart').getContext('2d');
-    new Chart(trajCtx, {
-      type: 'line',
-      data: {
-        labels: Array.from({length: 100}, (_, i) => 6500 + i * 400),
-        datasets: [
-          {
-            label: 'Elliptical',
-            borderColor: 'blue',
-            fill: false,
-            data: Array.from({length: 100}, (_, x) => 500 + 3000 * Math.sin(x / 15))
-          },
-          {
-            label: 'Parabolic',
-            borderColor: 'green',
-            fill: false,
-            data: Array.from({length: 100}, (_, x) => 500 + x * 10)
-          },
-          {
-            label: 'Hyperbolic',
-            borderColor: 'red',
-            fill: false,
-            data: Array.from({length: 100}, (_, x) => 500 + x * 25)
-          }
-        ]
-      },
-      options: {
-        scales: {
-          x: { title: { display: true, text: "Distance from Earth's Center (10³ km)" } },
-          y: { title: { display: true, text: 'Distance (km)' } }
-        },
-        plugins: {
-          title: {
-            display: true,
-            text: 'Payload Trajectories by Velocity Type'
-          }
-        }
-      }
-    });
-  </script>
 </body>
 </html>
