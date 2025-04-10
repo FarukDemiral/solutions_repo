@@ -1,4 +1,5 @@
 # Problem 1
+
 <script>
   const canvas = document.getElementById('interferenceCanvas');
   const ctx = canvas.getContext('2d');
