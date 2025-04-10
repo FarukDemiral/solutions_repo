@@ -54,50 +54,385 @@ This is the principle of **superposition**, where all disturbances are added poi
 
 ---
 
-## 4. Python Simulation Code
+## 4. Simulation Code
 
-You can run this simulation using **Google Colab**, **Jupyter Notebook**, or any Python IDE with Matplotlib and NumPy installed.
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wave Interference Pattern Simulation</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      line-height: 1.6;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
 
-```python
-import numpy as np
-import matplotlib.pyplot as plt
+    h1, h2 {
+      color: #2c3e50;
+      text-align: center;
+    }
 
-# Simulation parameters
-A = 1.0                  # Amplitude
-wavelength = 2.0         # Wavelength (λ)
-frequency = 1.0          # Frequency (Hz)
-k = 2 * np.pi / wavelength
-omega = 2 * np.pi * frequency
-phi = 0
-t = 0                    # Time snapshot
+    .container {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin: 20px 0;
+    }
 
-# Grid definition
-x = np.linspace(-10, 10, 500)
-y = np.linspace(-10, 10, 500)
-X, Y = np.meshgrid(x, y)
+    .canvas-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
 
-# Define polygon source points (e.g., square)
-def regular_polygon(n, radius=3):
-    return [(radius * np.cos(2 * np.pi * i / n),
-             radius * np.sin(2 * np.pi * i / n)) for i in range(n)]
+    canvas {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #000;
+    }
 
-# Choose number of sources (3 = triangle, 4 = square, etc.)
-sources = regular_polygon(n=4)
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
 
-# Calculate total wave interference
-eta_sum = np.zeros_like(X)
-for x0, y0 in sources:
-    R = np.sqrt((X - x0)**2 + (Y - y0)**2)
-    eta = A / np.sqrt(R + 1e-6) * np.cos(k * R - omega * t + phi)
-    eta_sum += eta
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      min-width: 200px;
+    }
 
-# Plot result
-plt.figure(figsize=(8, 6))
-plt.imshow(eta_sum, extent=(-10, 10, -10, 10), cmap='RdBu', origin='lower')
-plt.title("Interference Pattern from Polygonal Sources")
-plt.xlabel("x-position")
-plt.ylabel("y-position")
-plt.colorbar(label='Wave Displacement')
-plt.tight_layout()
-plt.show()
+    label {
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
 
+    input, select {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    button {
+      background-color: #4c6ef5;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background-color 0.2s;
+    }
+
+    button:hover {
+      background-color: #364fc7;
+    }
+
+    .info {
+      background-color: #f0f4f8;
+      padding: 15px;
+      border-radius: 5px;
+      margin: 20px 0;
+    }
+
+    .equation {
+      text-align: center;
+      margin: 15px 0;
+      font-style: italic;
+    }
+
+    .color-scale {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .color-bar {
+      width: 300px;
+      height: 20px;
+      background: linear-gradient(to right, blue, white, red);
+      border-radius: 2px;
+      margin: 0 10px;
+    }
+
+    .scale-label {
+      font-size: 14px;
+      color: #666;
+    }
+
+    .footnote {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #666;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Wave Interference Pattern Simulation</h1>
+
+  <div class="container">
+    <div class="info">
+      <p>This simulation demonstrates the interference pattern created by multiple wave sources arranged in a regular polygon. The wave amplitude at each point is calculated by summing the contributions from all sources, considering distance-dependent amplitude decay and phase differences.</p>
+      <div class="equation">
+        η(x,y) = ∑ A/√R · cos(kR - ωt + φ)
+      </div>
+      <p>Where:</p>
+      <ul>
+        <li>η is the wave displacement</li>
+        <li>A is the amplitude</li>
+        <li>R is the distance from source</li>
+        <li>k is the wave number (2π/λ)</li>
+        <li>ω is the angular frequency</li>
+        <li>t is time</li>
+        <li>φ is the phase constant</li>
+      </ul>
+    </div>
+
+    <div class="controls">
+      <div class="control-group">
+        <label for="amplitude">Amplitude (A):</label>
+        <input type="range" id="amplitude" min="0.1" max="2" step="0.1" value="1.0">
+        <span id="ampValue">1.0</span>
+      </div>
+
+      <div class="control-group">
+        <label for="wavelength">Wavelength (λ):</label>
+        <input type="range" id="wavelength" min="0.5" max="5" step="0.1" value="2.0">
+        <span id="waveValue">2.0</span>
+      </div>
+
+      <div class="control-group">
+        <label for="sources">Number of Sources:</label>
+        <select id="sources">
+          <option value="3">3 (Triangle)</option>
+          <option value="4" selected>4 (Square)</option>
+          <option value="5">5 (Pentagon)</option>
+          <option value="6">6 (Hexagon)</option>
+          <option value="8">8 (Octagon)</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="radius">Source Radius:</label>
+        <input type="range" id="radius" min="1" max="6" step="0.5" value="3">
+        <span id="radiusValue">3.0</span>
+      </div>
+    </div>
+
+    <button id="updateBtn">Update Simulation</button>
+
+    <div class="canvas-container">
+      <canvas id="interferenceCanvas" width="600" height="600"></canvas>
+    </div>
+
+    <div class="color-scale">
+      <span class="scale-label">Negative</span>
+      <div class="color-bar"></div>
+      <span class="scale-label">Positive</span>
+    </div>
+  </div>
+
+  <div class="footnote">
+    <p>© 2025 Wave Interference Pattern Simulation</p>
+  </div>
+
+  <script>
+    // Get canvas and context
+    const canvas = document.getElementById('interferenceCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Get UI elements
+    const amplitudeInput = document.getElementById('amplitude');
+    const wavelengthInput = document.getElementById('wavelength');
+    const sourcesInput = document.getElementById('sources');
+    const radiusInput = document.getElementById('radius');
+    const updateBtn = document.getElementById('updateBtn');
+    const ampValue = document.getElementById('ampValue');
+    const waveValue = document.getElementById('waveValue');
+    const radiusValue = document.getElementById('radiusValue');
+    
+    // Set up simulation parameters
+    let A = parseFloat(amplitudeInput.value);           // Amplitude
+    let wavelength = parseFloat(wavelengthInput.value); // Wavelength
+    let numSources = parseInt(sourcesInput.value);      // Number of sources
+    let sourceRadius = parseFloat(radiusInput.value);   // Radius of source arrangement
+    let frequency = 1.0;                               // Frequency (fixed)
+    let k = 2 * Math.PI / wavelength;                  // Wave number
+    let omega = 2 * Math.PI * frequency;               // Angular frequency
+    let phi = 0;                                       // Phase constant
+    let t = 0;                                         // Time snapshot
+    
+    // Display initial values
+    ampValue.textContent = A.toFixed(1);
+    waveValue.textContent = wavelength.toFixed(1);
+    radiusValue.textContent = sourceRadius.toFixed(1);
+    
+    // Event listeners for UI elements
+    amplitudeInput.addEventListener('input', function() {
+      A = parseFloat(this.value);
+      ampValue.textContent = A.toFixed(1);
+    });
+    
+    wavelengthInput.addEventListener('input', function() {
+      wavelength = parseFloat(this.value);
+      k = 2 * Math.PI / wavelength;
+      waveValue.textContent = wavelength.toFixed(1);
+    });
+    
+    radiusInput.addEventListener('input', function() {
+      sourceRadius = parseFloat(this.value);
+      radiusValue.textContent = sourceRadius.toFixed(1);
+    });
+    
+    updateBtn.addEventListener('click', runSimulation);
+    
+    // Generate polygon source points
+    function regularPolygon(n, radius) {
+      const points = [];
+      for (let i = 0; i < n; i++) {
+        const x = radius * Math.cos(2 * Math.PI * i / n);
+        const y = radius * Math.sin(2 * Math.PI * i / n);
+        points.push([x, y]);
+      }
+      return points;
+    }
+    
+    // Function to map values from wave amplitude to colormap
+    function mapToColor(value, min, max) {
+      // Normalize to 0-1
+      const normalized = (value - min) / (max - min);
+      
+      // Map to RGB (blue - white - red)
+      let r, g, b;
+      
+      if (normalized < 0.5) {
+        // Blue to white (0 to 0.5)
+        const t = normalized * 2;
+        r = 255 * t;
+        g = 255 * t;
+        b = 255;
+      } else {
+        // White to red (0.5 to 1)
+        const t = (normalized - 0.5) * 2;
+        r = 255;
+        g = 255 * (1 - t);
+        b = 255 * (1 - t);
+      }
+      
+      return `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
+    }
+    
+    // Run the simulation
+    function runSimulation() {
+      // Update parameters
+      numSources = parseInt(sourcesInput.value);
+      k = 2 * Math.PI / wavelength;
+      
+      // Get canvas dimensions
+      const width = canvas.width;
+      const height = canvas.height;
+      
+      // Create image data
+      const imageData = ctx.createImageData(width, height);
+      const data = imageData.data;
+      
+      // Generate source positions
+      const sources = regularPolygon(numSources, sourceRadius);
+      
+      // Scale factors for mapping canvas to computational grid
+      const scale = 20; // This determines the "zoom" level
+      const offsetX = width / 2;
+      const offsetY = height / 2;
+      
+      // Calculate wave values
+      let minVal = Infinity;
+      let maxVal = -Infinity;
+      const waveValues = new Array(width * height);
+      
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          // Convert canvas coordinates to physical coordinates
+          const physX = (x - offsetX) / scale;
+          const physY = (y - offsetY) / scale;
+          
+          // Calculate total wave amplitude from all sources
+          let eta = 0;
+          for (const [x0, y0] of sources) {
+            const R = Math.sqrt((physX - x0) ** 2 + (physY - y0) ** 2);
+            // Avoid division by zero
+            const amplitude = R < 0.01 ? A : A / Math.sqrt(R + 0.01);
+            eta += amplitude * Math.cos(k * R - omega * t + phi);
+          }
+          
+          // Store value and track min/max
+          const index = y * width + x;
+          waveValues[index] = eta;
+          minVal = Math.min(minVal, eta);
+          maxVal = Math.max(maxVal, eta);
+        }
+      }
+      
+      // Render image
+      for (let y = 0; y < height; y++) {
+        for (let x = 0; x < width; x++) {
+          const index = y * width + x;
+          const eta = waveValues[index];
+          const color = mapToColor(eta, minVal, maxVal);
+          
+          // Parse RGB values from the color string
+          const match = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+          const r = parseInt(match[1]);
+          const g = parseInt(match[2]);
+          const b = parseInt(match[3]);
+          
+          // Set pixel data (4 bytes per pixel: R, G, B, A)
+          const pixelIndex = (y * width + x) * 4;
+          data[pixelIndex] = r;
+          data[pixelIndex + 1] = g;
+          data[pixelIndex + 2] = b;
+          data[pixelIndex + 3] = 255;  // Alpha (opaque)
+        }
+      }
+      
+      // Draw the image data to the canvas
+      ctx.putImageData(imageData, 0, 0);
+      
+      // Draw source positions
+      drawSources(sources, scale, offsetX, offsetY);
+    }
+    
+    // Draw the source positions on the canvas
+    function drawSources(sources, scale, offsetX, offsetY) {
+      ctx.fillStyle = 'white';
+      ctx.strokeStyle = 'black';
+      
+      for (const [x0, y0] of sources) {
+        const canvasX = x0 * scale + offsetX;
+        const canvasY = y0 * scale + offsetY;
+        
+        ctx.beginPath();
+        ctx.arc(canvasX, canvasY, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.stroke();
+      }
+    }
+    
+    // Initial simulation
+    runSimulation();
+  </script>
+</body>
+</html>
