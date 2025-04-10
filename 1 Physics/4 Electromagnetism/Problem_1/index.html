@@ -126,9 +126,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Wave Interference Pattern Simulation</title>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<title>Wave Interference Simulation</title>
 <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -140,7 +138,7 @@
       max-width: 1000px;
     }
 
-    h1, h2 {
+    h1 {
       color: #2c3e50;
       text-align: center;
     }
@@ -151,18 +149,6 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       padding: 20px;
       margin: 20px 0;
-    }
-
-    .canvas-container {
-      display: flex;
-      justify-content: center;
-      margin: 20px 0;
-    }
-
-    canvas {
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background-color: #000;
     }
 
     .controls {
@@ -199,24 +185,22 @@
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
-      transition: background-color 0.2s;
     }
 
     button:hover {
       background-color: #364fc7;
     }
 
-    .info {
-      background-color: #f0f4f8;
-      padding: 15px;
-      border-radius: 5px;
+    .canvas-container {
+      display: flex;
+      justify-content: center;
       margin: 20px 0;
     }
 
-    .equation {
-      text-align: center;
-      margin: 15px 0;
-      font-style: italic;
+    canvas {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #000;
     }
 
     .color-scale {
@@ -238,49 +222,11 @@
       font-size: 14px;
       color: #666;
     }
-
-    .footnote {
-      margin-top: 30px;
-      font-size: 0.9em;
-      color: #666;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
-<h1>Problem 1</h1>
-<h2>Interference Patterns on a Water Surface</h2>
+<h1>Wave Interference Simulation</h1>
 <div class="container">
-<h3>Theoretical Foundation</h3>
-<p>
-      A <strong>circular wave</strong> on the water surface, emanating from a point source located at 
-      \( (x_0, y_0) \), can be described by the <strong>Single Disturbance Equation</strong>:
-    </p>
-<div class="equation">$$
-    \eta(x, y, t) = \frac{A}{\sqrt{r}} \cos(kr - \omega t + \phi)
-    $$</div>
-<ul>
-<li>\( \eta(x, y, t) \): Displacement at point \( (x, y) \) and time \( t \)</li>
-<li>\( A \): Amplitude of the wave</li>
-<li>\( k = \frac{2\pi}{\lambda} \): Wave number</li>
-<li>\( \omega = 2\pi f \): Angular frequency</li>
-<li>\( r = \sqrt{(x - x_0)^2 + (y - y_0)^2} \): Distance from source to point \( (x, y) \)</li>
-<li>\( \phi \): Initial phase</li>
-</ul>
-<h3>Superposition Principle</h3>
-<p>With multiple sources, total displacement is given by:</p>
-<div class="equation">$$
-    \eta_{\text{sum}}(x, y, t) = \sum_{i=1}^{N} \eta_i(x, y, t)
-    $$</div>
-<p>Where \( N \) is the number of point sources (vertices of the polygon).</p>
-</div>
-<div class="container">
-<div class="info">
-<p>This simulation demonstrates the interference pattern created by multiple wave sources arranged in a regular polygon. The wave amplitude at each point is calculated by summing the contributions from all sources, considering distance-dependent amplitude decay and phase differences.</p>
-<div class="equation">
-        $$ \eta(x,y,t) = \sum_{i=1}^{N} \frac{A}{\sqrt{r}} \cos(kr - \omega t + \phi) $$
-      </div>
-</div>
 <div class="controls">
 <div class="control-group">
 <label for="amplitude">Amplitude (A):</label>
@@ -318,10 +264,6 @@
 <span class="scale-label">Positive</span>
 </div>
 </div>
-<div class="footnote">
-<p>© 2025 Wave Interference Pattern Simulation</p>
-</div>
-<!-- Script for animated wave interference -->
 <script>
     const canvas = document.getElementById('interferenceCanvas');
     const ctx = canvas.getContext('2d');
