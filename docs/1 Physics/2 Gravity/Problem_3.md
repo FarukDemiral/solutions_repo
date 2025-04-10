@@ -66,7 +66,7 @@ If:
   <h1> Trajectories of a Freely Released Payload</h1>
 
   <div class="section">
-    <h2> 1️ Payload Trajectory near Earth (Interactive)</h2>
+    <h2> 1️. Payload Trajectory near Earth (Interactive)</h2>
     <label>Initial Velocity (m/s): <input id="speed" type="number" value="8000"></label>
     <label>Launch Angle (°): <input id="angle" type="number" value="45"></label>
     <button onclick="start()">Simulate</button>
@@ -74,12 +74,12 @@ If:
   </div>
 
   <div class="section">
-    <h2> 2 Trajectory Comparison Based On Initial Velocity</h2>
+    <h2> 2. Trajectory Comparison Based On Initial Velocity</h2>
     <canvas id="comparisonChart" width="800" height="400"></canvas>
   </div>
 
   <div class="section">
-    <h2> 3 Payload Trajectories by Velocity Type</h2>
+    <h2> 3. Payload Trajectories by Velocity Type</h2>
     <canvas id="velocityTypeChart" width="800" height="400"></canvas>
   </div>
 
