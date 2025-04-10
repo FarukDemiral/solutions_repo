@@ -38,22 +38,21 @@ Where \( N \) is the number of point sources (vertices of the polygon).
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wave Interference Pattern Simulation</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wave Interference Simulation</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background-color: #f5f7fa;
-      margin: 0;
+      margin: 0 auto;
       padding: 20px;
       color: #333;
       line-height: 1.6;
       max-width: 1000px;
-      margin: 0 auto;
     }
 
-    h1, h2 {
+    h1 {
       color: #2c3e50;
       text-align: center;
     }
@@ -64,18 +63,6 @@ Where \( N \) is the number of point sources (vertices of the polygon).
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       padding: 20px;
       margin: 20px 0;
-    }
-
-    .canvas-container {
-      display: flex;
-      justify-content: center;
-      margin: 20px 0;
-    }
-
-    canvas {
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background-color: #000;
     }
 
     .controls {
@@ -112,24 +99,22 @@ Where \( N \) is the number of point sources (vertices of the polygon).
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
-      transition: background-color 0.2s;
     }
 
     button:hover {
       background-color: #364fc7;
     }
 
-    .info {
-      background-color: #f0f4f8;
-      padding: 15px;
-      border-radius: 5px;
+    .canvas-container {
+      display: flex;
+      justify-content: center;
       margin: 20px 0;
     }
 
-    .equation {
-      text-align: center;
-      margin: 15px 0;
-      font-style: italic;
+    canvas {
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      background-color: #000;
     }
 
     .color-scale {
@@ -151,36 +136,12 @@ Where \( N \) is the number of point sources (vertices of the polygon).
       font-size: 14px;
       color: #666;
     }
-
-    .footnote {
-      margin-top: 30px;
-      font-size: 0.9em;
-      color: #666;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
-  <h1>Wave Interference Pattern Simulation</h1>
+  <h1>Wave Interference Simulation</h1>
 
   <div class="container">
-    <div class="info">
-      <p>This simulation demonstrates the interference pattern created by multiple wave sources arranged in a regular polygon. The wave amplitude at each point is calculated by summing the contributions from all sources, considering distance-dependent amplitude decay and phase differences.</p>
-      <div class="equation">
-        η(x,y) = ∑ A/√R · cos(kR - ωt + φ)
-      </div>
-      <p>Where:</p>
-      <ul>
-        <li>η is the wave displacement</li>
-        <li>A is the amplitude</li>
-        <li>R is the distance from source</li>
-        <li>k is the wave number (2π/λ)</li>
-        <li>ω is the angular frequency</li>
-        <li>t is time</li>
-        <li>φ is the phase constant</li>
-      </ul>
-    </div>
-
     <div class="controls">
       <div class="control-group">
         <label for="amplitude">Amplitude (A):</label>
@@ -225,16 +186,10 @@ Where \( N \) is the number of point sources (vertices of the polygon).
     </div>
   </div>
 
-  <div class="footnote">
-    <p>© 2025 Wave Interference Pattern Simulation</p>
-  </div>
-
   <script>
-    // Get canvas and context
     const canvas = document.getElementById('interferenceCanvas');
     const ctx = canvas.getContext('2d');
-    
-    // Get UI elements
+
     const amplitudeInput = document.getElementById('amplitude');
     const wavelengthInput = document.getElementById('wavelength');
     const sourcesInput = document.getElementById('sources');
@@ -243,176 +198,137 @@ Where \( N \) is the number of point sources (vertices of the polygon).
     const ampValue = document.getElementById('ampValue');
     const waveValue = document.getElementById('waveValue');
     const radiusValue = document.getElementById('radiusValue');
-    
-    // Set up simulation parameters
-    let A = parseFloat(amplitudeInput.value);           // Amplitude
-    let wavelength = parseFloat(wavelengthInput.value); // Wavelength
-    let numSources = parseInt(sourcesInput.value);      // Number of sources
-    let sourceRadius = parseFloat(radiusInput.value);   // Radius of source arrangement
-    let frequency = 1.0;                               // Frequency (fixed)
-    let k = 2 * Math.PI / wavelength;                  // Wave number
-    let omega = 2 * Math.PI * frequency;               // Angular frequency
-    let phi = 0;                                       // Phase constant
-    let t = 0;                                         // Time snapshot
-    
-    // Display initial values
+
+    let A = parseFloat(amplitudeInput.value);
+    let wavelength = parseFloat(wavelengthInput.value);
+    let numSources = parseInt(sourcesInput.value);
+    let sourceRadius = parseFloat(radiusInput.value);
+    let frequency = 1.0;
+    let k = 2 * Math.PI / wavelength;
+    let omega = 2 * Math.PI * frequency;
+    let phi = 0;
+    let t = 0;
+    let animationId;
+
     ampValue.textContent = A.toFixed(1);
     waveValue.textContent = wavelength.toFixed(1);
     radiusValue.textContent = sourceRadius.toFixed(1);
-    
-    // Event listeners for UI elements
-    amplitudeInput.addEventListener('input', function() {
-      A = parseFloat(this.value);
+
+    amplitudeInput.addEventListener('input', () => {
+      A = parseFloat(amplitudeInput.value);
       ampValue.textContent = A.toFixed(1);
     });
-    
-    wavelengthInput.addEventListener('input', function() {
-      wavelength = parseFloat(this.value);
+
+    wavelengthInput.addEventListener('input', () => {
+      wavelength = parseFloat(wavelengthInput.value);
       k = 2 * Math.PI / wavelength;
       waveValue.textContent = wavelength.toFixed(1);
     });
-    
-    radiusInput.addEventListener('input', function() {
-      sourceRadius = parseFloat(this.value);
+
+    radiusInput.addEventListener('input', () => {
+      sourceRadius = parseFloat(radiusInput.value);
       radiusValue.textContent = sourceRadius.toFixed(1);
     });
-    
-    updateBtn.addEventListener('click', runSimulation);
-    
-    // Generate polygon source points
+
+    updateBtn.addEventListener('click', () => {
+      cancelAnimationFrame(animationId);
+      t = 0;
+      runAnimation();
+    });
+
     function regularPolygon(n, radius) {
       const points = [];
       for (let i = 0; i < n; i++) {
-        const x = radius * Math.cos(2 * Math.PI * i / n);
-        const y = radius * Math.sin(2 * Math.PI * i / n);
-        points.push([x, y]);
+        const angle = (2 * Math.PI * i) / n;
+        points.push([radius * Math.cos(angle), radius * Math.sin(angle)]);
       }
       return points;
     }
-    
-    // Function to map values from wave amplitude to colormap
+
     function mapToColor(value, min, max) {
-      // Normalize to 0-1
       const normalized = (value - min) / (max - min);
-      
-      // Map to RGB (blue - white - red)
       let r, g, b;
-      
       if (normalized < 0.5) {
-        // Blue to white (0 to 0.5)
         const t = normalized * 2;
         r = 255 * t;
         g = 255 * t;
         b = 255;
       } else {
-        // White to red (0.5 to 1)
         const t = (normalized - 0.5) * 2;
         r = 255;
         g = 255 * (1 - t);
         b = 255 * (1 - t);
       }
-      
-      return `rgb(${Math.round(r)}, ${Math.round(g)}, ${Math.round(b)})`;
+      return [r, g, b];
     }
-    
-    // Run the simulation
-    function runSimulation() {
-      // Update parameters
+
+    function runAnimation() {
       numSources = parseInt(sourcesInput.value);
       k = 2 * Math.PI / wavelength;
-      
-      // Get canvas dimensions
       const width = canvas.width;
       const height = canvas.height;
-      
-      // Create image data
       const imageData = ctx.createImageData(width, height);
       const data = imageData.data;
-      
-      // Generate source positions
-      const sources = regularPolygon(numSources, sourceRadius);
-      
-      // Scale factors for mapping canvas to computational grid
-      const scale = 20; // This determines the "zoom" level
+      const scale = 20;
       const offsetX = width / 2;
       const offsetY = height / 2;
-      
-      // Calculate wave values
+      const sources = regularPolygon(numSources, sourceRadius);
+
+      const waveValues = new Array(width * height);
       let minVal = Infinity;
       let maxVal = -Infinity;
-      const waveValues = new Array(width * height);
-      
+
       for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
-          // Convert canvas coordinates to physical coordinates
           const physX = (x - offsetX) / scale;
           const physY = (y - offsetY) / scale;
-          
-          // Calculate total wave amplitude from all sources
           let eta = 0;
           for (const [x0, y0] of sources) {
             const R = Math.sqrt((physX - x0) ** 2 + (physY - y0) ** 2);
-            // Avoid division by zero
             const amplitude = R < 0.01 ? A : A / Math.sqrt(R + 0.01);
             eta += amplitude * Math.cos(k * R - omega * t + phi);
           }
-          
-          // Store value and track min/max
           const index = y * width + x;
           waveValues[index] = eta;
           minVal = Math.min(minVal, eta);
           maxVal = Math.max(maxVal, eta);
         }
       }
-      
-      // Render image
+
       for (let y = 0; y < height; y++) {
         for (let x = 0; x < width; x++) {
           const index = y * width + x;
           const eta = waveValues[index];
-          const color = mapToColor(eta, minVal, maxVal);
-          
-          // Parse RGB values from the color string
-          const match = color.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
-          const r = parseInt(match[1]);
-          const g = parseInt(match[2]);
-          const b = parseInt(match[3]);
-          
-          // Set pixel data (4 bytes per pixel: R, G, B, A)
+          const [r, g, b] = mapToColor(eta, minVal, maxVal);
           const pixelIndex = (y * width + x) * 4;
           data[pixelIndex] = r;
           data[pixelIndex + 1] = g;
           data[pixelIndex + 2] = b;
-          data[pixelIndex + 3] = 255;  // Alpha (opaque)
+          data[pixelIndex + 3] = 255;
         }
       }
-      
-      // Draw the image data to the canvas
+
       ctx.putImageData(imageData, 0, 0);
-      
-      // Draw source positions
       drawSources(sources, scale, offsetX, offsetY);
+
+      t += 0.05;
+      animationId = requestAnimationFrame(runAnimation);
     }
-    
-    // Draw the source positions on the canvas
+
     function drawSources(sources, scale, offsetX, offsetY) {
       ctx.fillStyle = 'white';
       ctx.strokeStyle = 'black';
-      
       for (const [x0, y0] of sources) {
         const canvasX = x0 * scale + offsetX;
         const canvasY = y0 * scale + offsetY;
-        
         ctx.beginPath();
         ctx.arc(canvasX, canvasY, 5, 0, 2 * Math.PI);
         ctx.fill();
         ctx.stroke();
       }
     }
-    
-    // Initial simulation
-    runSimulation();
+
+    runAnimation();
   </script>
 </body>
-</html> 
-
+</html>
