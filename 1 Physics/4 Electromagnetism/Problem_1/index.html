@@ -120,142 +120,55 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Wave Interference Explorations</title>
-<style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 0;
-      line-height: 1.6;
-      color: #333;
-    }
-    header {
-      background: #003366;
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
-    }
-    section {
-      max-width: 1000px;
-      margin: auto;
-      padding: 40px 20px;
-    }
-    h2 {
-      border-bottom: 2px solid #ccc;
-      padding-bottom: 10px;
-    }
-    canvas {
-      display: block;
-      margin: 30px auto;
-      border: 2px solid #555;
-      border-radius: 10px;
-    }
-    .controls {
-      background: #eef2f5;
-      padding: 20px;
-      border-radius: 10px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      margin-bottom: 30px;
-    }
-    .control-group {
-      flex: 1;
-      min-width: 200px;
-    }
-    label {
-      display: block;
-      margin-bottom: 5px;
-      font-weight: bold;
-    }
-    input, select {
-      width: 100%;
-      padding: 8px;
-      font-size: 14px;
-      border-radius: 4px;
-      border: 1px solid #aaa;
-    }
-    pre {
-      background: #222;
-      color: #0f0;
-      padding: 20px;
-      overflow-x: auto;
-      border-radius: 10px;
-    }
-  </style>
-</head>
-<body>
-<header>
-<h1>Wave Interference Explorations</h1>
-<p>Visualizing Patterns from Multiple Point Sources</p>
-</header>
-<section>
-<h2>Theoretical Foundation</h2>
-<p>A <strong>circular wave</strong> on the water surface, emanating from a point source located at \( (x_0, y_0) \), can be described by the <strong>Single Disturbance Equation</strong>:</p>
-<pre>
-\[ \eta(x, y, t) = \frac{A}{\sqrt{r}} \cos(kr - \omega t + \phi) \]</pre>
-<p>Where:</p>
+<h1 id="waves-problem-1-interference-patterns-on-a-water-surface">Waves - Problem 1: Interference Patterns on a Water Surface</h1>
+<h2 id="problem-statement">Problem Statement</h2>
+<p>The aim of this study is to analyze interference patterns created by circular waves emitted from point sources located at the vertices of a regular polygon. The waves interfere constructively and destructively, leading to visually observable patterns.</p>
+<h2 id="theoretical-foundation">Theoretical Foundation</h2>
+<p>The displacement of a circular wave on the water surface, emanating from a point source located at <span class="arithmatex">\( (x_0, y_0) \)</span>, is described by the <strong>Single Disturbance Equation</strong>:</p>
+<div class="arithmatex">\[
+\eta(x, y, t) = \frac{A}{\sqrt{r}} \cos(kr - \omega t + \phi)
+\]</div>
+<p>Where:
+- <span class="arithmatex">\( \eta(x, y, t) \)</span>: Displacement at point <span class="arithmatex">\( (x, y) \)</span> and time <span class="arithmatex">\( t \)</span>
+- <span class="arithmatex">\( A \)</span>: Amplitude of the wave
+- <span class="arithmatex">\( k = \frac{2\pi}{\lambda} \)</span>: Wave number
+- <span class="arithmatex">\( \omega = 2\pi f \)</span>: Angular frequency
+- <span class="arithmatex">\( r = \sqrt{(x - x_0)^2 + (y - y_0)^2} \)</span>: Distance from source to the point <span class="arithmatex">\( (x, y) \)</span>
+- <span class="arithmatex">\( \phi \)</span>: Initial phase</p>
+<hr/>
+<h2 id="superposition-principle">Superposition Principle</h2>
+<p>The total displacement on the water surface due to multiple sources is given by:</p>
+<div class="arithmatex">\[
+\eta_{\text{sum}}(x, y, t) = \sum_{i=1}^{N} \eta_i(x, y, t)
+\]</div>
+<p>where <span class="arithmatex">\( N \)</span> is the number of wave sources (vertices of the polygon).</p>
+<hr/>
+<h2 id="simulation-method">Simulation Method</h2>
+<h3 id="1-real-valued-model-cosine-based-approach">1. Real-Valued Model (Cosine-Based Approach)</h3>
+<p>The real-valued model computes the sum of cosine wave disturbances from each source. The amplitude at each point decays with distance.</p>
+<h3 id="2-complex-exponential-model-phasor-approach">2. Complex Exponential Model (Phasor Approach)</h3>
+<p>The complex model uses phasor representation, summing complex wave contributions from each source and then taking the real part:</p>
+<div class="arithmatex">\[
+\eta_i(x, y, t) = \frac{A}{\sqrt{r_i}} e^{j(kr_i - \omega t + \phi_i)}
+\]</div>
+<div class="arithmatex">\[
+\eta_{\text{total}}(x, y, t) = \Re \left\{ \sum_{i=1}^{N} \eta_i(x, y, t) \right\}
+\]</div>
+<hr/>
+<h2 id="visualization-and-analysis">Visualization and Analysis</h2>
 <ul>
-<li>\( \eta(x, y, t) \): Displacement at point \( (x, y) \) and time \( t \)</li>
-<li>\( A \): Amplitude of the wave</li>
-<li>\( k = \frac{2\pi}{\lambda} \): Wave number</li>
-<li>\( \omega = 2\pi f \): Angular frequency</li>
-<li>\( r = \sqrt{(x - x_0)^2 + (y - y_0)^2} \): Distance from source to point \( (x, y) \)</li>
-<li>\( \phi \): Initial phase</li>
+<li><strong>Constructive Interference:</strong> Occurs when wave crests meet, amplifying the displacement.</li>
+<li><strong>Destructive Interference:</strong> Occurs when crests and troughs meet, canceling each other out.</li>
 </ul>
-<p><strong>Superposition Principle:</strong></p>
-<pre>
-\[ \eta_{\text{sum}}(x, y, t) = \sum_{i=1}^{N} \eta_i(x, y, t) \]</pre>
-</section>
-<section>
-<h2>1. Real-Valued Model Simulation</h2>
-<p>This model uses cosine-based equations to simulate wave interference from point sources arranged in a regular polygon.</p>
-<div class="controls">
-<div class="control-group">
-<label for="amplitude">Amplitude</label>
-<input id="amplitude" max="2" min="0.1" step="0.1" type="range" value="1.0"/>
-</div>
-<div class="control-group">
-<label for="wavelength">Wavelength</label>
-<input id="wavelength" max="5" min="0.5" step="0.1" type="range" value="2.0"/>
-</div>
-<div class="control-group">
-<label for="sources">Sources</label>
-<select id="sources">
-<option value="3">3 (Triangle)</option>
-<option selected="" value="4">4 (Square)</option>
-<option value="5">5 (Pentagon)</option>
-<option value="6">6 (Hexagon)</option>
-<option value="8">8 (Octagon)</option>
-</select>
-</div>
-<div class="control-group">
-<label for="radius">Polygon Radius</label>
-<input id="radius" max="6" min="1" step="0.5" type="range" value="3"/>
-</div>
-</div>
-<canvas height="600" id="canvas1" width="600"></canvas>
-</section>
-<section>
-<h2>2. Complex Exponential Wave Model</h2>
-<p>This model uses complex numbers to represent wave interactions. Each wave source is treated as a phasor, allowing for phase differences and a deeper understanding of interference phenomena.</p>
-<pre>
-\[ \eta_i(x, y, t) = \frac{A}{\sqrt{r_i}} e^{j(kr_i - \omega t + \phi_i)} \]
-\[ \eta_{\text{total}}(x, y, t) = \Re\left\{ \sum_{i=1}^{N} \eta_i(x, y, t) \right\} \]</pre>
-<canvas height="600" id="canvas2" width="600"></canvas>
-</section>
-<script>
-    // JavaScript remains the same as current merged version including complex model drawing logic.
-  </script>
-</body>
-</html>
+<p>The interactive simulation allows the adjustment of:
+- Amplitude
+- Wavelength
+- Number of sources (polygon selection)
+- Source radius</p>
+<p>Both real and complex models are visualized on separate canvases for comparison.</p>
+<hr/>
+<h2 id="conclusions">Conclusions</h2>
+<p>This project demonstrates how the superposition of wave disturbances can lead to complex interference patterns. The approach provides insights into wave behavior and phase interactions using both real and complex wave models.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
