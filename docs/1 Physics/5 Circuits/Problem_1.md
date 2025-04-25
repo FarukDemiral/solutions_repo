@@ -56,7 +56,6 @@
 <body>
   <header>
     <h1>Wave Interference 3D Surface Visualization</h1>
-    <p>Interactive 3D Plot of Interference Patterns Using Plotly.js</p>
   </header>
 
   <div class="controls">
