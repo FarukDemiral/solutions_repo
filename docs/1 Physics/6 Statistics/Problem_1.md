@@ -511,5 +511,3 @@
     </div>
   </section>
 
-</body>
-</html>
