@@ -44,7 +44,7 @@
 
   <h2>2D Canvas Wave Simulation</h2>
   <div class="container">
-   <!DOCTYPE html>
+    <iframe srcdoc='<!<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -340,13 +340,12 @@
     runAnimation();
   </script>
 </body>
-</html>> 
-
+</html>></iframe>
   </div>
 
   <h2>3D Plotly Wave Surface Visualization</h2>
   <div class="container">
-    <!DOCTYPE html>
+    <iframe srcdoc='<!<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -533,8 +532,7 @@
     plotSurface();
   </script>
 </body>
-</html>
-
+</html>></iframe>
   </div>
 
 </body>
