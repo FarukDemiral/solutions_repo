@@ -108,8 +108,8 @@
         }
 
         #plot3d {
-            width: 100%;
-            height: 400px;
+            width: 400%;
+            height: 600px;
             margin-top: 20px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -158,7 +158,7 @@
         </div>
 
         <div class="canvas-container">
-            <canvas id="interferenceCanvas" width="600" height="1000"></canvas>
+            <canvas id="interferenceCanvas" width="600" height="600"></canvas>
         </div>
 
         <div class="color-scale">
