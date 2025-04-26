@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Wave Interference Simulation and Visualization</title>
+    <title>Wave Interference Simulation</title>
     <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     <style>
         body {
@@ -371,7 +371,7 @@
             }];
 
             const layout = {
-                title: '3D Wave Interference Pattern',
+                title: '3D Wave Visualization',
                 autosize: true,
                 scene: {
                     xaxis: { title: 'X' },
