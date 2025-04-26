@@ -158,7 +158,7 @@
         </div>
 
         <div class="canvas-container">
-            <canvas id="interferenceCanvas" width="600" height="600"></canvas>
+            <canvas id="interferenceCanvas" width="600" height="1000"></canvas>
         </div>
 
         <div class="color-scale">
