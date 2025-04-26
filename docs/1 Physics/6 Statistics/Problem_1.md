@@ -294,9 +294,7 @@
     }
 
     runAnimation();
-  </script>
-</body>
-</html>  
+  
 
 
 ## VISUALIZATION 
