@@ -138,9 +138,9 @@
                 <label for="sources">Number of Sources:</label>
                 <select id="sources">
                     <option value="3">3 (Triangle)</option>
-                    <option value="4" (Square)</option>
+                    <option value="4">4 (Square)</option>
                     <option value="5">5 (Pentagon)</option>
-                    <option value="6">6 selected>6 (Hexagon)</option>
+                    <option value="6" selected>6 (Hexagon)</option>
                     <option value="8">8 (Octagon)</option>
                 </select>
             </div>
