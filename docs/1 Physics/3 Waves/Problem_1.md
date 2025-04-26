@@ -171,7 +171,7 @@ $$
     </style>
 </head>
 <body>
-    <h1>Wave Interference Simulation</h1>
+    <h1>Wave Interference Simulation and Visualization</h1>
 
     <div class="container">
         <div class="controls">
@@ -424,11 +424,7 @@ $$
             }];
 
             const layout = {
-<<<<<<< HEAD
-                title: 'Wave Interference 3D Surface Visualization',
-=======
                 title: '3D Wave Visualization',
->>>>>>> e75203430b7f48bb89183c73fb0ad349662cb327
                 autosize: true,
                 scene: {
                     xaxis: { title: 'X' },
