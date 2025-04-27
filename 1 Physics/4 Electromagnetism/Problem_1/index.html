@@ -120,6 +120,122 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<h1 id="simulating-the-effects-of-the-lorentz-force">Simulating the Effects of the Lorentz Force</h1>
+<h2 id="theoretical-background">Theoretical Background</h2>
+<p>The Lorentz force describes the force on a charged particle moving in electric and magnetic fields. The general formula is:</p>
+<div class="arithmatex">\[
+\mathbf{F} = q (\mathbf{E} + \mathbf{v} \times \mathbf{B})
+\]</div>
+<p>where:
+- <span class="arithmatex">\( \mathbf{F} \)</span>: Force on the particle
+- <span class="arithmatex">\( q \)</span>: Charge of the particle
+- <span class="arithmatex">\( \mathbf{E} \)</span>: Electric field
+- <span class="arithmatex">\( \mathbf{v} \)</span>: Particle velocity
+- <span class="arithmatex">\( \mathbf{B} \)</span>: Magnetic field</p>
+<p>In this simulation, we focus on <strong>uniform magnetic field</strong> (<span class="arithmatex">\( \mathbf{E} = 0 \)</span>):</p>
+<div class="arithmatex">\[
+\mathbf{F} = q (\mathbf{v} \times \mathbf{B})
+\]</div>
+<hr/>
+<h2 id="simulation-setup">Simulation Setup</h2>
+<ul>
+<li>Uniform magnetic field: <span class="arithmatex">\( \mathbf{B} = [0, 0, B_z] \)</span></li>
+<li>Initial particle velocity: adjustable</li>
+<li>Parameters: charge <span class="arithmatex">\( q \)</span>, mass <span class="arithmatex">\( m \)</span>, magnetic field strength <span class="arithmatex">\( B_z \)</span></li>
+</ul>
+<hr/>
+<h2 id="interactive-simulation">Interactive Simulation</h2>
+<canvas height="400" id="simulationCanvas" style="border:1px solid #ccc;" width="600"></canvas>
+<div style="margin-top: 10px;">
+<label>Initial velocity X (m/s): <input id="vx" type="number" value="1e6"/></label>
+<label>Initial velocity Y (m/s): <input id="vy" type="number" value="0"/></label>
+<label>Initial velocity Z (m/s): <input id="vz" type="number" value="1e6"/></label>
+<label>Magnetic field Bz (T): <input id="bz" type="number" value="1"/></label>
+<button onclick="startSimulation()">Start Simulation</button>
+</div>
+<script>
+// Lorentz Force Simulation in a Uniform Magnetic Field
+let ctx = document.getElementById('simulationCanvas').getContext('2d');
+let animationId;
+
+function startSimulation() {
+    cancelAnimationFrame(animationId);
+    ctx.clearRect(0, 0, 600, 400);
+
+    const q = 1.6e-19;           // Charge (C)
+    const m = 9.11e-31;          // Mass (kg)
+    const Bz = parseFloat(document.getElementById('bz').value); // Magnetic field (T)
+    const v = [parseFloat(document.getElementById('vx').value),
+               parseFloat(document.getElementById('vy').value),
+               parseFloat(document.getElementById('vz').value)];
+    let r = [300, 200, 0];       // Initial position (center of canvas)
+
+    const dt = 1e-11;            // Time step
+
+    function draw() {
+        // Lorentz force: F = q (v x B)
+        let force = [
+            q * (v[1] * Bz - v[2] * 0),
+            q * (-v[0] * Bz),
+            0
+        ];
+
+        // Acceleration: a = F / m
+        let a = [force[0] / m, force[1] / m, force[2] / m];
+
+        // Update velocity and position
+        v[0] += a[0] * dt;
+        v[1] += a[1] * dt;
+        v[2] += a[2] * dt;
+        r[0] += v[0] * dt * 1e9; // Scaled for visualization
+        r[1] += v[1] * dt * 1e9;
+
+        // Draw particle
+        ctx.fillStyle = "blue";
+        ctx.fillRect(r[0], r[1], 2, 2);
+
+        // Repeat
+        animationId = requestAnimationFrame(draw);
+    }
+
+    draw();
+}
+</script>
+<hr/>
+<h2 id="visualization-explanation">Visualization Explanation</h2>
+<ul>
+<li>The blue dot represents the charged particle.</li>
+<li>The path shows the <strong>circular or helical trajectory</strong> due to the magnetic field.</li>
+<li>By adjusting the initial velocity and magnetic field strength, you can observe:</li>
+<li><strong>Circular motion</strong> (perpendicular velocity)</li>
+<li><strong>Helical motion</strong> (velocity has a parallel component)</li>
+</ul>
+<hr/>
+<h2 id="physical-phenomena">Physical Phenomena</h2>
+<ul>
+<li><strong>Larmor Radius</strong>:</li>
+</ul>
+<p>$$
+  r_L = \frac{m v_\perp}{q B}
+  $$</p>
+<ul>
+<li><strong>Cyclotron Frequency</strong>:</li>
+</ul>
+<p>$$
+  \omega_c = \frac{q B}{m}
+  $$</p>
+<hr/>
+<h2 id="further-suggestions-for-extension">Further Suggestions for Extension</h2>
+<ul>
+<li>Add <strong>electric field <span class="arithmatex">\( \mathbf{E} \)</span></strong> and explore combined fields.</li>
+<li>Implement <strong>non-uniform magnetic fields</strong>.</li>
+<li>Add <strong>sliders</strong> for real-time parameter changes using <code>range</code> inputs.</li>
+<li>Compute and display <strong>Larmor radius</strong> on the simulation dynamically.</li>
+</ul>
+<hr/>
+<blockquote>
+<p><em>Prepared for Problem 1: Simulating the Effects of the Lorentz Force.</em></p>
+</blockquote>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
