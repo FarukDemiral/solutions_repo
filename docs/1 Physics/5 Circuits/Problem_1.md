@@ -35,7 +35,7 @@
 
   <div id="parameters" class="output"></div>
 
-  <div class="grid-container">
+  <>
     <div class="plot-box">
       <h2>Uniform Magnetic Field</h2>
       <div id="uniformPlot" style="width:100%; height:500px;"></div>
