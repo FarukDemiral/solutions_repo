@@ -72,6 +72,14 @@
 <ul class="current">
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 1</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#lorentz-force-simulation-java">Lorentz Force Simulation (Java)</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#1-exploration-of-applications">1. Exploration of Applications</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#2-simulating-particle-motion">2. Simulating Particle Motion</a>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -120,171 +128,294 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
-<h1 id="simulating-the-effects-of-the-lorentz-force">Simulating the Effects of the Lorentz Force</h1>
-<h2 id="theoretical-background">Theoretical Background</h2>
-<p>The Lorentz force describes the force on a charged particle moving in electric and magnetic fields. The general formula is:</p>
-<div class="arithmatex">\[
-\mathbf{F} = q (\mathbf{E} + \mathbf{v} \times \mathbf{B})
-\]</div>
-<p>where:
-- <span class="arithmatex">\( \mathbf{F} \)</span>: Force on the particle
-- <span class="arithmatex">\( q \)</span>: Charge of the particle
-- <span class="arithmatex">\( \mathbf{E} \)</span>: Electric field
-- <span class="arithmatex">\( \mathbf{v} \)</span>: Particle velocity
-- <span class="arithmatex">\( \mathbf{B} \)</span>: Magnetic field</p>
-<p>In this simulation, we focus on <strong>uniform magnetic field</strong> (<span class="arithmatex">\( \mathbf{E} = 0 \)</span>):</p>
-<div class="arithmatex">\[
-\mathbf{F} = q (\mathbf{v} \times \mathbf{B})
-\]</div>
-<hr/>
-<h2 id="simulation-setup">Simulation Setup</h2>
+<h2 id="lorentz-force-simulation-java">Lorentz Force Simulation (Java)</h2>
+<p>This document contains a Java program that simulates the motion of a charged particle under the influence of the Lorentz force in various electromagnetic field configurations.</p>
+<h3 id="1-exploration-of-applications">1. Exploration of Applications</h3>
+<p>The Lorentz force plays a crucial role in many physical systems:</p>
 <ul>
-<li>Uniform magnetic field: <span class="arithmatex">\( \mathbf{B} = [0, 0, B_z] \)</span></li>
-<li>Initial particle velocity: adjustable</li>
-<li>Parameters: charge <span class="arithmatex">\( q \)</span>, mass <span class="arithmatex">\( m \)</span>, magnetic field strength <span class="arithmatex">\( B_z \)</span></li>
+<li><strong>Particle accelerators:</strong> These devices use electric and magnetic fields to accelerate charged particles to very high speeds. The Lorentz force is essential for bending and focusing the particle beams.</li>
+<li><strong>Mass spectrometers:</strong> These instruments measure the mass-to-charge ratio of ions. Magnetic fields are used to deflect ions, and the Lorentz force determines the radius of their trajectory.</li>
+<li><strong>Plasma confinement (e.g., Tokamaks):</strong> In fusion research, Tokamaks use strong magnetic fields to confine hot plasma. The Lorentz force prevents the charged particles in the plasma from escaping.</li>
 </ul>
-<hr/>
-<!DOCTYPE html>
+<p>In these applications, electric fields accelerate charged particles, while magnetic fields control their direction of motion.</p>
+<h3 id="2-simulating-particle-motion">2. Simulating Particle Motion</h3>
+<p>```java
+import org.apache.commons.math3.geometry.euclidean.ThreedVector;
+import org.apache.commons.math3.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math3.ode.nonstiff.ClassicalRungeKuttaIntegrator;
+import org.apache.commons.math3.ode.FirstOrderIntegrator;</p>
+<p>import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;</p>
+<p>public class LorentzForceSimulation {</p>
+<pre><code>// Class to represent 3D vectors, using Apache Commons Math
+public static class Vector3D implements ThreedVector {
+    private final double x;
+    private final double y;
+    private final double z;
 
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Lorentz Force Simulation</title>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script async="" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-<style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #f5f5f5; color: #333; }
-    h1 { color: #0055a5; }
-    .controls { margin-bottom: 20px; }
-    label { margin-right: 10px; }
-    .output { margin-top: 20px; font-weight: bold; }
-    .button-group button { margin-right: 10px; padding: 5px 10px; }
-  </style>
-</head>
-<body>
-<h1>Lorentz Force Interactive Simulation</h1>
-<h2>Theoretical Background</h2>
-<p>The Lorentz force is given by:</p>
-<p>$$\mathbf{F} = q (\mathbf{E} + \mathbf{v} \times \mathbf{B})$$</p>
-<h2>Controls</h2>
-<div class="controls">
-<label>Initial Velocity X (m/s): <input id="vx" max="2e6" min="0" step="1e4" type="range" value="1e6"/> <span id="vxVal"></span></label>
-<label>Initial Velocity Y (m/s): <input id="vy" max="2e6" min="0" step="1e4" type="range" value="0"/> <span id="vyVal"></span></label>
-<label>Initial Velocity Z (m/s): <input id="vz" max="2e6" min="0" step="1e4" type="range" value="1e6"/> <span id="vzVal"></span></label><br/><br/>
-<label>Magnetic Field Bz (T): <input id="bz" max="5" min="0.1" step="0.1" type="range" value="1"/> <span id="bzVal"></span></label>
-</div>
-<div class="button-group">
-<button onclick="setFieldConfig('uniform')">Uniform B Field</button>
-<button onclick="setFieldConfig('eb')">E and B Fields</button>
-<button onclick="setFieldConfig('crossed')">Crossed E &amp; B Fields</button>
-</div>
-<div class="output" id="parameters"></div>
-<div id="plot3d" style="width: 100%; height: 600px;"></div>
-<script>
-    let fieldConfig = 'uniform';
-
-    function setFieldConfig(config) {
-      fieldConfig = config;
-      simulate();
+    public Vector3D(double x, double y, double z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
     }
 
-    const q = 1.6e-19, m = 9.11e-31;
+    public double getX() {
+        return x;
+    }
 
-    function simulate() {
-      let vx = parseFloat(document.getElementById('vx').value);
-      let vy = parseFloat(document.getElementById('vy').value);
-      let vz = parseFloat(document.getElementById('vz').value);
-      let bz = parseFloat(document.getElementById('bz').value);
+    public double getY() {
+        return y;
+    }
 
-      document.getElementById('vxVal').innerText = vx;
-      document.getElementById('vyVal').innerText = vy;
-      document.getElementById('vzVal').innerText = vz;
-      document.getElementById('bzVal').innerText = bz;
+    public double getZ() {
+        return z;
+    }
 
-      const dt = 1e-11, steps = 1500;
-      let r = [0, 0, 0];
-      let v = [vx, vy, vz];
-      let positions = [];
+    @Override
+    public double getNorm1() {
+        return Math.abs(x) + Math.abs(y) + Math.abs(z);
+    }
 
-      let E = [0, 0, 0];
-      let B = [0, 0, bz];
-      if (fieldConfig === 'eb') E = [0, 0, 1e5];
-      if (fieldConfig === 'crossed') { E = [0, 1e5, 0]; B = [0, 0, bz]; }
+    @Override
+    public double getNorm() {
+        return Math.sqrt(x * x + y * y + z * z);
+    }
 
-      for (let i = 0; i < steps; i++) {
-        let cross = [v[1]*B[2] - v[2]*B[1], v[2]*B[0] - v[0]*B[2], v[0]*B[1] - v[1]*B[0]];
-        let F = [q * (E[0] + cross[0]), q * (E[1] + cross[1]), q * (E[2] + cross[2])];
-        let a = [F[0]/m, F[1]/m, F[2]/m];
-        v[0] += a[0]*dt;
-        v[1] += a[1]*dt;
-        v[2] += a[2]*dt;
-        r[0] += v[0]*dt*1e9; // scaled
-        r[1] += v[1]*dt*1e9;
-        r[2] += v[2]*dt*1e9;
-        positions.push([r[0], r[1], r[2]]);
+    @Override
+    public double getNormSq() {
+        return x * x + y * y + z * z;
+    }
+
+    @Override
+    public double getDistance(ThreedVector p) {
+        return this.subtract(p).getNorm();
+    }
+
+    @Override
+    public Vector3D add(double a, ThreedVector p) {
+        return new Vector3D(x + a * p.getX(), y + a * p.getY(), z + a * p.getZ());
+    }
+
+    @Override
+    public Vector3D add(ThreedVector p) {
+        return new Vector3D(x + p.getX(), y + p.getY(), z + p.getZ());
+    }
+
+    @Override
+    public Vector3D subtract(ThreedVector p) {
+        return new Vector3D(x - p.getX(), y - p.getY(), z - p.getZ());
+    }
+
+    @Override
+    public Vector3D multiply(double a) {
+        return new Vector3D(a * x, a * y, a * z);
+    }
+
+    @Override
+    public Vector3D negate() {
+        return new Vector3D(-x, -y, -z);
+    }
+
+    @Override
+    public Vector3D normalize() {
+      double norm = getNorm();
+      if (norm == 0) {
+        return new Vector3D(0,0,0);
       }
-
-      let x = positions.map(p => p[0]);
-      let y = positions.map(p => p[1]);
-      let z = positions.map(p => p[2]);
-
-      Plotly.newPlot('plot3d', [{
-        type: 'scatter3d', mode: 'lines',
-        x: x, y: y, z: z,
-        line: {width: 4, color: '#1f77b4'}
-      }], {
-        margin: {l: 0, r: 0, b: 0, t: 0},
-        scene: {xaxis: {title: 'X'}, yaxis: {title: 'Y'}, zaxis: {title: 'Z'}}
-      });
-
-      let omega = q * bz / m;
-      let rL = (m * Math.sqrt(vx**2 + vy**2)) / (q * bz);
-      document.getElementById('parameters').innerHTML =
-        `Cyclotron Frequency (ω): ${omega.toExponential(2)} rad/s | Larmor Radius (rₗ): ${rL.toExponential(2)} m`;
+        return new Vector3D(x / norm, y / norm, z / norm);
     }
 
-    document.querySelectorAll('input').forEach(input => input.addEventListener('input', simulate));
-    window.onload = simulate;
-  </script>
-</body>
-</html>
-<hr/>
-<h2 id="visualization-explanation">Visualization Explanation</h2>
-<ul>
-<li>The blue dot represents the charged particle.</li>
-<li>The path shows the <strong>circular or helical trajectory</strong> due to the magnetic field.</li>
-<li>By adjusting the initial velocity and magnetic field strength, you can observe:</li>
-<li><strong>Circular motion</strong> (perpendicular velocity)</li>
-<li><strong>Helical motion</strong> (velocity has a parallel component)</li>
-</ul>
-<hr/>
-<h2 id="physical-phenomena">Physical Phenomena</h2>
-<ul>
-<li><strong>Larmor Radius</strong>:</li>
-</ul>
-<p>$$
-  r_L = \frac{m v_\perp}{q B}
-  $$</p>
-<ul>
-<li><strong>Cyclotron Frequency</strong>:</li>
-</ul>
-<p>$$
-  \omega_c = \frac{q B}{m}
-  $$</p>
-<hr/>
-<h2 id="further-suggestions-for-extension">Further Suggestions for Extension</h2>
-<ul>
-<li>Add <strong>electric field <span class="arithmatex">\( \mathbf{E} \)</span></strong> and explore combined fields.</li>
-<li>Implement <strong>non-uniform magnetic fields</strong>.</li>
-<li>Add <strong>sliders</strong> for real-time parameter changes using <code>range</code> inputs.</li>
-<li>Compute and display <strong>Larmor radius</strong> on the simulation dynamically.</li>
-</ul>
-<hr/>
-<blockquote>
-<p><em>Prepared for Problem 1: Simulating the Effects of the Lorentz Force.</em></p>
-</blockquote>
+    @Override
+    public double dotProduct(ThreedVector p) {
+        return x * p.getX() + y * p.getY() + z * p.getZ();
+    }
+
+    @Override
+    public Vector3D crossProduct(ThreedVector p) {
+        return new Vector3D(y * p.getZ() - z * p.getY(),
+                          z * p.getX() - x * p.getZ(),
+                          x * p.getY() - y * p.getX());
+    }
+
+    @Override
+    public double getAlpha() {
+        return Math.atan2(y, x);
+    }
+
+    @Override
+    public double getDelta() {
+        return Math.asin(z / getNorm());
+    }
+
+    @Override
+    public String toString() {
+        return String.format(Locale.US, "(%.3f, %.3f, %.3f)", x, y, z);
+    }
+}
+
+// Class to represent the Lorentz force calculation as a set of differential equations
+public static class LorentzEquations implements FirstOrderDifferentialEquations {
+    private final double q; // Charge
+    private final double m; // Mass
+    private final Vector3D E; // Electric field
+    private final Vector3D B; // Magnetic field
+
+    public LorentzEquations(double q, double m, Vector3D E, Vector3D B) {
+        this.q = q;
+        this.m = m;
+        this.E = E;
+        this.B = B;
+    }
+
+    @Override
+    public int getDimension() {
+        return 6; // We have 6 variables: [x, y, z, vx, vy, vz]
+    }
+
+    @Override
+    public void computeDerivatives(double t, double[] y, double[] yDot) {
+        // y[0] = x, y[1] = y, y[2] = z
+        // y[3] = vx, y[4] = vy, y[5] = vz
+
+        Vector3D r = new Vector3D(y[0], y[1], y[2]);
+        Vector3D v = new Vector3D(y[3], y[4], y[5]);
+        Vector3D F = lorentzForce(q, E, v, B);
+
+        // dv/dt = F/m
+        yDot[3] = F.getX() / m;
+        yDot[4] = F.getY() / m;
+        yDot[5] = F.getZ() / m;
+
+        // dr/dt = v
+        yDot[0] = v.getX();
+        yDot[1] = v.getY();
+        yDot[2] = v.getZ();
+    }
+}
+
+/**
+ * Calculates the Lorentz force on a charged particle.
+ *
+ * @param q The charge of the particle (scalar).
+ * @param E The electric field vector (3D vector).
+ * @param v The velocity vector of the particle (3D vector).
+ * @param B The magnetic field vector (3D vector).
+ * @return The force vector (3D vector).
+ */
+public static Vector3D lorentzForce(double q, Vector3D E, Vector3D v, Vector3D B) {
+    return E.multiply(q).add(v.crossProduct(B).multiply(q));
+}
+
+/**
+ * Simulates the motion of a charged particle in electromagnetic fields using the Runge-Kutta 4th order method.
+ *
+ * @param q     The charge of the particle (scalar).
+ * @param m     The mass of the particle (scalar).
+ * @param E     The electric field vector (3D vector).
+ * @param B     The magnetic field vector (3D vector).
+ * @param v0    The initial velocity vector (3D vector).
+ * @param r0    The initial position vector (3D vector).
+ * @param tMax  The maximum simulation time (scalar).
+ * @param dt    The time step (scalar).
+ * @return A list of Vector3D representing the trajectory.
+ * @throws Exception if the simulation fails.
+ */
+public static List&lt;Vector3D&gt; simulateMotion(double q, double m, Vector3D E, Vector3D B, Vector3D v0, Vector3D r0, double tMax, double dt) throws Exception {
+    FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(dt);
+    LorentzEquations equations = new LorentzEquations(q, m, E, B);
+    double[] y0 = {r0.getX(), r0.getY(), r0.getZ(), v0.getX(), v0.getY(), v0.getZ()};
+    double[] y = new double[y0.length];
+    System.arraycopy(y0, 0, y, 0, y0.length);  //copy initial state
+
+    List&lt;Vector3D&gt; trajectory = new ArrayList&lt;&gt;();
+    trajectory.add(r0); // Add the initial position
+
+    double t = 0;
+    while (t &lt; tMax) {
+        integrator.integrate(equations, t, y, t + dt, y);
+        t += dt;
+        trajectory.add(new Vector3D(y[0], y[1], y[2])); //add new position to list
+    }
+    return trajectory;
+}
+
+/**
+ * Saves the trajectory to a CSV file.
+ *
+ * @param trajectory The list of position vectors.
+ * @param filename   The name of the CSV file.
+ * @throws IOException if an error occurs during file writing.
+ */
+public static void saveTrajectoryToCSV(List&lt;Vector3D&gt; trajectory, String filename) throws IOException {
+    try (PrintWriter writer = new PrintWriter(new FileWriter(filename))) {
+        writer.println("x,y,z"); // CSV header
+        for (Vector3D point : trajectory) {
+            writer.printf(Locale.US, "%.6f,%.6f,%.6f%n", point.getX(), point.getY(), point.getZ());
+        }
+    }
+}
+
+/**
+ * Main method to run the simulation and save the results.
+ *
+ * @param args Command line arguments (not used).
+ */
+public static void main(String[] args) {
+    try {
+        // Parameters
+        double q = 1.6e-19; // Charge of proton (C)
+        double m = 1.67e-27; // Mass of proton (kg)
+        double dt = 1e-9;    // Time step (s)
+        double tMax = 1e-6;  // Maximum simulation time (s)
+
+        // Initial conditions
+        Vector3D r0 = new Vector3D(0, 0, 0);       // Initial position (m)
+        Vector3D v0 = new Vector3D(100, 0, 0);     // Initial velocity (m/s)
+
+        // 1. Uniform magnetic field
+        Vector3D E = new Vector3D(0, 0, 0);
+        Vector3D B = new Vector3D(0, 0, 0.5); // Magnetic field in Z direction (T)
+        List&lt;Vector3D&gt; trajectory1 = simulateMotion(q, m, E, B, v0, r0, tMax, dt);
+        saveTrajectoryToCSV(trajectory1, "uniform_magnetic_field.csv");
+        System.out.println("Uniform Magnetic Field simulation complete. Results saved to uniform_magnetic_field.csv");
+
+        // Larmor radius and cyclotron frequency
+        double vMag = v0.getNorm();
+        double larmorRadius = (m * vMag) / (q * B.getNorm());  // исправлено
+        double cyclotronFrequency = (q * B.getNorm()) / m;
+        System.out.printf(Locale.US, "Larmor radius: %.2e m%n", larmorRadius);
+        System.out.printf(Locale.US, "Cyclotron frequency: %.2e rad/s%n", cyclotronFrequency);
+
+        // 2. Combined uniform electric and magnetic fields
+        E = new Vector3D(10, 0, 0); // Electric field in X direction (V/m)
+        B = new Vector3D(0, 5, 0); // Magnetic field in Y direction (T)
+        List&lt;Vector3D&gt; trajectory2 = simulateMotion(q, m, E, B, v0, r0, tMax, dt);
+        saveTrajectoryToCSV(trajectory2, "combined_fields.csv");
+        System.out.println("Combined Fields simulation complete. Results saved to combined_fields.csv");
+
+        // 3. Crossed electric and magnetic fields
+        E = new Vector3D(100, 0, 0);
+        B = new Vector3D(0, 0, 0.5);
+        List&lt;Vector3D&gt; trajectory3 = simulateMotion(q, m, E, B, v0, r0, tMax, dt);
+        saveTrajectoryToCSV(trajectory3, "crossed_fields.csv");
+        System.out.println("Crossed Fields simulation complete. Results saved to crossed_fields.csv");
+
+        // Drift velocity
+        Vector3D driftVelocity = E.crossProduct(B).multiply(1.0 / B.getNormSq());
+        System.out.printf(Locale.US, "Drift velocity: (%.2f, %.2f, %.2f) m/s%n", driftVelocity.getX(),driftVelocity.getY(),driftVelocity.getZ());
+
+    } catch (Exception e) {
+        System.err.println("An error occurred: " + e.getMessage());
+        e.printStackTrace(); // print stack trace for detailed error info.
+    }
+}
+</code></pre>
+<p>}
+3. Parameter ExplorationThe Java program allows you to easily change the following parameters:q: Charge of the particle.m: Mass of the particle.E: Electric field vector.B: Magnetic field vector.v0: Initial velocity.r0: Initial position.dt: Time step.tMax: Maximum simulation time.By modifying these parameters in the code, you can observe how they affect the particle's trajectory. For example:Increasing the magnetic field strength will decrease the Larmor radius and increase the cyclotron frequency.In crossed fields, the drift velocity is directly proportional to the electric field strength and inversely proportional to the magnetic field strength.4. VisualizationThe Java program calculates the particle's trajectory for each scenario and saves the results to a CSV file.  You can then use a plotting tool (like gnuplot, Python's Matplotlib, or Excel) to visualize the data.  The columns in the CSV files are x, y, and z.Circular motion: In a uniform magnetic field, the particle moves in a circle (if the initial velocity is perpendicular to the field).Helical motion: If the initial velocity has a component parallel to the magnetic field, the particle moves in a helix.Drift motion: In crossed electric and magnetic fields, the particle drifts in a direction perpendicular to both fields. The simulation calculates and prints the Larmor radius, cyclotron frequency, and drift velocity, demonstrating key physical phenomena.DeliverablesA Markdown document with Java code implementing the simulations (provided above).CSV files containing the particle trajectories for the specified field configurations (generated by the program).  You can use these files to create your own visualizations.A discussion on how the results relate to practical systems (see below).Relation to Practical SystemsThe simulation results relate to several practical systems:Cyclotrons: These particle accelerators use a combination of magnetic and electric fields to accelerate charged particles in a spiral path. The magnetic field bends the particles, while the electric field accelerates them.Magnetic traps: These devices use magnetic fields to confine charged particles. The Lorentz force prevents the particles from escaping the trap. This is used in plasma confinement and ion storage.Suggestions for Extending the SimulationNon-uniform fields: The simulation can be extended to handle non-uniform electric and magnetic fields, which are common in many real-world scenarios. This would require modifying the lorentzForce function to accept position-dependent fields.Relativistic effects: For very high particle velocities</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
