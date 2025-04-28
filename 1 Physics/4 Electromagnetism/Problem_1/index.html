@@ -72,8 +72,6 @@
 <ul class="current">
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 1</a>
 <ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="#lorentz-force-simulation-code">Lorentz Force Simulation Code</a>
-</li>
 </ul>
 </li>
 </ul>
@@ -122,518 +120,99 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
-<h2 id="lorentz-force-simulation-code">Lorentz Force Simulation Code</h2>
-<p>Here's the code for a Lorentz Force simulation, which calculates the trajectory of a charged particle in electric and magnetic fields.</p>
-<p>```html</p>
-<!DOCTYPE html>
+<h1 id="simulating-the-effects-of-the-lorentz-force">Simulating the Effects of the Lorentz Force</h1>
+<h2 id="overview">Overview</h2>
+<p>The Lorentz force describes the force acting on charged particles moving through electric and magnetic fields, defined by:</p>
+<div class="arithmatex">\[
+\mathbf{F} = q\mathbf{E} + q\mathbf{v} \times \mathbf{B}
+\]</div>
+<p>where:
+- <span class="arithmatex">\(q\)</span> is the particle's charge,
+- <span class="arithmatex">\(\mathbf{E}\)</span> is the electric field,
+- <span class="arithmatex">\(\mathbf{v}\)</span> is the velocity of the particle,
+- <span class="arithmatex">\(\mathbf{B}\)</span> is the magnetic field.</p>
+<h2 id="simulation-setup">Simulation Setup</h2>
+<p>We will use Python with NumPy and Matplotlib to simulate and visualize particle trajectories under different configurations:</p>
+<ul>
+<li><strong>Uniform Magnetic Field</strong></li>
+<li><strong>Combined Electric and Magnetic Fields</strong></li>
+<li><strong>Crossed Electric and Magnetic Fields</strong></li>
+</ul>
+<h2 id="python-simulation">Python Simulation</h2>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Lorentz Force Simulation</title>
-<script src="[https://cdn.jsdelivr.net/npm/chart.js](https://cdn.jsdelivr.net/npm/chart.js)"></script>
-<link href="[https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css](https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css)" rel="stylesheet" type="text/css"/>
-<style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
-            box-sizing: border-box;
-            overflow-x: hidden; /* Prevent horizontal scrollbar */
-        }
-        h1 {
-            color: #333;
-            margin-top: 20px;
-        }
-        #controls {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            width: calc(100% - 40px); /* Adjust width and padding to prevent overflow */
-            max-width: 1000px; /* Maximum width for the controls section */
-            box-sizing: border-box;
-        }
+# Constants
+q = 1.6e-19  # particle charge (Coulombs)
+m = 9.1e-31  # particle mass (kg)
+dt = 1e-11   # time step (s)
+t_max = 1e-7 # simulation time (s)
 
-        #controls > div {
-            display: flex;
-            flex-direction: column;
-            margin-right: 0; /* Remove right margin */
-            margin-bottom: 0;
-            width: calc(50% - 10px); /* 2 columns with some gap */
-            box-sizing: border-box;
-            min-width: 200px; /* Ensure controls don't get too narrow */
-        }
-        #controls > div > label {
-            margin-bottom: 8px;
-            color: #555;
-            font-weight: bold;
-            display: block;
-            text-align: left; /* Align labels to the left */
-        }
+# Initial conditions
+v0 = np.array([1e6, 0, 0])  # Initial velocity (m/s)
+r0 = np.array([0, 0, 0])    # Initial position (m)
 
-        #controls > div > input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            transition: border-color 0.3s ease;
-            width: calc(100% - 20px); /* Adjust input width */
-            box-sizing: border-box;
-        }
+# Fields
+E = np.array([0, 0, 0])
+B = np.array([0, 0, 0.1])  # Uniform magnetic field (Tesla)
 
-        #controls > div > input:focus {
-            outline: none;
-            border-color: #4CAF50;
-            box-shadow: 0 0 5px rgba(76, 175, 80, 0.3);
-        }
+def lorentz_force(v, E, B, q):
+    return q * (E + np.cross(v, B))
 
+def run_simulation(E, B):
+    steps = int(t_max / dt)
+    r = np.zeros((steps, 3))
+    v = np.zeros((steps, 3))
+    r[0], v[0] = r0, v0
 
-        #simulationCanvas {
-            background-color: #e0e0e0;
-            border: 1px solid #ccc;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            width: 95%; /* Make canvas responsive */
-            max-width: 800px; /* Limit maximum width of canvas */
-            height: auto; /* Maintain aspect ratio */
-            aspect-ratio: 8 / 6;
-        }
+    for i in range(steps - 1):
+        a = lorentz_force(v[i], E, B, q) / m
+        v[i + 1] = v[i] + a * dt
+        r[i + 1] = r[i] + v[i + 1] * dt
 
-        #plotTabs {
-            display: flex;
-            margin-bottom: 10px;
-            width: 95%;
-            max-width: 800px;
-        }
-        #plotTabs button {
-            padding: 10px 15px;
-            border: none;
-            border-bottom: 2px solid transparent;
-            background-color: #f0f0f0;
-            border-radius: 8px 8px 0 0;
-            cursor: pointer;
-            transition: background-color 0.3s ease, border-color 0.3s ease;
-            margin-right: 5px;
-            color: #555;
-        }
+    return r
 
-        #plotTabs button:hover {
-            background-color: #ddd;
-            border-color: #4CAF50;
-            color: #333;
-        }
+trajectory_B = run_simulation(E, B)
 
-        #plotTabs button.active {
-            background-color: #fff;
-            border-color: #4CAF50;
-            font-weight: bold;
-            color: #333;
-        }
-
-        .plotContainer {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-            width: 95%;
-            max-width: 800px;
-            display: none; /* Initially hide all plots */
-            box-sizing: border-box;
-        }
-
-        .plotContainer.active {
-            display: block; /* Show the active plot */
-        }
-
-        #message-box {
-            background-color: #fff;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-top: 20px;
-            text-align: center;
-            color: #333;
-            width: 95%;
-            max-width: 800px;
-            box-sizing: border-box;
-        }
-
-        #simulation-controls {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center; /* Center the buttons */
-            gap: 10px; /* Add some gap between buttons */
-            margin-top: 20px;
-            width: 95%;
-            max-width: 800px;
-            box-sizing: border-box;
-        }
-        #simulation-controls button {
-            padding: 12px 18px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-            color: white;
-            background-color: #4CAF50;
-        }
-
-        #simulation-controls button:hover {
-            background-color: #45a049;
-        }
-        #resetButton {
-            background-color: #f44336;
-        }
-         #resetButton:hover {
-            background-color: #d32f2f;
-        }
-
-        @media (max-width: 768px) {
-            #controls {
-                flex-direction: column;
-            }
-            #controls > div {
-                width: 100%;
-                margin-right: 0;
-                margin-bottom: 20px;
-            }
-             #simulation-controls {
-                flex-direction: column;
-                gap: 10px;
-            }
-        }
-    </style>
-</head>
-<body>
-<h1>Lorentz Force Simulation</h1>
-<div id="controls">
-<div>
-<label for="charge">Charge (q):</label>
-<input id="charge" placeholder="Charge (C)" type="number" value="1.6e-19"/>
-</div>
-<div>
-<label for="mass">Mass (m):</label>
-<input id="mass" placeholder="Mass (kg)" type="number" value="1.67e-27"/>
-</div>
-<div>
-<label for="electricX">Electric Field X (Ex):</label>
-<input id="electricX" placeholder="Ex (V/m)" type="number" value="0"/>
-</div>
-<div>
-<label for="electricY">Electric Field Y (Ey):</label>
-<input id="electricY" placeholder="Ey (V/m)" type="number" value="0"/>
-</div>
-<div>
-<label for="electricZ">Electric Field Z (Ez):</label>
-<input id="electricZ" placeholder="Ez (V/m)" type="number" value="0"/>
-</div>
-<div>
-<label for="magneticX">Magnetic Field X (Bx):</label>
-<input id="magneticX" placeholder="Bx (T)" type="number" value="0"/>
-</div>
-<div>
-<label for="magneticY">Magnetic Field Y (By):</label>
-<input id="magneticY" placeholder="By (T)" type="number" value="0"/>
-</div>
-<div>
-<label for="magneticZ">Magnetic Field Z (Bz):</label>
-<input id="magneticZ" placeholder="Bz (T)" type="number" value="0.5"/>
-</div>
-<div>
-<label for="velocityX">Initial Velocity X (vx0):</label>
-<input id="velocityX" placeholder="vx0 (m/s)" type="number" value="100"/>
-</div>
-<div>
-<label for="velocityY">Initial Velocity Y (vy0):</label>
-<input id="velocityY" placeholder="vy0 (m/s)" type="number" value="0"/>
-</div>
-<div>
-<label for="velocityZ">Initial Velocity Z (vz0):</label>
-<input id="velocityZ" placeholder="vz0 (m/s)" type="number" value="0"/>
-</div>
-<div>
-<label for="timeStep">Time Step (dt):</label>
-<input id="timeStep" placeholder="dt (s)" type="number" value="1e-9"/>
-</div>
-<div>
-<label for="maxTime">Max Time (t_max):</label>
-<input id="maxTime" placeholder="t_max (s)" type="number" value="1e-6"/>
-</div>
-</div>
-<canvas id="simulationCanvas"></canvas>
-<div id="plotTabs">
-<button class="active" data-plot="2dPlot">2D Trajectory</button>
-<button data-plot="3dPlot">3D Trajectory</button>
-</div>
-<div class="plotContainer active" id="2dPlot">
-<canvas id="trajectoryPlot2D"></canvas>
-</div>
-<div class="plotContainer" id="3dPlot">
-<canvas id="trajectoryPlot3D"></canvas>
-</div>
-<div id="message-box">Simulation running...</div>
-<div id="simulation-controls">
-<button id="startSimulation">Start Simulation</button>
-<button id="resetButton">Reset</button>
-</div>
-<script>
-        const canvas = document.getElementById('simulationCanvas');
-        const ctx = canvas.getContext('2d');
-        const plotCtx2D = document.getElementById('trajectoryPlot2D').getContext('2d');
-        const plotCtx3D = document.getElementById('trajectoryPlot3D').getContext('2d');
-        const messageBox = document.getElementById('message-box');
-
-        // Get input elements
-        const chargeInput = document.getElementById('charge');
-        const massInput = document.getElementById('mass');
-        const electricXInput = document.getElementById('electricX');
-        const electricYInput = document.getElementById('electricY');
-        const electricZInput = document.getElementById('electricZ');
-        const magneticXInput = document.getElementById('magneticX');
-        const magneticYInput = document.getElementById('magneticY');
-        const magneticZInput = document.getElementById('magneticZ');
-        const velocityXInput = document.getElementById('velocityX');
-        const velocityYInput = document.getElementById('velocityY');
-        const velocityZInput = document.getElementById('velocityZ');
-        const timeStepInput = document.getElementById('timeStep');
-        const maxTimeInput = document.getElementById('maxTime');
-        const startSimulationButton = document.getElementById('startSimulation');
-        const resetButton = document.getElementById('resetButton');
-
-        const plotTabs = document.getElementById('plotTabs');
-        const plotContainers = document.querySelectorAll('.plotContainer');
-        const tabButtons = plotTabs.querySelectorAll('button');
-
-        let activePlot = '2dPlot'; // Default active plot
-
-        // Add event listeners to the tab buttons
-        tabButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                // Deactivate all tabs and plots
-                tabButtons.forEach(b => b.classList.remove('active'));
-                plotContainers.forEach(p => p.classList.remove('active'));
-
-                // Activate the clicked tab and corresponding plot
-                const plotId = button.dataset.plot;
-                document.getElementById(plotId).classList.add('active');
-                button.classList.add('active');
-                activePlot = plotId; // Update the active plot
-            });
-        });
-
-
-        let simulationRunning = false;
-        let animationFrameId;
-
-        function updateDimensions() {
-            canvas.width = document.getElementById('simulationCanvas').offsetWidth;
-            canvas.height = document.getElementById('simulationCanvas').offsetHeight;
-             document.getElementById('trajectoryPlot2D').width = document.getElementById('simulationCanvas').offsetWidth;
-            document.getElementById('trajectoryPlot2D').height = document.getElementById('simulationCanvas').offsetHeight;
-            document.getElementById('trajectoryPlot3D').width = document.getElementById('simulationCanvas').offsetWidth;
-            document.getElementById('trajectoryPlot3D').height = document.getElementById('simulationCanvas').offsetHeight;
-        }
-
-        updateDimensions();
-        window.addEventListener('resize', updateDimensions);
-
-
-        function getParameters() {
-            // Get values from input elements
-            const q = parseFloat(chargeInput.value);
-            const m = parseFloat(massInput.value);
-            const Ex = parseFloat(electricXInput.value);
-            const Ey = parseFloat(electricYInput.value);
-            const Ez = parseFloat(electricZInput.value);
-            const Bx = parseFloat(magneticXInput.value);
-            const By = parseFloat(magneticYInput.value);
-            const Bz = parseFloat(magneticZInput.value);
-            const vx0 = parseFloat(velocityXInput.value);
-            const vy0 = parseFloat(velocityYInput.value);
-            const vz0 = parseFloat(velocityZInput.value);
-            const dt = parseFloat(timeStepInput.value);
-            const tMax = parseFloat(maxTimeInput.value);
-
-            // Return parameters as an object
-            return { q, m, Ex, Ey, Ez, Bx, By, Bz, vx0, vy0, vz0, dt, tMax };
-        }
-
-        function lorentzForce(q, E, v, B) {
-            // Calculate Lorentz force
-            const F = [
-                q * (E[0] + v[1] * B[2] - v[2] * B[1]),
-                q * (E[1] + v[2] * B[0] - v[0] * B[2]),
-                q * (E[2] + v[0] * B[1] - v[1] * B[0])
-            ];
-            return F;
-        }
-
-        function simulateMotion(q, m, E, B, v0, r0, tMax, dt) {
-            // Simulate particle motion using the Runge-Kutta 4th order method
-            const t = [];
-            const r = [r0];
-            const v = [v0];
-            let time = 0;
-
-            while (time < tMax) {
-                // Runge-Kutta 4th order method
-                const k1_v = lorentzForce(q, E, v[v.length - 1], B).map(a => a / m);
-                const k1_r = v[v.length - 1];
-
-                const k2_v = lorentzForce(q, E, v[v.length - 1].map((a, i) => a + 0.5 * dt * k1_v[i]), B).map(a => a / m);
-                const k2_r = v[v.length - 1].map((a, i) => a + 0.5 * dt * k1_r[i]);
-
-                const k3_v = lorentzForce(q, E, v[v.length - 1].map((a, i) => a + 0.5 * dt * k2_v[i]), B).map(a => a / m);
-                const k3_r = v[v.length - 1].map((a, i) => a + 0.5 * dt * k2_r[i]);
-
-                const k4_v = lorentzForce(q, E, v[v.length - 1].map((a, i) => a + dt * k3_v[i]), B).map(a => a / m);
-                const k4_r = v[v.length - 1].map((a, i) => a + dt * k3_r[i]);
-
-                const new_v = v[v.length - 1].map((a, i) => a + (dt / 6) * (k1_v[i] + 2 * k2_v[i] + 2 * k3_v[i] + k4_v[i]));
-                const new_r = r[r.length - 1].map((a, i) => a + (dt / 6) * (k1_r[i] + 2 * k2_r[i] + 2 * k3_r[i] + k4_r[i]));
-
-                v.push(new_v);
-                r.push(new_r);
-                t.push(time);
-                time += dt;
-            }
-            return { t, r, v };
-        }
-
-        function drawTrajectory(r, ctx, dimensions) {
-            // Draw the particle trajectory on the canvas
-            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-            ctx.beginPath();
-            ctx.moveTo(r[0][0] + dimensions.xOffset, r[0][1] + dimensions.yOffset);
-            for (let i = 1; i < r.length; i++) {
-                ctx.lineTo(r[i][0] + dimensions.xOffset, r[i][1] + dimensions.yOffset);
-            }
-            ctx.strokeStyle = '#007BFF';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-        }
-
-        function plotTrajectory2D(r, ctx) {
-            ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-            ctx.beginPath();
-            ctx.moveTo(r[0][0], r[0][1]);
-            for (let i = 1; i < r.length; i++) {
-                ctx.lineTo(r[i][0], r[i][1]);
-            }
-            ctx.strokeStyle = '#007BFF';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-
-            // Add labels and title
-            ctx.xlabel = "X Position (m)";
-            ctx.ylabel = "Y Position (m)";
-            ctx.title = "2D Trajectory of Charged Particle";
-
-        }
-
-        function plotTrajectory3D(r, ctx) {
-             ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-            const points = r.map(p => ({ x: p[0], y: p[1], z: p[2] }));
-
-            // 3D projection
-            const projectionFactor = 100;
-            const projectedPoints = points.map(p => ({
-                x: p.x + projectionFactor * (p.x / (p.z + projectionFactor)),
-                y: p.y + projectionFactor * (p.y / (p.z + projectionFactor)),
-                z: p.z
-            }));
-
-            ctx.beginPath();
-            ctx.moveTo(projectedPoints[0].x, projectedPoints[0].y);
-            for (let i = 1; i < projectedPoints.length; i++) {
-                ctx.lineTo(projectedPoints[i].x, projectedPoints[i].y);
-            }
-            ctx.strokeStyle = '#007BFF';
-            ctx.lineWidth = 2;
-            ctx.stroke();
-
-            ctx.xlabel = "Projected X Position";
-            ctx.ylabel = "Projected Y Position";
-            ctx.title = "3D Trajectory of Charged Particle";
-        }
-
-
-
-        function animate() {
-            if (!simulationRunning) return;
-
-            const { q, m, Ex, Ey, Ez, Bx, By, Bz, vx0, vy0, vz0, dt, tMax } = getParameters();
-            const E = [Ex, Ey, Ez];
-            const B = [Bx, By, Bz];
-            const v0 = [vx0, vy0, vz0];
-            const r0 = [0, 0, 0];
-
-            const { r } = simulateMotion(q, m, E, B, v0, r0, tMax, dt);
-            let dimensions = {xOffset: canvas.width / 2, yOffset: canvas.height / 2};
-            drawTrajectory(r, ctx, dimensions);
-
-            if (activePlot === '2dPlot'){
-                plotTrajectory2D(r, plotCtx2D);
-             } else if (activePlot === '3dPlot'){
-                plotTrajectory3D(r, plotCtx3D);
-             }
-
-            animationFrameId = requestAnimationFrame(animate);
-            messageBox.textContent = 'Simulation running...';
-        }
-
-        function startSimulation() {
-            if (simulationRunning) return;
-            simulationRunning = true;
-            startSimulationButton.textContent = 'Stop Simulation';
-            animate();
-        }
-
-        function resetSimulation() {
-            simulationRunning = false;
-            startSimulationButton.textContent = 'Start Simulation';
-            cancelAnimationFrame(animationFrameId);
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            plotCtx2D.clearRect(0, 0, plotCtx2D.canvas.width, plotCtx2D.canvas.height);
-            plotCtx3D.clearRect(0, 0, plotCtx3D.canvas.width, plotCtx3D.canvas.height);
-            messageBox.textContent = 'Simulation stopped. Reset parameters to start a new simulation.';
-
-            // Reset input values to their defaults
-            chargeInput.value = '1.6e-19';
-            massInput.value = '1.67e-27';
-            electricXInput.value = '0';
-            electricYInput.value = '0';
-            electricZInput.value = '0';
-            magneticXInput.value = '0';
-            magneticYInput.value = '0';
-            magneticZInput.value = '0.5';
-            velocityXInput.value = '100';
-            velocityYInput.value = '0';
-            velocityZInput.value = '0';
-            timeStepInput.value = '1e-9';
-            maxTimeInput.value = '1e-6';
-        }
-
-        startSimulationButton.addEventListener('click', startSimulation);
-        resetButton.addEventListener('click', resetSimulation);
-    </script>
-</body>
-</html>
+# Visualization
+fig = plt.figure(figsize=(8, 6))
+ax = fig.add_subplot(111, projection='3d')
+ax.plot(trajectory_B[:, 0], trajectory_B[:, 1], trajectory_B[:, 2], label='Uniform B-field')
+ax.set_xlabel('X Position (m)')
+ax.set_ylabel('Y Position (m)')
+ax.set_zlabel('Z Position (m)')
+ax.set_title('Particle Trajectory under Uniform Magnetic Field')
+ax.legend()
+plt.show()
+</code></pre>
+<h2 id="practical-application-discussion">Practical Application Discussion</h2>
+<p>Simulations of the Lorentz force provide insights into several key technologies and scientific applications:</p>
+<ul>
+<li><strong>Cyclotrons and Particle Accelerators:</strong></li>
+<li>Charged particles moving in magnetic fields follow circular or helical trajectories.</li>
+<li>
+<p>This principle underpins the design and operation of cyclotrons, enabling controlled particle acceleration.</p>
+</li>
+<li>
+<p><strong>Mass Spectrometry:</strong></p>
+</li>
+<li>
+<p>Utilizes magnetic fields to separate ions based on mass-to-charge ratios, essential for analytical chemistry and biology.</p>
+</li>
+<li>
+<p><strong>Magnetic Traps and Plasma Confinement:</strong></p>
+</li>
+<li>Controlling particle motion with electromagnetic fields is fundamental in fusion reactors, such as tokamaks.</li>
+</ul>
+<h2 id="extensions-for-complex-scenarios">Extensions for Complex Scenarios</h2>
+<p>Future enhancements could include:</p>
+<ul>
+<li>Non-uniform magnetic fields to simulate realistic scenarios found in astrophysics and advanced plasma research.</li>
+<li>Implementing relativistic corrections for high-energy particle simulations.</li>
+<li>Introducing stochastic elements or collisions to better mimic conditions found in real plasmas.</li>
+</ul>
+<p>This foundational simulation allows us to build towards more intricate and realistic models, providing deeper understanding and predictive capabilities in electromagnetism and particle physics.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
