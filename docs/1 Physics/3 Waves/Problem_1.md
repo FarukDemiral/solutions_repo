@@ -1,5 +1,6 @@
 # Problem 1
-# Waves - Problem 1: Interference Patterns on a Water Surface
+# Waves
+# Interference Patterns on a Water Surface
 
 ## Problem Statement
 
