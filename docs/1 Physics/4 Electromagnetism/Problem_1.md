@@ -36,7 +36,7 @@ We will use Python with NumPy and Matplotlib to simulate and visualize particle 
     </style>
 </head>
 <body>
-<canvas id="simulationCanvas" width="600" height="600"></canvas>
+<canvas id="simulationCanvas" width="700" height="600"></canvas>
 
 <script>
 const canvas = document.getElementById('simulationCanvas');
