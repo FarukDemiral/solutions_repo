@@ -23,56 +23,68 @@ We will use Python with NumPy and Matplotlib to simulate and visualize particle 
 - **Combined Electric and Magnetic Fields**
 - **Crossed Electric and Magnetic Fields**
 
-## Python Simulation
+## Simulation
 
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorentz Force Simulation</title>
+    <style>
+        canvas { border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+<canvas id="simulationCanvas" width="600" height="600"></canvas>
 
-# Constants
-q = 1.6e-19  # particle charge (Coulombs)
-m = 9.1e-31  # particle mass (kg)
-dt = 1e-11   # time step (s)
-t_max = 1e-7 # simulation time (s)
+<script>
+const canvas = document.getElementById('simulationCanvas');
+const ctx = canvas.getContext('2d');
 
-# Initial conditions
-v0 = np.array([1e6, 0, 0])  # Initial velocity (m/s)
-r0 = np.array([0, 0, 0])    # Initial position (m)
+// Constants
+const q = 1.6e-19;  // Coulombs
+const m = 9.1e-31;  // kg
+const dt = 1e-11;   // s
+const steps = 10000;
 
-# Fields
-E = np.array([0, 0, 0])
-B = np.array([0, 0, 0.1])  # Uniform magnetic field (Tesla)
+// Initial conditions
+let r = {x: 400, y: 300};
+let v = {x: 1e6, y: 0};
 
-def lorentz_force(v, E, B, q):
-    return q * (E + np.cross(v, B))
+// Fields
+const E = {x: 0, y: 0};
+const B = 0.1;  // Tesla, perpendicular to plane
 
-def run_simulation(E, B):
-    steps = int(t_max / dt)
-    r = np.zeros((steps, 3))
-    v = np.zeros((steps, 3))
-    r[0], v[0] = r0, v0
+function lorentzForce(v, E, B, q) {
+    return {
+        x: q * (E.x + v.y * B),
+        y: q * (E.y - v.x * B)
+    };
+}
 
-    for i in range(steps - 1):
-        a = lorentz_force(v[i], E, B, q) / m
-        v[i + 1] = v[i] + a * dt
-        r[i + 1] = r[i] + v[i + 1] * dt
+function runSimulation() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.moveTo(r.x, r.y);
 
-    return r
+    for (let i = 0; i < steps; i++) {
+        const a = lorentzForce(v, E, B, q);
+        v.x += (a.x / m) * dt;
+        v.y += (a.y / m) * dt;
+        r.x += v.x * dt * 1e-5; // scaled for visualization
+        r.y += v.y * dt * 1e-5;
+        ctx.lineTo(r.x, r.y);
+    }
 
-trajectory_B = run_simulation(E, B)
+    ctx.strokeStyle = '#007BFF';
+    ctx.stroke();
+}
 
-# Visualization
-fig = plt.figure(figsize=(8, 6))
-ax = fig.add_subplot(111, projection='3d')
-ax.plot(trajectory_B[:, 0], trajectory_B[:, 1], trajectory_B[:, 2], label='Uniform B-field')
-ax.set_xlabel('X Position (m)')
-ax.set_ylabel('Y Position (m)')
-ax.set_zlabel('Z Position (m)')
-ax.set_title('Particle Trajectory under Uniform Magnetic Field')
-ax.legend()
-plt.show()
-```
+runSimulation();
+</script>
+</body>
+</html>
 
 ## Practical Application Discussion
 
