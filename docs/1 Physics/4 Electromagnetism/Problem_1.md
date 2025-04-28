@@ -1,12 +1,17 @@
 # Problem 1
+## Lorentz Force Simulation Code
+
+Here's the code for a Lorentz Force simulation, which calculates the trajectory of a charged particle in electric and magnetic fields.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lorentz Force Simulation</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css"/>
+    <script src="[https://cdn.jsdelivr.net/npm/chart.js](https://cdn.jsdelivr.net/npm/chart.js)"></script>
+    <link rel="stylesheet" type="text/css" href="[https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css](https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css)"/>
     <style>
         body {
             font-family: 'Arial', sans-serif;
