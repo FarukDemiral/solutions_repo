@@ -32,7 +32,7 @@ We will use Python with NumPy and Matplotlib to simulate and visualize particle 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lorentz Force Simulation</title>
     <style>
-        canvas { border: 1px solid #ccc; }
+        canvas { border: 3px solid #ccc; }
     </style>
 </head>
 <body>
