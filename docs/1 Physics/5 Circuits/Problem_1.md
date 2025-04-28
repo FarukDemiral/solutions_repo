@@ -10,7 +10,7 @@
     </style>
 </head>
 <body>
-<canvas id="simulationCanvas" width="800" height="600"></canvas>
+<canvas id="simulationCanvas" width="600" height="600"></canvas>
 
 <script>
 const canvas = document.getElementById('simulationCanvas');
@@ -20,7 +20,7 @@ const ctx = canvas.getContext('2d');
 const q = 1.6e-19;  // Coulombs
 const m = 9.1e-31;  // kg
 const dt = 1e-11;   // s
-const steps = 800;
+const steps = 10000;
 
 // Initial conditions
 let r = {x: 400, y: 300};
