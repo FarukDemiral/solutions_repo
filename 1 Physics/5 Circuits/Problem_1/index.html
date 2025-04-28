@@ -120,6 +120,228 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<p>import React from 'react';
+import { SimulationParameters } from '@/lib/simulation';
+import { presets } from '@/lib/presets';</p>
+<p>interface ParameterControlsProps {
+  parameters: SimulationParameters;
+  onParameterChange: (newParams: Partial<simulationparameters>) =&gt; void;
+  onRunSimulation: () =&gt; void;
+  onExportData: () =&gt; void;
+  onPresetSelect: (presetIndex: number) =&gt; void;
+}</simulationparameters></p>
+<p>const ParameterControls: React.FC<parametercontrolsprops> = ({
+  parameters,
+  onParameterChange,
+  onRunSimulation,
+  onExportData,
+  onPresetSelect
+}) =&gt; {
+  const handleNumberChange = (e: React.ChangeEvent<htmlinputelement>, field: keyof SimulationParameters) =&gt; {
+    const value = parseFloat(e.target.value);
+    if (!isNaN(value)) {
+      onParameterChange({ [field]: value });
+    }
+  };</htmlinputelement></parametercontrolsprops></p>
+<p>const handleCheckboxChange = (e: React.ChangeEvent<htmlinputelement>, field: keyof SimulationParameters) =&gt; {
+    onParameterChange({ [field]: e.target.checked });
+  };</htmlinputelement></p>
+<p>const handleSelectChange = (e: React.ChangeEvent<htmlselectelement>, field: keyof SimulationParameters) =&gt; {
+    onParameterChange({ [field]: e.target.value });
+  };</htmlselectelement></p>
+<p>return (
+    <div classname="lg:w-1/3 bg-surface p-6 rounded-lg shadow-md">
+<h2 classname="text-xl font-semibold mb-4">Simulation Parameters</h2></div></p>
+<pre><code>  {/* Presets */}
+  &lt;div className="mb-6"&gt;
+    &lt;label className="block text-sm font-medium mb-2"&gt;Presets&lt;/label&gt;
+    &lt;div className="grid grid-cols-2 gap-2"&gt;
+      {presets.map((preset, index) =&gt; (
+        &lt;button
+          key={index}
+          onClick={() =&gt; onPresetSelect(index)}
+          className="text-sm py-2 px-3 bg-primary-light text-primary rounded hover:bg-primary hover:text-white transition-colors"
+          title={preset.description}
+        &gt;
+          {preset.name}
+        &lt;/button&gt;
+      ))}
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  {/* Field Parameters */}
+  &lt;div className="mb-6"&gt;
+    &lt;h3 className="text-lg font-medium mb-3"&gt;Fields&lt;/h3&gt;
+
+    &lt;div className="mb-4"&gt;
+      &lt;label className="block text-sm font-medium mb-2"&gt;Magnetic Field (T)&lt;/label&gt;
+      &lt;input
+        type="range"
+        min="0"
+        max="2"
+        step="0.1"
+        value={parameters.magneticField}
+        onChange={(e) =&gt; handleNumberChange(e, 'magneticField')}
+        className="w-full"
+      /&gt;
+      &lt;div className="flex justify-between text-xs text-gray-500"&gt;
+        &lt;span&gt;0&lt;/span&gt;
+        &lt;span&gt;{parameters.magneticField.toFixed(1)}&lt;/span&gt;
+        &lt;span&gt;2&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div className="flex gap-4 mb-4"&gt;
+      &lt;div className="flex-1"&gt;
+        &lt;label className="block text-sm font-medium mb-2"&gt;B Direction&lt;/label&gt;
+        &lt;select
+          value={parameters.bDirection}
+          onChange={(e) =&gt; handleSelectChange(e, 'bDirection')}
+          className="w-full p-2 border rounded"
+        &gt;
+          &lt;option value="x"&gt;X-axis&lt;/option&gt;
+          &lt;option value="y"&gt;Y-axis&lt;/option&gt;
+          &lt;option value="z"&gt;Z-axis&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div className="mb-4"&gt;
+      &lt;label className="block text-sm font-medium mb-2"&gt;Electric Field (V/m)&lt;/label&gt;
+      &lt;input
+        type="range"
+        min="0"
+        max="5"
+        step="0.1"
+        value={parameters.electricField}
+        onChange={(e) =&gt; handleNumberChange(e, 'electricField')}
+        className="w-full"
+      /&gt;
+      &lt;div className="flex justify-between text-xs text-gray-500"&gt;
+        &lt;span&gt;0&lt;/span&gt;
+        &lt;span&gt;{parameters.electricField.toFixed(1)}&lt;/span&gt;
+        &lt;span&gt;5&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div className="flex gap-4 mb-4"&gt;
+      &lt;div className="flex-1"&gt;
+        &lt;label className="block text-sm font-medium mb-2"&gt;E Direction&lt;/label&gt;
+        &lt;select
+          value={parameters.eDirection}
+          onChange={(e) =&gt; handleSelectChange(e, 'eDirection')}
+          className="w-full p-2 border rounded"
+        &gt;
+          &lt;option value="x"&gt;X-axis&lt;/option&gt;
+          &lt;option value="y"&gt;Y-axis&lt;/option&gt;
+          &lt;option value="z"&gt;Z-axis&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  {/* Particle Parameters */}
+  &lt;div className="mb-6"&gt;
+    &lt;h3 className="text-lg font-medium mb-3"&gt;Particle&lt;/h3&gt;
+
+    &lt;div className="mb-4"&gt;
+      &lt;label className="block text-sm font-medium mb-2"&gt;Velocity (m/s)&lt;/label&gt;
+      &lt;input
+        type="range"
+        min="10"
+        max="500"
+        step="10"
+        value={parameters.particleVelocity}
+        onChange={(e) =&gt; handleNumberChange(e, 'particleVelocity')}
+        className="w-full"
+      /&gt;
+      &lt;div className="flex justify-between text-xs text-gray-500"&gt;
+        &lt;span&gt;10&lt;/span&gt;
+        &lt;span&gt;{parameters.particleVelocity}&lt;/span&gt;
+        &lt;span&gt;500&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div className="mb-4"&gt;
+      &lt;label className="block text-sm font-medium mb-2"&gt;
+        Time Step
+        &lt;span className="ml-1 text-xs text-gray-500"&gt;(smaller = more accurate but slower)&lt;/span&gt;
+      &lt;/label&gt;
+      &lt;input
+        type="range"
+        min="0.0001"
+        max="0.01"
+        step="0.0001"
+        value={parameters.timeStep}
+        onChange={(e) =&gt; handleNumberChange(e, 'timeStep')}
+        className="w-full"
+      /&gt;
+      &lt;div className="flex justify-between text-xs text-gray-500"&gt;
+        &lt;span&gt;0.0001&lt;/span&gt;
+        &lt;span&gt;{parameters.timeStep.toFixed(4)}&lt;/span&gt;
+        &lt;span&gt;0.01&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  {/* Visualization Options */}
+  &lt;div className="mb-6"&gt;
+    &lt;h3 className="text-lg font-medium mb-3"&gt;Visualization&lt;/h3&gt;
+
+    &lt;div className="flex flex-col gap-2"&gt;
+      &lt;label className="flex items-center"&gt;
+        &lt;input
+          type="checkbox"
+          checked={parameters.showAxes}
+          onChange={(e) =&gt; handleCheckboxChange(e, 'showAxes')}
+          className="mr-2"
+        /&gt;
+        &lt;span&gt;Show Axes&lt;/span&gt;
+      &lt;/label&gt;
+
+      &lt;label className="flex items-center"&gt;
+        &lt;input
+          type="checkbox"
+          checked={parameters.showFieldVectors}
+          onChange={(e) =&gt; handleCheckboxChange(e, 'showFieldVectors')}
+          className="mr-2"
+        /&gt;
+        &lt;span&gt;Show Field Vectors&lt;/span&gt;
+      &lt;/label&gt;
+
+      &lt;label className="flex items-center"&gt;
+        &lt;input
+          type="checkbox"
+          checked={parameters.showVelocityVector}
+          onChange={(e) =&gt; handleCheckboxChange(e, 'showVelocityVector')}
+          className="mr-2"
+        /&gt;
+        &lt;span&gt;Show Velocity Vector&lt;/span&gt;
+      &lt;/label&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  {/* Action Buttons */}
+  &lt;div className="flex flex-col gap-2"&gt;
+    &lt;button
+      onClick={onRunSimulation}
+      className="w-full py-2 px-4 bg-primary text-white rounded hover:bg-primary-dark transition-colors"
+    &gt;
+      Run Simulation
+    &lt;/button&gt;
+
+    &lt;button
+      onClick={onExportData}
+      className="w-full py-2 px-4 border border-primary text-primary rounded hover:bg-primary-light transition-colors"
+    &gt;
+      Export Data
+    &lt;/button&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+<p>);
+};</p>
+<p>export default ParameterControls;</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
