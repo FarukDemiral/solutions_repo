@@ -55,7 +55,6 @@ Key motion behaviors:
 
 ##  Interactive Simulation 
 
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -74,19 +73,19 @@ Key motion behaviors:
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
-    const dt = 1e-11;
-    const steps = 5000;
+    const dt = 0.05;         // Time step (arbitrary unit)
+    const steps = 2000;      // Number of steps
 
-    const q = 1.6e-19; // C
-    const m = 9.1e-31; // kg
+    const q = 1;             // Charge (scaled)
+    const m = 1;             // Mass (scaled)
 
-    const scale = 1e-5; // for visual scaling
+    const scale = 1;         // Position scaling
 
-    let pos = { x: 400, y: 300 };
-    let vel = { x: 1e6, y: 0 };
+    let pos = { x: 400, y: 300 };       // Start in middle of canvas
+    let vel = { x: 2, y: 0 };           // Initial velocity
 
-    const E = { x: 0, y: 0 }; // uniform electric field
-    const B = 0.1;            // uniform magnetic field (perpendicular to screen)
+    const E = { x: 0, y: 0 };           // Electric field (can test with values like {x: 0.5, y: 0})
+    const B = 1;                        // Magnetic field (perpendicular to plane)
 
     function lorentzForce(v, E, B, q) {
       return {
@@ -106,6 +105,8 @@ Key motion behaviors:
         vel.y += (a.y / m) * dt;
         pos.x += vel.x * dt * scale;
         pos.y += vel.y * dt * scale;
+
+        // Keep drawing the trajectory
         ctx.lineTo(pos.x, pos.y);
       }
 
@@ -118,9 +119,7 @@ Key motion behaviors:
   </script>
 </body>
 </html>
-```
 
----
 
 ##  Observations & Analysis
 - In uniform \( \vec{B} \): Circular motion (Larmor orbits)
