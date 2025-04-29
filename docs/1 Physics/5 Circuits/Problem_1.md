@@ -29,7 +29,7 @@
     y: canvas.height / 2,
     vx: 50,
     vy: 0,
-    radius: 5,
+    radius: 1,
     color: 'red',
     path: [] // Array to store the trajectory points
   };
@@ -54,7 +54,7 @@
 
     // Store the current position in the path
     particle.path.push({ x: particle.x, y: particle.y });
-    if (particle.path.length > 100) { // Limit the length of the trajectory
+    if (particle.path.length > 500) { // Limit the length of the trajectory
       particle.path.shift();
     }
 
@@ -96,7 +96,7 @@
   }
 
   // Start the animation
-  loop();
+  50p();
 </script>
 </body>
 </html>
