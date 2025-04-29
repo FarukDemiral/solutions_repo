@@ -54,7 +54,7 @@
 
     // Store the current position in the path
     particle.path.push({ x: particle.x, y: particle.y });
-    if (particle.path.length > 500) { // Limit the length of the trajectory
+    if (particle.path.length > 100) { // Limit the length of the trajectory
       particle.path.shift();
     }
 
