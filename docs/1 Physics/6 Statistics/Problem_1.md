@@ -67,7 +67,7 @@ Key motion behaviors:
 </head>
 <body>
   <h2> Lorentz Force Particle Trajectory</h2>
-  <canvas id="canvas" width="800" height="600"></canvas>
+  <canvas id="canvas" width="740" height="600"></canvas>
 
   <script>
     const canvas = document.getElementById('canvas');
