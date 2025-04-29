@@ -120,22 +120,54 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
-<!DOCTYPE html>
-
-<html lang="en">
-<head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Lorentz Force Simulation</title>
-<style>
+<h1 id="simulating-the-effects-of-the-lorentz-force">Simulating the Effects of the Lorentz Force</h1>
+<h2 id="theoretical-foundation">Theoretical Foundation</h2>
+<p>The Lorentz force is a fundamental concept in electromagnetism that governs the dynamics of charged particles in the presence of electric and magnetic fields. It is expressed as:</p>
+<div class="arithmatex">\[
+\mathbf{F} = q\mathbf{E} + q\mathbf{v} \times \mathbf{B}
+\]</div>
+<p>where:
+- <span class="arithmatex">\(\mathbf{F}\)</span> is the total electromagnetic force acting on the particle (in newtons),
+- <span class="arithmatex">\(q\)</span> is the electric charge of the particle (in coulombs),
+- <span class="arithmatex">\(\mathbf{E}\)</span> is the electric field vector (in volts per meter),
+- <span class="arithmatex">\(\mathbf{v}\)</span> is the velocity vector of the particle (in meters per second),
+- <span class="arithmatex">\(\mathbf{B}\)</span> is the magnetic field vector (in teslas),
+- <span class="arithmatex">\(\times\)</span> denotes the vector cross product.</p>
+<p>This equation describes how a charged particle experiences a force due to both the electric and magnetic components of an electromagnetic field. The electric field exerts a force in the direction of the field (if the charge is positive), while the magnetic force depends on the direction and magnitude of the particle's velocity as well as the magnetic field.</p>
+<p>The cross product <span class="arithmatex">\(\mathbf{v} \times \mathbf{B}\)</span> results in a force perpendicular to both the velocity of the particle and the direction of the magnetic field, leading to curved paths such as circular or helical motion. The magnitude of the magnetic part of the force is given by:</p>
+<div class="arithmatex">\[
+F_B = qvB \sin(\theta)
+\]</div>
+<p>where <span class="arithmatex">\(\theta\)</span> is the angle between <span class="arithmatex">\(\mathbf{v}\)</span> and <span class="arithmatex">\(\mathbf{B}\)</span>.</p>
+<h3 id="key-consequences">Key Consequences:</h3>
+<ul>
+<li>In a <strong>uniform magnetic field</strong>, particles move in circular or helical paths depending on their initial velocity direction.</li>
+<li>In a <strong>crossed electric and magnetic field</strong>, the particle can exhibit drift motion (e.g., <span class="arithmatex">\(\mathbf{E} \times \mathbf{B}\)</span> drift).</li>
+<li>The <strong>radius of circular motion</strong> (Larmor radius) is given by:</li>
+</ul>
+<div class="arithmatex">\[
+r_L = \frac{mv_\perp}{qB}
+\]</div>
+<p>where <span class="arithmatex">\(v_\perp\)</span> is the velocity component perpendicular to <span class="arithmatex">\(\mathbf{B}\)</span>.</p>
+<hr/>
+<h2 id="simulation-setup-and-implementation-javascript">Simulation Setup and Implementation (JavaScript)</h2>
+<p>Below is a JavaScript simulation of a charged particle's motion under a uniform magnetic field. The script uses a simple Euler method to numerically integrate the equations of motion and visualizes the particle's trajectory using an HTML5 Canvas.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Lorentz Force Simulation&lt;/title&gt;
+    &lt;style&gt;
         canvas { border: 1px solid #ccc; display: block; margin: auto; }
         body { font-family: sans-serif; background-color: #f4f4f4; text-align: center; }
-    </style>
-</head>
-<body>
-<h2>Charged Particle in a Uniform Magnetic Field</h2>
-<canvas height="600" id="simulationCanvas" width="800"></canvas>
-<script>
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h2&gt;Charged Particle in a Uniform Magnetic Field&lt;/h2&gt;
+&lt;canvas id="simulationCanvas" width="800" height="600"&gt;&lt;/canvas&gt;
+
+&lt;script&gt;
 const canvas = document.getElementById('simulationCanvas');
 const ctx = canvas.getContext('2d');
 
@@ -165,7 +197,7 @@ function runSimulation() {
     ctx.beginPath();
     ctx.moveTo(r.x, r.y);
 
-    for (let i = 0; i < steps; i++) {
+    for (let i = 0; i &lt; steps; i++) {
         const a = lorentzForce(v, E, B, q);
         v.x += (a.x / m) * dt;
         v.y += (a.y / m) * dt;
@@ -179,9 +211,27 @@ function runSimulation() {
 }
 
 runSimulation();
-</script>
-</body>
-</html>
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<hr/>
+<h2 id="practical-applications">Practical Applications</h2>
+<h3 id="1-cyclotrons-and-synchrotrons">1. Cyclotrons and Synchrotrons</h3>
+<p>Particles accelerated in circular paths using strong magnetic fields. Lorentz force determines curvature.</p>
+<h3 id="2-mass-spectrometry">2. Mass Spectrometry</h3>
+<p>Separation of ions by their mass-to-charge ratio by deflection in a magnetic field.</p>
+<h3 id="3-plasma-confinement-in-fusion-reactors">3. Plasma Confinement in Fusion Reactors</h3>
+<p>Charged particles are trapped using magnetic fields, forming helical trajectories to confine hot plasma.</p>
+<hr/>
+<h2 id="future-improvements-and-extensions">Future Improvements and Extensions</h2>
+<ul>
+<li>Simulate <strong>non-uniform magnetic fields</strong>.</li>
+<li>Add <strong>relativistic velocity corrections</strong>.</li>
+<li>Implement <strong>Runge-Kutta integration</strong> for improved numerical accuracy.</li>
+<li>Allow user-controlled inputs for field strength, velocity, and particle mass/charge.</li>
+</ul>
+<p>This extended formulation provides a rigorous theoretical base and professional-quality visualization to demonstrate Lorentz force dynamics in educational or research-based contexts.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
