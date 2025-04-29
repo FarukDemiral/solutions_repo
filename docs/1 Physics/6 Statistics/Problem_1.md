@@ -58,65 +58,61 @@ Key motion behaviors:
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Lorentz Force Simulator</title>
-  <style>
-    body { font-family: Arial; background: #f4f4f4; text-align: center; }
-    canvas { border: 1px solid #aaa; background: white; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lorentz Force Simulation</title>
+    <style>
+        canvas { border: 1px solid #ccc; }
+    </style>
 </head>
 <body>
-  <h2> Lorentz Force Particle Trajectory</h2>
-  <canvas id="canvas" width="740" height="600"></canvas>
+<canvas id="simulationCanvas" width="740" height="800"></canvas>
 
-  <script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
+<script>
+const canvas = document.getElementById('simulationCanvas');
+const ctx = canvas.getContext('2d');
 
-    const dt = 0.05;         // Time step (arbitrary unit)
-    const steps = 2000;      // Number of steps
+// Constants
+const q = 1.6e-19;  // Coulombs
+const m = 9.1e-31;  // kg
+const dt = 1e-11;   // s
+const steps = 10000;
 
-    const q = 1;             // Charge (scaled)
-    const m = 1;             // Mass (scaled)
+// Initial conditions
+let r = {x: 400, y: 300};
+let v = {x: 1e6, y: 0};
 
-    const scale = 1;         // Position scaling
+// Fields
+const E = {x: 0, y: 0};
+const B = 0.1;  // Tesla, perpendicular to plane
 
-    let pos = { x: 400, y: 300 };       // Start in middle of canvas
-    let vel = { x: 2, y: 0 };           // Initial velocity
-
-    const E = { x: 0, y: 0 };           // Electric field (can test with values like {x: 0.5, y: 0})
-    const B = 1;                        // Magnetic field (perpendicular to plane)
-
-    function lorentzForce(v, E, B, q) {
-      return {
+function lorentzForce(v, E, B, q) {
+    return {
         x: q * (E.x + v.y * B),
         y: q * (E.y - v.x * B)
-      };
+    };
+}
+
+function runSimulation() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.moveTo(r.x, r.y);
+
+    for (let i = 0; i < steps; i++) {
+        const a = lorentzForce(v, E, B, q);
+        v.x += (a.x / m) * dt;
+        v.y += (a.y / m) * dt;
+        r.x += v.x * dt * 1e-5; // scaled for visualization
+        r.y += v.y * dt * 1e-5;
+        ctx.lineTo(r.x, r.y);
     }
 
-    function simulate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      ctx.beginPath();
-      ctx.moveTo(pos.x, pos.y);
+    ctx.strokeStyle = '#007BFF';
+    ctx.stroke();
+}
 
-      for (let i = 0; i < steps; i++) {
-        const a = lorentzForce(vel, E, B, q);
-        vel.x += (a.x / m) * dt;
-        vel.y += (a.y / m) * dt;
-        pos.x += vel.x * dt * scale;
-        pos.y += vel.y * dt * scale;
-
-        // Keep drawing the trajectory
-        ctx.lineTo(pos.x, pos.y);
-      }
-
-      ctx.strokeStyle = '#007bff';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    }
-
-    simulate();
-  </script>
+runSimulation();
+</script>
 </body>
 </html>
 
