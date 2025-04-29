@@ -169,37 +169,37 @@
 </ul>
 <hr/>
 <h2 id="interactive-simulation">Interactive Simulation</h2>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;title&gt;Lorentz Force Simulator&lt;/title&gt;
-  &lt;style&gt;
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Lorentz Force Simulator</title>
+<style>
     body { font-family: Arial; background: #f4f4f4; text-align: center; }
     canvas { border: 1px solid #aaa; background: white; }
-  &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;h2&gt; Lorentz Force Particle Trajectory&lt;/h2&gt;
-  &lt;canvas id="canvas" width="800" height="600"&gt;&lt;/canvas&gt;
-
-  &lt;script&gt;
+  </style>
+</head>
+<body>
+<h2> Lorentz Force Particle Trajectory</h2>
+<canvas height="600" id="canvas" width="800"></canvas>
+<script>
     const canvas = document.getElementById('canvas');
     const ctx = canvas.getContext('2d');
 
-    const dt = 1e-11;
-    const steps = 5000;
+    const dt = 0.05;         // Time step (arbitrary unit)
+    const steps = 2000;      // Number of steps
 
-    const q = 1.6e-19; // C
-    const m = 9.1e-31; // kg
+    const q = 1;             // Charge (scaled)
+    const m = 1;             // Mass (scaled)
 
-    const scale = 1e-5; // for visual scaling
+    const scale = 1;         // Position scaling
 
-    let pos = { x: 400, y: 300 };
-    let vel = { x: 1e6, y: 0 };
+    let pos = { x: 400, y: 300 };       // Start in middle of canvas
+    let vel = { x: 2, y: 0 };           // Initial velocity
 
-    const E = { x: 0, y: 0 }; // uniform electric field
-    const B = 0.1;            // uniform magnetic field (perpendicular to screen)
+    const E = { x: 0, y: 0 };           // Electric field (can test with values like {x: 0.5, y: 0})
+    const B = 1;                        // Magnetic field (perpendicular to plane)
 
     function lorentzForce(v, E, B, q) {
       return {
@@ -213,12 +213,14 @@
       ctx.beginPath();
       ctx.moveTo(pos.x, pos.y);
 
-      for (let i = 0; i &lt; steps; i++) {
+      for (let i = 0; i < steps; i++) {
         const a = lorentzForce(vel, E, B, q);
         vel.x += (a.x / m) * dt;
         vel.y += (a.y / m) * dt;
         pos.x += vel.x * dt * scale;
         pos.y += vel.y * dt * scale;
+
+        // Keep drawing the trajectory
         ctx.lineTo(pos.x, pos.y);
       }
 
@@ -228,11 +230,9 @@
     }
 
     simulate();
-  &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<hr/>
+  </script>
+</body>
+</html>
 <h2 id="observations-analysis">Observations &amp; Analysis</h2>
 <ul>
 <li>In uniform <span class="arithmatex">\( \vec{B} \)</span>: Circular motion (Larmor orbits)</li>
