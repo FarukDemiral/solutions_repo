@@ -23,7 +23,6 @@ Below are advanced and visually impressive Lorentz force simulations:
 
 ---
 
-## 💻 Simulation 4: Helical Motion (3D-like Spiral)
 <!DOCTYPE html>
 <html lang="en">
 <head>
