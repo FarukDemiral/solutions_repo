@@ -37,7 +37,7 @@ Below are advanced and visually impressive Lorentz force simulations:
 <body>
 
   <h2>Simulation 4: Helical Motion (3D-like Spiral View)</h2>
-  <canvas id="helixCanvas" width="800" height="400"></canvas>
+  <canvas id="helixCanvas" width="720" height="400"></canvas>
 
   <script>
     window.onload = function () {
