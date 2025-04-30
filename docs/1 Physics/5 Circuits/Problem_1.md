@@ -2,7 +2,7 @@
 # Lorentz Force Simulation in Electromagnetic Fields
 
 ## Project Goal
-This project aims to simulate and visualize the behavior of charged particles under the influence of electric $$ \vec{E} $$ 
+- This project aims to simulate and visualize the behavior of charged particles under the influence of electric $$ \vec{E} $$ 
 
 - magnetic $$ \vec{B} $$ 
  
