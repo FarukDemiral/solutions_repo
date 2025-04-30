@@ -1,7 +1,7 @@
 # Problem 1
 # Lorentz Force Simulation in Electromagnetic Fields
 
-# Project Goal
+## Project Goal
 This project aims to simulate and visualize the behavior of charged particles under the influence of electric $$ \vec{E} $$ and magnetic $$ \vec{B} $$ fields, using the Lorentz force law:
 
 $$
