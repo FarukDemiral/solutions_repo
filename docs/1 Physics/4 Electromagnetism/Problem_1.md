@@ -10,7 +10,6 @@ $$
 
 We'll explore real-world applications such as cyclotrons, magnetic traps, and plasma confinement devices by modeling particle trajectories using numerical techniques.
 
----
 
 ## Theoretical Foundation
 The Lorentz force determines how charged particles move through electromagnetic fields. Its effects depend on:
@@ -22,7 +21,6 @@ Key motion behaviors:
  **Circular or helical motion** in uniform $$ \vec{B} $$ fields
  **Drift motion** in crossed $$ \vec{E} $$ and $$ \vec{B} $$ fields
 
----
 
 ## Task Breakdown
 
@@ -51,7 +49,6 @@ Key motion behaviors:
  Create clear 2D plots of particle trajectories
  Highlight Larmor radius and $$ \vec{E} \times \vec{B} $$ drift
 
----
 ## Simulation 
 <!DOCTYPE html>
 <html lang="en">
@@ -164,14 +161,12 @@ Key motion behaviors:
 </body>
 </html>
 
----
 
 ## Observations & Analysis
  In uniform $$ \vec{B} $$: Circular motion (Larmor orbits)
  In $$ \vec{E} \times \vec{B} $$ fields: Uniform drift motion
  In pure $$ \vec{E} $$ field: Linear acceleration
 
----
 
 ## Suggestions for Extension
  Non-uniform magnetic fields (simulate magnetic mirrors)
@@ -179,6 +174,4 @@ Key motion behaviors:
  Relativistic effects $$ \gamma = \frac{1}{\sqrt{1 - v^2/c^2}} $$
  Interactive sliders for real-time parameter tuning
  Multiple particles with random initial conditions
-
----
 
