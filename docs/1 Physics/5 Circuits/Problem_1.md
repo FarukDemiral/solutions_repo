@@ -5,7 +5,7 @@
 This project aims to simulate and visualize the behavior of charged particles under the influence of electric $$ \vec{E} $$ 
  magnetic $$ \vec{B} $$ 
  
- fields, using the Lorentz force law:
+ fields using the Lorentz force law
 
 $$
 \vec{F} = q\vec{E} + q\vec{v} \times \vec{B}
@@ -25,7 +25,7 @@ The Lorentz force determines how charged particles move through electromagnetic 
 Key motion behaviors:
 
 - **Circular or helical motion** in uniform $$ \vec{B} $$ 
-- **Drift motion** in crossed $$ \vec{E} $$ and $$ \vec{B} $$ fields
+- **Drift motion** in crossed $$ \vec{E} $$ and $$ \vec{B} $$ 
 
 ## Task Breakdown
 
@@ -40,7 +40,7 @@ Key motion behaviors:
 - Compute and visualize trajectories under:
   - A uniform magnetic field
   - Combined uniform electric and magnetic fields
-  - Crossed $$ \vec{E} $$ and $$ \vec{B} $$ fields
+  - Crossed $$ \vec{E} $$ and $$ \vec{B} $$ 
 - Simulate circular, helical, and drift motion
 
 ### Parameter Exploration
@@ -52,4 +52,4 @@ Key motion behaviors:
 
 ### Visualization
 - Create clear 2D plots of particle trajectories  
-- Highlight Larmor radius and $$ \vec{E} \times \vec{B} $$ drift
+- Highlight Larmor radius and $$ \vec{E} \times \vec{B} $$ 
