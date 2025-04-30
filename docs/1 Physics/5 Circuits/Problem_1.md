@@ -24,45 +24,62 @@ Below are advanced and visually impressive Lorentz force simulations:
 ---
 
 ## 💻 Simulation 4: Helical Motion (3D-like Spiral)
-```html
-<canvas id="helixCanvas" width="800" height="400"></canvas>
-<script>
-  const canvas = document.getElementById("helixCanvas");
-  const ctx = canvas.getContext("2d");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Helical Motion Simulation</title>
+  <style>
+    body { background: #f4f4f4; text-align: center; font-family: Arial; }
+    canvas { border: 1px solid #ccc; background: white; margin-top: 20px; }
+  </style>
+</head>
+<body>
 
-  // Initial position and velocity
-  let x = 0, y = 0, z = 0;
-  let vx = 2, vy = 2, vz = 1;
+  <h2>Simulation 4: Helical Motion (3D-like Spiral View)</h2>
+  <canvas id="helixCanvas" width="800" height="400"></canvas>
 
-  const Bz = 1;
-  const dt = 0.1;
-  const steps = 2000;
-  const scale = 5;
+  <script>
+    window.onload = function () {
+      const canvas = document.getElementById("helixCanvas");
+      const ctx = canvas.getContext("2d");
 
-  ctx.beginPath();
-  ctx.moveTo(400 + x * scale, 200 + z * scale); // x-z view for spiral effect
+      // Initial position and velocity
+      let x = 0, y = 0, z = 0;
+      let vx = 2, vy = 2, vz = 1;
 
-  for (let i = 0; i < steps; i++) {
-    // Magnetic force effect (circular motion in x-y)
-    const ax = vy * Bz;
-    const ay = -vx * Bz;
+      const Bz = 1;       // Magnetic field in z-direction
+      const dt = 0.1;     // Time step
+      const steps = 2000; // Total steps
+      const scale = 5;    // Scaling factor for visualization
 
-    vx += ax * dt;
-    vy += ay * dt;
+      ctx.beginPath();
+      ctx.moveTo(400 + x * scale, 200 + z * scale); // center x on canvas
 
-    x += vx * dt;
-    y += vy * dt;
-    z += vz * dt;
+      for (let i = 0; i < steps; i++) {
+        // Magnetic force in x-y plane (circular motion)
+        const ax = vy * Bz;
+        const ay = -vx * Bz;
 
-    ctx.lineTo(400 + x * scale, 200 + z * scale);
-  }
+        vx += ax * dt;
+        vy += ay * dt;
 
-  ctx.strokeStyle = '#6f42c1';
-  ctx.lineWidth = 2;
-  ctx.stroke();
-</script>
-```
-```
+        x += vx * dt;
+        y += vy * dt;
+        z += vz * dt; // uniform motion in z-direction (straight)
+
+        ctx.lineTo(400 + x * scale, 200 + z * scale);
+      }
+
+      ctx.strokeStyle = '#6f42c1';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    };
+  </script>
+
+</body>
+</html>
+
 
 ---
 
