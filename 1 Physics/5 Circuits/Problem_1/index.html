@@ -78,6 +78,10 @@
 <ul class="current">
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 1</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#observations-analysis">Observations &amp; Analysis</a>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#suggestions-for-extension">Suggestions for Extension</a>
+</li>
 </ul>
 </li>
 </ul>
@@ -120,69 +124,19 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
-<h1 id="lorentz-force-simulation-in-electromagnetic-fields">Lorentz Force Simulation in Electromagnetic Fields</h1>
-<h2 id="project-goal">Project Goal</h2>
+<h2 id="observations-analysis">Observations &amp; Analysis</h2>
 <ul>
-<li>
-<p>This project aims to simulate and visualize the behavior of charged particles under the influence of electric $$ \vec{E} $$ </p>
-</li>
-<li>
-<p>magnetic $$ \vec{B} $$ </p>
-</li>
-<li>
-<p>fields using the Lorentz force law</p>
-</li>
+<li>In uniform $$ \vec{B} $$: Circular motion (Larmor orbits)  </li>
+<li>In $$ \vec{E} \times \vec{B} $$ fields: Uniform drift motion  </li>
+<li>In pure $$ \vec{E} $$ field: Linear acceleration  </li>
 </ul>
-<div class="arithmatex">\[
-\vec{F} = q\vec{E} + q\vec{v} \times \vec{B}
-\]</div>
-<p>We'll explore real-world applications such as cyclotrons, magnetic traps, and plasma confinement devices by modeling particle trajectories using numerical techniques</p>
-<h2 id="theoretical-foundation">Theoretical Foundation</h2>
-<h2 id="the-lorentz-force-determines-how-charged-particles-move-through-electromagnetic-fields-its-effects-depend-on">The Lorentz force determines how charged particles move through electromagnetic fields. Its effects depend on</h2>
+<h2 id="suggestions-for-extension">Suggestions for Extension</h2>
 <ul>
-<li>The magnitude and direction of the electric field $$ \vec{E} $$</li>
-<li>The direction and strength of the magnetic field $$ \vec{B} $$</li>
-<li>The particle's velocity $$ \vec{v} $$ </li>
-<li>charge $$ q $$</li>
-<li>mass $$ m $$</li>
-</ul>
-<h2 id="key-motion-behaviors">Key motion behaviors</h2>
-<ul>
-<li><strong>Circular or helical motion</strong> in uniform $$ \vec{B} $$ </li>
-<li><strong>Drift motion</strong> in crossed $$ \vec{E} $$ and $$ \vec{B} $$ </li>
-</ul>
-<h2 id="task-breakdown">Task Breakdown</h2>
-<h3 id="exploration-of-applications">Exploration of Applications</h3>
-<h2 id="identify-real-world-systems-using-lorentz-force">Identify real-world systems using Lorentz force</h2>
-<ul>
-<li>Particle accelerators (cyclotrons, synchrotrons)</li>
-<li>Plasma confinement (tokamaks)</li>
-<li>Mass spectrometers</li>
-<li>Discuss how $$ \vec{E} $$</li>
-<li>and $$ \vec{B} $$ fields influence motion</li>
-</ul>
-<h3 id="simulating-particle-motion">Simulating Particle Motion</h3>
-<h2 id="compute-and-visualize-trajectories-under">Compute and visualize trajectories under</h2>
-<ul>
-<li>A uniform magnetic field</li>
-<li>Combined uniform electric and magnetic fields</li>
-<li>Crossed $$ \vec{E} $$ </li>
-<li>and $$ \vec{B} $$ </li>
-<li>Simulate circular, helical, and drift motion</li>
-</ul>
-<h3 id="parameter-exploration">Parameter Exploration</h3>
-<h2 id="allow-variation-of">Allow variation of</h2>
-<ul>
-<li>Field strengths $$ \vec{E}, \vec{B} $$</li>
-<li>Initial velocity $$ \vec{v} $$</li>
-<li>Particle properties $$ q, m $$</li>
-<li>Observe how parameters affect motion</li>
-</ul>
-<h3 id="visualization">Visualization</h3>
-<ul>
-<li>Create clear 2D plots of particle trajectories  </li>
-<li>Highlight Larmor radius</li>
-<li>and $$ \vec{E} \times \vec{B} $$ </li>
+<li>Non-uniform magnetic fields (simulate magnetic mirrors)  </li>
+<li>Vary electric field strength for E-field acceleration  </li>
+<li>Relativistic effects: $$ \gamma = \frac{1}{\sqrt{1 - v^2/c^2}} $$  </li>
+<li>Interactive sliders for real-time parameter tuning  </li>
+<li>Multiple particles with random initial conditions</li>
 </ul>
 </div>
 </div><footer>
