@@ -13,14 +13,14 @@ We'll explore real-world applications such as cyclotrons, magnetic traps, and pl
 ## Theoretical Foundation
 The Lorentz force determines how charged particles move through electromagnetic fields. Its effects depend on:
 
-- The magnitude and direction of the electric field $$ \vec{E} $$
-- The direction and strength of the magnetic field $$ \vec{B} $$
-- The particle's velocity $$ \vec{v} $$, charge $$ q $$, and mass $$ m $$
+- The magnitude and direction of the electric field $ \vec{E} $
+- The direction and strength of the magnetic field $ \vec{B} $
+- The particle's velocity $ \vec{v} $ charge $ q $, and mass $ m $
 
 Key motion behaviors:
 
-- **Circular or helical motion** in uniform $$ \vec{B} $$ fields  
-- **Drift motion** in crossed $$ \vec{E} $$ and $$ \vec{B} $$ fields
+- **Circular or helical motion** in uniform $ \vec{B} $ fields  
+- **Drift motion** in crossed $$ \vec{E} $ and $$ \vec{B} $ fields
 
 ## Task Breakdown
 
