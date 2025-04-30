@@ -19,12 +19,12 @@ The Lorentz force determines how charged particles move through electromagnetic 
 - The magnitude and direction of the electric field $$ \vec{E} $$
 - The direction and strength of the magnetic field $$ \vec{B} $$
 - The particle's velocity $$ \vec{v} $$ 
-- charge $$ q $$, 
+- charge $$ q $$
 - mass $$ m $$
 
 Key motion behaviors:
 
-- **Circular or helical motion** in uniform $$ \vec{B} $$ fields  
+- **Circular or helical motion** in uniform $$ \vec{B} $$ 
 - **Drift motion** in crossed $$ \vec{E} $$ and $$ \vec{B} $$ fields
 
 ## Task Breakdown
