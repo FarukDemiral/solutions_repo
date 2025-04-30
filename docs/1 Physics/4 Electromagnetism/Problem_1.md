@@ -65,7 +65,7 @@ We'll explore real-world applications such as cyclotrons, magnetic traps, and pl
   <meta charset="UTF-8">
   <title>Multiple Lorentz Simulations</title>
   <style>
-    body { font-family: Arial, background: #f4f4f4; text-align: center; }
+    body { font-family: Arial, background: #f4f4f4; text-align: left; }
     canvas { border: 1px solid #aaa; margin: 20px; background: white; }
   </style>
 </head>
