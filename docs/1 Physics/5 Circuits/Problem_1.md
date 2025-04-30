@@ -1,9 +1,10 @@
 # Problem 1
+
 ## Observations & Analysis
 
-- In uniform $$ \vec{B} $$ fields: Circular motion (Larmor orbits)  
-- In crossed $$ \vec{E} \times \vec{B} $$ fields: Uniform drift motion  
-- In pure $$ \vec{E} $$ field: Linear acceleration  
+- Circular motion (Larmor orbits) in uniform $$ \vec{B} $$ fields  
+- Uniform drift motion in crossed $$ \vec{E} \times \vec{B} $$ fields  
+- Linear acceleration in pure $$ \vec{E} $$ field  
 
 ## Suggestions for Extension
 
