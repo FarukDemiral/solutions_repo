@@ -52,7 +52,7 @@ Key motion behaviors:
 - Highlight Larmor radius and \( \vec{E} \times \vec{B} \) drift
 
 ---
-### Simulation
+## Simulation 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -73,11 +73,16 @@ Key motion behaviors:
   <h2>Simulation 3: Pure Electric Field Acceleration</h2>
   <canvas id="canvas3" width="720" height="400"></canvas>
 
+  <h2>Simulation 4: Helical Motion (Spiral View)</h2>
+  <canvas id="canvas4" width="720" height="600"></canvas>
+
   <script>
+    const steps = 2000;
+
     // ----------- SIMULATION 1 -----------
     const ctx1 = document.getElementById("canvas1").getContext("2d");
     let pos1 = { x: 400, y: 150 }, vel1 = { x: 2, y: 0 };
-    const B1 = 1, E1 = { x: 0, y: 0 }, dt1 = 0.1, steps = 2000;
+    const B1 = 1, E1 = { x: 0, y: 0 }, dt1 = 0.1;
 
     function simulate1() {
       ctx1.beginPath(); ctx1.moveTo(pos1.x, pos1.y);
@@ -121,10 +126,40 @@ Key motion behaviors:
       ctx3.strokeStyle = '#28a745'; ctx3.stroke();
     }
 
+    // ----------- SIMULATION 4 -----------
+    const ctx4 = document.getElementById("canvas4").getContext("2d");
+    let x4 = 0, y4 = 0, z4 = 0;
+    let vx4 = 2, vy4 = 2, vz4 = 1;
+    const Bz4 = 1, dt4 = 0.1, scale4 = 5;
+
+    function simulate4() {
+      ctx4.beginPath();
+      ctx4.moveTo(400 + x4 * scale4, 200 + z4 * scale4); // spiral effect in x-z
+
+      for (let i = 0; i < steps; i++) {
+        const ax = vy4 * Bz4;
+        const ay = -vx4 * Bz4;
+
+        vx4 += ax * dt4;
+        vy4 += ay * dt4;
+
+        x4 += vx4 * dt4;
+        y4 += vy4 * dt4;
+        z4 += vz4 * dt4;
+
+        ctx4.lineTo(400 + x4 * scale4, 200 + z4 * scale4);
+      }
+
+      ctx4.strokeStyle = '#6f42c1';
+      ctx4.lineWidth = 2;
+      ctx4.stroke();
+    }
+
     // Run all simulations
     simulate1();
     simulate2();
     simulate3();
+    simulate4();
   </script>
 </body>
 </html>
