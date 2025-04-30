@@ -71,7 +71,7 @@ Key motion behaviors:
   <canvas id="canvas2" width="720" height="600"></canvas>
 
   <h2>Simulation 3: Pure Electric Field Acceleration</h2>
-  <canvas id="canvas3" width="600" height="600"></canvas>
+  <canvas id="canvas3" width="720" height="400"></canvas>
 
   <script>
     // ----------- SIMULATION 1 -----------
@@ -121,47 +121,6 @@ Key motion behaviors:
       ctx3.strokeStyle = '#28a745'; ctx3.stroke();
     }
 
-<h2> Simulation 4: Helical Motion (Spiral View)</h2>
-<p>This simulation visualizes a charged particle with velocity components both perpendicular and parallel to a uniform magnetic field. The result is a helical path, rendered as a spiral in 2D.</p>
-
-<canvas id="helixCanvas" width="740" height="600"></canvas>
-
-<script>
-  window.onload = function () {
-    const canvas = document.getElementById("helixCanvas");
-    const ctx = canvas.getContext("2d");
-
-    // Initial position and velocity
-    let x = 0, y = 0, z = 0;
-    let vx = 2, vy = 2, vz = 1;
-
-    const Bz = 1;       // Magnetic field in z-direction
-    const dt = 0.1;     // Time step
-    const steps = 2000; // Total steps
-    const scale = 5;    // Scaling factor for visualization
-
-    ctx.beginPath();
-    ctx.moveTo(400 + x * scale, 200 + z * scale); // center x on canvas
-
-    for (let i = 0; i < steps; i++) {
-      // Magnetic force in x-y plane (circular motion)
-      const ax = vy * Bz;
-      const ay = -vx * Bz;
-
-      vx += ax * dt;
-      vy += ay * dt;
-
-      x += vx * dt;
-      y += vy * dt;
-      z += vz * dt; // uniform motion in z-direction (straight)
-
-      ctx.lineTo(400 + x * scale, 200 + z * scale);
-    }
-
-    ctx.strokeStyle = '#6f42c1';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-  
     // Run all simulations
     simulate1();
     simulate2();
