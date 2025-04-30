@@ -35,13 +35,15 @@ We'll explore real-world applications such as cyclotrons, magnetic traps, and pl
   - Particle accelerators (cyclotrons, synchrotrons)
   - Plasma confinement (tokamaks)
   - Mass spectrometers
-- Discuss how $$ \vec{E} $$ and $$ \vec{B} $$ fields influence motion
+- Discuss how $$ \vec{E} $$
+- and $$ \vec{B} $$ fields influence motion
 
 ### Simulating Particle Motion
 ## Compute and visualize trajectories under
   - A uniform magnetic field
   - Combined uniform electric and magnetic fields
-  - Crossed $$ \vec{E} $$ and $$ \vec{B} $$ 
+  - Crossed $$ \vec{E} $$ 
+  - and $$ \vec{B} $$ 
 - Simulate circular, helical, and drift motion
 
 ### Parameter Exploration
@@ -53,4 +55,5 @@ We'll explore real-world applications such as cyclotrons, magnetic traps, and pl
 
 ### Visualization
 - Create clear 2D plots of particle trajectories  
-- Highlight Larmor radius and $$ \vec{E} \times \vec{B} $$ 
+- Highlight Larmor radius
+- and $$ \vec{E} \times \vec{B} $$ 
