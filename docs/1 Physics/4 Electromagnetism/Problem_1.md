@@ -48,8 +48,8 @@ Key motion behaviors:
  Observe how parameters affect motion
 
 ### Visualization
-- Create clear 2D plots of particle trajectories
-- Highlight Larmor radius and $$ \vec{E} \times \vec{B} $$ drift
+ Create clear 2D plots of particle trajectories
+ Highlight Larmor radius and $$ \vec{E} \times \vec{B} $$ drift
 
 ---
 ## Simulation 
@@ -167,18 +167,18 @@ Key motion behaviors:
 ---
 
 ## Observations & Analysis
-- In uniform \( \vec{B} \): Circular motion (Larmor orbits)
-- In \( \vec{E} \times \vec{B} \) fields: Uniform drift motion
-- In pure \( \vec{E} \) field: Linear acceleration
+ In uniform $$ \vec{B} $$: Circular motion (Larmor orbits)
+ In $$ \vec{E} \times \vec{B} $$ fields: Uniform drift motion
+ In pure $$ \vec{E} $$ field: Linear acceleration
 
 ---
 
 ## Suggestions for Extension
-- Non-uniform magnetic fields (simulate magnetic mirrors)
-- Vary electric field strength for E-field acceleration
-- Relativistic effects (\( \gamma = \frac{1}{\sqrt{1 - v^2/c^2}} \))
-- Interactive sliders for real-time parameter tuning
-- Multiple particles with random initial conditions
+ Non-uniform magnetic fields (simulate magnetic mirrors)
+ Vary electric field strength for E-field acceleration
+ Relativistic effects $$ \gamma = \frac{1}{\sqrt{1 - v^2/c^2}} $$
+ Interactive sliders for real-time parameter tuning
+ Multiple particles with random initial conditions
 
 ---
 
