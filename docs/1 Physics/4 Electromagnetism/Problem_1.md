@@ -71,7 +71,7 @@ Key motion behaviors:
   <canvas id="canvas2" width="720" height="600"></canvas>
 
   <h2>Simulation 3: Pure Electric Field Acceleration</h2>
-  <canvas id="canvas3" width="720" height="600"></canvas>
+  <canvas id="canvas3" width="600" height="600"></canvas>
 
   <script>
     // ----------- SIMULATION 1 -----------
