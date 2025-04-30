@@ -1,6 +1,6 @@
 # Problem 1
 ## Observations & Analysis
-- In uniform $$ \vec{B} $$: Circular motion (Larmor orbits)  
+- In uniform $$ \vec{B} $$  Circular motion (Larmor orbits)  
 - In $$ \vec{E} \times \vec{B} $$ fields: Uniform drift motion  
 - In pure $$ \vec{E} $$ field: Linear acceleration  
 
