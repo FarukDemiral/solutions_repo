@@ -83,8 +83,7 @@ For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchho
 - Visualize circuit graph simplification using matplotlib or Plotly
 - Extend for **AC circuits** with complex impedances
 - Add **user-friendly DSL input** for circuits like: `A-5-B, B-10-C, A-3-C`
-
-## Simulation 
+ 
 
 <!DOCTYPE html>
 <html lang="en">
