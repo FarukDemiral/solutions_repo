@@ -84,26 +84,8 @@ For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchho
 - Extend for **AC circuits** with complex impedances
 - Add **user-friendly DSL input** for circuits like: `A-5-B, B-10-C, A-3-C`
 
-#  Equivalent Resistance Using Graph Theory
+## Simulation 
 
-This project implements an algorithm to calculate the **equivalent resistance** of an electrical circuit using **graph theory**. It detects and reduces **series and parallel connections** using **graph traversal** techniques (DFS) and tools like **NetworkX** in Python. The approach is designed to handle even complex circuit configurations, including **nested combinations** and **cyclic connections**.
-
-Additionally, a **JavaScript-based simulation** is included below to allow live interaction on GitHub Pages.
-
----
-
-##  Features
-- Full support for **series** and **parallel** resistor detection
-- Handles **nested resistor configurations**
-- Works on graphs with **cycles and multiple paths**
-- Built using **NetworkX** for offline analysis
-- **Live JavaScript simulation** embedded for GitHub
-
----
-
-##  Simulation 
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -116,7 +98,7 @@ Additionally, a **JavaScript-based simulation** is included below to allow live 
   </style>
 </head>
 <body>
-  <h2> Equivalent Resistance Simulator (Series & Parallel)</h2>
+  <h2>🔌 Equivalent Resistance Simulator (Series & Parallel)</h2>
   <p>Enter connections like: <code>A-B:5, B-C:10, A-C:15</code></p>
   <input id="input" size="60" placeholder="Enter resistor network">
   <button onclick="calculate()">Calculate Resistance</button>
@@ -167,7 +149,6 @@ Additionally, a **JavaScript-based simulation** is included below to allow live 
   </ul>
 </body>
 </html>
-```
 
 ##  References
 - NetworkX Documentation: https://networkx.org
