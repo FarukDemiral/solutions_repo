@@ -1,4 +1,4 @@
-# Problem 1
+
 
 # Problem 1: Lorentz Force Simulation in Electromagnetic Fields
 
