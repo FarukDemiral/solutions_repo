@@ -65,7 +65,7 @@ $$
 - Expected Output: $$ 2Ω $$
 
 ###  Example 3: Nested
-- Circuit: A $ 2Ω $$ B $$ 6Ω $$ C and A $$ 3Ω $$ C (parallel to series)
+- Circuit: A $$ 2Ω $$ B $$ 6Ω $$ C and A $$ 3Ω $$ C (parallel to series)
 - Expected Output: $$ 1.5Ω $$
 
 
