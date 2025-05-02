@@ -191,38 +191,26 @@ $$</p>
 <li>Extend for <strong>AC circuits</strong> with complex impedances</li>
 <li>Add <strong>user-friendly DSL input</strong> for circuits like: <code>A-5-B, B-10-C, A-3-C</code></li>
 </ul>
-<h1 id="equivalent-resistance-using-graph-theory_1">Equivalent Resistance Using Graph Theory</h1>
-<p>This project implements an algorithm to calculate the <strong>equivalent resistance</strong> of an electrical circuit using <strong>graph theory</strong>. It detects and reduces <strong>series and parallel connections</strong> using <strong>graph traversal</strong> techniques (DFS) and tools like <strong>NetworkX</strong> in Python. The approach is designed to handle even complex circuit configurations, including <strong>nested combinations</strong> and <strong>cyclic connections</strong>.</p>
-<p>Additionally, a <strong>JavaScript-based simulation</strong> is included below to allow live interaction on GitHub Pages.</p>
-<hr/>
-<h2 id="features_1">Features</h2>
-<ul>
-<li>Full support for <strong>series</strong> and <strong>parallel</strong> resistor detection</li>
-<li>Handles <strong>nested resistor configurations</strong></li>
-<li>Works on graphs with <strong>cycles and multiple paths</strong></li>
-<li>Built using <strong>NetworkX</strong> for offline analysis</li>
-<li><strong>Live JavaScript simulation</strong> embedded for GitHub</li>
-</ul>
-<hr/>
 <h2 id="simulation">Simulation</h2>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;title&gt;Equivalent Resistance Simulator&lt;/title&gt;
-  &lt;style&gt;
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Equivalent Resistance Simulator</title>
+<style>
     body { font-family: Arial; padding: 20px; background: #f9f9f9; }
     input, button { padding: 8px; font-size: 16px; }
     .result { margin-top: 15px; font-weight: bold; }
-  &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;h2&gt; Equivalent Resistance Simulator (Series &amp; Parallel)&lt;/h2&gt;
-  &lt;p&gt;Enter connections like: &lt;code&gt;A-B:5, B-C:10, A-C:15&lt;/code&gt;&lt;/p&gt;
-  &lt;input id="input" size="60" placeholder="Enter resistor network"&gt;
-  &lt;button onclick="calculate()"&gt;Calculate Resistance&lt;/button&gt;
-  &lt;div class="result" id="output"&gt;&lt;/div&gt;
-  &lt;script&gt;
+  </style>
+</head>
+<body>
+<h2>🔌 Equivalent Resistance Simulator (Series &amp; Parallel)</h2>
+<p>Enter connections like: <code>A-B:5, B-C:10, A-C:15</code></p>
+<input id="input" placeholder="Enter resistor network" size="60"/>
+<button onclick="calculate()">Calculate Resistance</button>
+<div class="result" id="output"></div>
+<script>
     function parseInput(str) {
       let edges = [];
       let parts = str.split(',');
@@ -241,7 +229,7 @@ $$</p>
       let map = new Map();
 
       for (let { u, v, r } of edges) {
-        let key = u &lt; v ? `${u}-${v}` : `${v}-${u}`;
+        let key = u < v ? `${u}-${v}` : `${v}-${u}`;
         if (!map.has(key)) map.set(key, []);
         map.get(key).push(r);
       }
@@ -251,24 +239,22 @@ $$</p>
         if (resList.length === 1) {
           total += resList[0];
         } else {
-          let invSum = resList.reduce((acc, r) =&gt; acc + 1/r, 0);
+          let invSum = resList.reduce((acc, r) => acc + 1/r, 0);
           total += 1 / invSum;
         }
       }
 
       document.getElementById('output').innerText = `Equivalent Resistance: ${total.toFixed(3)} Ω`;
     }
-  &lt;/script&gt;
-
-  &lt;p&gt;&lt;strong&gt;Examples:&lt;/strong&gt;&lt;/p&gt;
-  &lt;ul&gt;
-    &lt;li&gt;&lt;a href="#" onclick="input.value='A-B:5, B-C:10'; calculate(); return false;"&gt;A-B:5, B-C:10 (Series)&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href="#" onclick="input.value='A-B:3, A-B:6'; calculate(); return false;"&gt;A-B:3, A-B:6 (Parallel)&lt;/a&gt;&lt;/li&gt;
-    &lt;li&gt;&lt;a href="#" onclick="input.value='A-B:2, B-C:6, A-C:3'; calculate(); return false;"&gt;A-B:2, B-C:6, A-C:3 (Nested)&lt;/a&gt;&lt;/li&gt;
-  &lt;/ul&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+  </script>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><a href="#" onclick="input.value='A-B:5, B-C:10'; calculate(); return false;">A-B:5, B-C:10 (Series)</a></li>
+<li><a href="#" onclick="input.value='A-B:3, A-B:6'; calculate(); return false;">A-B:3, A-B:6 (Parallel)</a></li>
+<li><a href="#" onclick="input.value='A-B:2, B-C:6, A-C:3'; calculate(); return false;">A-B:2, B-C:6, A-C:3 (Nested)</a></li>
+</ul>
+</body>
+</html>
 <h2 id="references">References</h2>
 <ul>
 <li>NetworkX Documentation: https://networkx.org</li>
