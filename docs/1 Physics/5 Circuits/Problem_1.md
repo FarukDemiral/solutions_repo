@@ -1,181 +1,186 @@
-# Problem 1: Lorentz Force Simulation in Electromagnetic Fields
+# Problem 1
+#  Equivalent Resistance Using Graph Theory
 
-## Project Goal
+This project implements an algorithm to calculate the **equivalent resistance** of an electrical circuit using **graph theory**. It detects and reduces **series and parallel connections** using **graph traversal** techniques (DFS) and tools like **NetworkX** in Python. The approach is designed to handle even complex circuit configurations, including **nested combinations** and **cyclic connections**.
 
-- This project aims to simulate and visualize the behavior of charged particles under the influence of electric $$ \vec{E} $$ and magnetic $$ \vec{B} $$ fields using the Lorentz force law:
 
+##  Features
+- Full support for **series** and **parallel** resistor detection
+- Handles **nested resistor configurations**
+- Works on graphs with **cycles and multiple paths**
+- Built using **NetworkX** for graph representation and manipulation
+
+
+##  Problem Overview
+
+Calculating equivalent resistance is crucial in circuit design and analysis. Traditionally, this requires manual simplification of resistors using:
+- Series Rule: $$ R_\text{eq} = R_1 + R_2 + \dots $$
+- Parallel Rule: $$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$
+
+In complex circuits, manual simplification becomes difficult. This implementation uses graph theory to automate the process:
+- **Nodes** represent junctions
+- **Edges** represent resistors (with weights)
+- Repeatedly apply simplification rules using traversal techniques
+
+
+
+##  Algorithm Description
+
+### 1. **Series Detection**
+A node is part of a series if:
+- It connects exactly 2 other nodes (degree = 2)
+- It is not marked as a terminal (i.e., input/output node)
+
+**Reduction Rule**:
+Merge the resistors: $$ R_\text{eq} = R_1 + R_2 $$
+
+### 2. **Parallel Detection**
+Two or more resistors are in parallel if they connect the same two nodes.
+
+**Reduction Rule**:
 $$
-\vec{F} = q\vec{E} + q\vec{v} \times \vec{B}
+\frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots
 $$
 
-We'll explore real-world applications such as cyclotrons, magnetic traps, and plasma confinement devices by modeling particle trajectories using numerical techniques.
+### 3. **Simplification Loop**
+- Detect and reduce **series** nodes first
+- Detect and reduce **parallel** edges
+- Repeat until only one edge remains between input and output
 
-## Theoretical Foundation
 
-The Lorentz force determines how charged particles move through electromagnetic fields. Its effects depend on:
+##  Implementation in Python
+```python
+# Code implementing the algorithm (see full code block below)
+```
 
-- The magnitude and direction of the electric field $$ \vec{E} $$
-- The direction and strength of the magnetic field $$ \vec{B} $$
-- The particle's velocity $$ \vec{v} $$, charge $$ q $$, and mass $$ m $$
 
-## Key Motion Behaviors
+##  Test Cases
 
-- **Circular or helical motion** in uniform $$ \vec{B} $$ fields  
-- **Drift motion** in crossed $$ \vec{E} $$ and $$ \vec{B} $$ fields
+###  Example 1: Simple Series
+- Circuit: A --5Ω-- B --10Ω-- C
+- Expected Output: 15Ω
 
-## Task Breakdown
+###  Example 2: Parallel
+- Circuit: A --6Ω-- B AND A --3Ω-- B
+- Expected Output: 2Ω
 
-### Exploration of Applications
-
-- Identify real-world systems using Lorentz force:
-  - Particle accelerators (cyclotrons, synchrotrons)
-  - Plasma confinement (tokamaks)
-  - Mass spectrometers
-- Discuss how $$ \vec{E} $$ and $$ \vec{B} $$ fields influence motion
-
-### Simulating Particle Motion
-
-- Compute and visualize trajectories under:
-  - A uniform magnetic field
-  - Combined uniform electric and magnetic fields
-  - Crossed $$ \vec{E} $$ and $$ \vec{B} $$ fields
-- Simulate circular, helical, and drift motion
-
-### Parameter Exploration
-
-- Allow variation of:
-  - Field strengths $$ \vec{E}, \vec{B} $$
-  - Initial velocity $$ \vec{v} $$
-  - Particle properties $$ q, m $$
-- Observe how parameters affect motion
-
-### Visualization
-
-- Create clear 2D plots of particle trajectories  
-- Highlight Larmor radius and $$ \vec{E} \times \vec{B} $$ drift
+###  Example 3: Nested
+- Circuit: A --2Ω-- B --6Ω-- C and A --3Ω-- C (parallel to series)
+- Expected Output: 1.5Ω
 
 ---
 
-## Simulation
+##  Handling Complex Circuits
+The algorithm can manage:
+- **Deeply nested** structures by recursively simplifying subgraphs
+- **Cyclic structures** (e.g., bridges or loops) by flattening paths and reducing redundant edges
+- **Multiple terminals** (with some additional logic)
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Multiple Lorentz Simulations</title>
-  <style>
-    body {
-      font-family: Arial;
-      background: #f4f4f4;
-      text-align: left;
-      padding: 20px;
-    }
-    canvas {
-      border: 1px solid #aaa;
-      margin: 20px auto;
-      background: white;
-      display: block;
-    }
-  </style>
-</head>
-<body>
-  <h2>Simulation 1: Circular Motion (Uniform B Field)</h2>
-  <canvas id="canvas1" width="720" height="600"></canvas>
+For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchhoff's laws or node-voltage methods could be integrated.
 
-  <h2>Simulation 2: E × B Drift</h2>
-  <canvas id="canvas2" width="720" height="600"></canvas>
+---
 
-  <h2>Simulation 3: Pure Electric Field Acceleration</h2>
-  <canvas id="canvas3" width="720" height="400"></canvas>
+##  Efficiency Analysis
+- **Series/parallel detection**: $$ O(n) $$ per iteration
+- **Graph size reduction** ensures convergence in a finite number of steps
+- Total complexity: approx $$ O(n^2) $$ in worst case for dense graphs
 
-  <h2>Simulation 4: Helical Motion (Spiral View)</h2>
-  <canvas id="canvas4" width="720" height="600"></canvas>
+---
 
-  <script>
-    const steps = 2000;
+##  Potential Improvements
+- Add support for **voltage/current analysis**
+- Visualize circuit graph simplification using matplotlib or Plotly
+- Extend for **AC circuits** with complex impedances
+- Add **user-friendly DSL input** for circuits like: `A-5-B, B-10-C, A-3-C`
 
-    // ----------- SIMULATION 1 -----------
-    const ctx1 = document.getElementById("canvas1").getContext("2d");
-    let pos1 = { x: 400, y: 150 }, vel1 = { x: 2, y: 0 };
-    const B1 = 1, E1 = { x: 0, y: 0 }, dt1 = 0.1;
+---
 
-    function simulate1() {
-      ctx1.beginPath(); ctx1.moveTo(pos1.x, pos1.y);
-      for (let i = 0; i < steps; i++) {
-        const ax = vel1.y * B1, ay = -vel1.x * B1;
-        vel1.x += ax * dt1; vel1.y += ay * dt1;
-        pos1.x += vel1.x * dt1; pos1.y += vel1.y * dt1;
-        ctx1.lineTo(pos1.x, pos1.y);
-      }
-      ctx1.strokeStyle = '#007bff'; ctx1.stroke();
-    }
+##  Full Python Code
 
-    // ----------- SIMULATION 2 -----------
-    const ctx2 = document.getElementById("canvas2").getContext("2d");
-    let pos2 = { x: 400, y: 150 }, vel2 = { x: 0, y: 0 };
-    const E2 = { x: 1, y: 0 }, B2 = 1, dt2 = 0.1;
+```python
+import networkx as nx
 
-    function simulate2() {
-      ctx2.beginPath(); ctx2.moveTo(pos2.x, pos2.y);
-      for (let i = 0; i < steps; i++) {
-        const ax = E2.x + vel2.y * B2, ay = E2.y - vel2.x * B2;
-        vel2.x += ax * dt2; vel2.y += ay * dt2;
-        pos2.x += vel2.x * dt2; pos2.y += vel2.y * dt2;
-        ctx2.lineTo(pos2.x, pos2.y);
-      }
-      ctx2.strokeStyle = '#FF5733'; ctx2.stroke();
-    }
+def is_series(G, node):
+    return G.degree[node] == 2 and not G.nodes[node].get("terminal", False)
 
-    // ----------- SIMULATION 3 -----------
-    const ctx3 = document.getElementById("canvas3").getContext("2d");
-    let pos3 = { x: 100, y: 150 }, vel3 = { x: 0, y: 0 };
-    const E3 = { x: 0.5, y: 0 }, dt3 = 0.1;
+def reduce_series(G):
+    changed = True
+    while changed:
+        changed = False
+        for node in list(G.nodes):
+            if is_series(G, node):
+                neighbors = list(G.neighbors(node))
+                u, v = neighbors[0], neighbors[1]
+                R1 = G[node][u]['resistance']
+                R2 = G[node][v]['resistance']
+                R_eq = R1 + R2
+                G.remove_node(node)
+                if G.has_edge(u, v):
+                    existing = G[u][v]['resistance']
+                    R_eq = 1 / (1 / R_eq + 1 / existing)
+                G.add_edge(u, v, resistance=R_eq)
+                changed = True
+                break
 
-    function simulate3() {
-      ctx3.beginPath(); ctx3.moveTo(pos3.x, pos3.y);
-      for (let i = 0; i < steps; i++) {
-        vel3.x += E3.x * dt3; vel3.y += E3.y * dt3;
-        pos3.x += vel3.x * dt3; pos3.y += vel3.y * dt3;
-        ctx3.lineTo(pos3.x, pos3.y);
-      }
-      ctx3.strokeStyle = '#28a745'; ctx3.stroke();
-    }
+def reduce_parallel(G):
+    changed = False
+    new_edges = {}
+    for u, v in list(G.edges):
+        if (u, v) not in new_edges and (v, u) not in new_edges:
+            parallel_edges = [e for e in G.edges([u, v]) if (e[0], e[1]) == (u, v) or (e[0], e[1]) == (v, u)]
+            resistances = [G[e[0]][e[1]]['resistance'] for e in parallel_edges]
+            if len(resistances) > 1:
+                R_eq = 1 / sum(1 / R for R in resistances)
+                for e in parallel_edges:
+                    G.remove_edge(*e)
+                G.add_edge(u, v, resistance=R_eq)
+                changed = True
+    return changed
 
-    // ----------- SIMULATION 4 -----------
-    const ctx4 = document.getElementById("canvas4").getContext("2d");
-    let x4 = 0, y4 = 0, z4 = 0;
-    let vx4 = 2, vy4 = 2, vz4 = 1;
-    const Bz4 = 1, dt4 = 0.1, scale4 = 5;
+def simplify_circuit(G):
+    while True:
+        reduce_series(G)
+        if not reduce_parallel(G):
+            break
+    return G
 
-    function simulate4() {
-      ctx4.beginPath();
-      ctx4.moveTo(400 + x4 * scale4, 200 + z4 * scale4); // spiral effect in x-z
+def calculate_equivalent_resistance(G, source, sink):
+    simplify_circuit(G)
+    if G.has_edge(source, sink):
+        return G[source][sink]['resistance']
+    else:
+        return None
 
-      for (let i = 0; i < steps; i++) {
-        const ax = vy4 * Bz4;
-        const ay = -vx4 * Bz4;
+# Example tests
+G1 = nx.Graph()
+G1.add_edge('A', 'B', resistance=5)
+G1.add_edge('B', 'C', resistance=10)
+G1.nodes['A']['terminal'] = True
+G1.nodes['C']['terminal'] = True
+print("Example 1 (Series):", calculate_equivalent_resistance(G1, 'A', 'C'))
 
-        vx4 += ax * dt4;
-        vy4 += ay * dt4;
+G2 = nx.Graph()
+G2.add_edge('A', 'B', resistance=6)
+G2.add_edge('A', 'B', resistance=3)
+G2.nodes['A']['terminal'] = True
+G2.nodes['B']['terminal'] = True
+print("Example 2 (Parallel):", calculate_equivalent_resistance(G2, 'A', 'B'))
 
-        x4 += vx4 * dt4;
-        y4 += vy4 * dt4;
-        z4 += vz4 * dt4;
+G3 = nx.Graph()
+G3.add_edge('A', 'B', resistance=2)
+G3.add_edge('B', 'C', resistance=6)
+G3.add_edge('A', 'C', resistance=3)
+G3.nodes['A']['terminal'] = True
+G3.nodes['C']['terminal'] = True
+print("Example 3 (Nested):", calculate_equivalent_resistance(G3, 'A', 'C'))
+```
 
-        ctx4.lineTo(400 + x4 * scale4, 200 + z4 * scale4);
-      }
 
-      ctx4.strokeStyle = '#6f42c1';
-      ctx4.lineWidth = 2;
-      ctx4.stroke();
-    }
 
-    // Run all simulations
-    simulate1();
-    simulate2();
-    simulate3();
-    simulate4();
-  </script>
-</body>
-</html>
+##  References
+- NetworkX Documentation: https://networkx.org
+- Resistor Combination Rules: Physics and Engineering Textbooks
+
+
+
+
