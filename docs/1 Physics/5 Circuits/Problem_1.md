@@ -48,12 +48,6 @@ $$
 - Repeat until only one edge remains between input and output
 
 
-##  Implementation in Python
-```python
-# Code implementing the algorithm (see full code block below)
-```
-
-
 ##  Test Cases
 
 ###  Example 1: Simple Series
@@ -90,88 +84,90 @@ For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchho
 - Extend for **AC circuits** with complex impedances
 - Add **user-friendly DSL input** for circuits like: `A-5-B, B-10-C, A-3-C`
 
+#  Equivalent Resistance Using Graph Theory
 
-##  Full Python Code
+This project implements an algorithm to calculate the **equivalent resistance** of an electrical circuit using **graph theory**. It detects and reduces **series and parallel connections** using **graph traversal** techniques (DFS) and tools like **NetworkX** in Python. The approach is designed to handle even complex circuit configurations, including **nested combinations** and **cyclic connections**.
 
-```python
-import networkx as nx
+Additionally, a **JavaScript-based simulation** is included below to allow live interaction on GitHub Pages.
 
-def is_series(G, node):
-    return G.degree[node] == 2 and not G.nodes[node].get("terminal", False)
+---
 
-def reduce_series(G):
-    changed = True
-    while changed:
-        changed = False
-        for node in list(G.nodes):
-            if is_series(G, node):
-                neighbors = list(G.neighbors(node))
-                u, v = neighbors[0], neighbors[1]
-                R1 = G[node][u]['resistance']
-                R2 = G[node][v]['resistance']
-                R_eq = R1 + R2
-                G.remove_node(node)
-                if G.has_edge(u, v):
-                    existing = G[u][v]['resistance']
-                    R_eq = 1 / (1 / R_eq + 1 / existing)
-                G.add_edge(u, v, resistance=R_eq)
-                changed = True
-                break
+##  Features
+- Full support for **series** and **parallel** resistor detection
+- Handles **nested resistor configurations**
+- Works on graphs with **cycles and multiple paths**
+- Built using **NetworkX** for offline analysis
+- **Live JavaScript simulation** embedded for GitHub
 
-def reduce_parallel(G):
-    changed = False
-    new_edges = {}
-    for u, v in list(G.edges):
-        if (u, v) not in new_edges and (v, u) not in new_edges:
-            parallel_edges = [e for e in G.edges([u, v]) if (e[0], e[1]) == (u, v) or (e[0], e[1]) == (v, u)]
-            resistances = [G[e[0]][e[1]]['resistance'] for e in parallel_edges]
-            if len(resistances) > 1:
-                R_eq = 1 / sum(1 / R for R in resistances)
-                for e in parallel_edges:
-                    G.remove_edge(*e)
-                G.add_edge(u, v, resistance=R_eq)
-                changed = True
-    return changed
+---
 
-def simplify_circuit(G):
-    while True:
-        reduce_series(G)
-        if not reduce_parallel(G):
-            break
-    return G
+##  Simulation 
 
-def calculate_equivalent_resistance(G, source, sink):
-    simplify_circuit(G)
-    if G.has_edge(source, sink):
-        return G[source][sink]['resistance']
-    else:
-        return None
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Equivalent Resistance Simulator</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f9f9f9; }
+    input, button { padding: 8px; font-size: 16px; }
+    .result { margin-top: 15px; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2> Equivalent Resistance Simulator (Series & Parallel)</h2>
+  <p>Enter connections like: <code>A-B:5, B-C:10, A-C:15</code></p>
+  <input id="input" size="60" placeholder="Enter resistor network">
+  <button onclick="calculate()">Calculate Resistance</button>
+  <div class="result" id="output"></div>
+  <script>
+    function parseInput(str) {
+      let edges = [];
+      let parts = str.split(',');
+      for (let part of parts) {
+        let [nodes, r] = part.trim().split(':');
+        if (!nodes || !r) continue;
+        let [u, v] = nodes.split('-');
+        edges.push({ u, v, r: parseFloat(r) });
+      }
+      return edges;
+    }
 
-# Example tests
-G1 = nx.Graph()
-G1.add_edge('A', 'B', resistance=5)
-G1.add_edge('B', 'C', resistance=10)
-G1.nodes['A']['terminal'] = True
-G1.nodes['C']['terminal'] = True
-print("Example 1 (Series):", calculate_equivalent_resistance(G1, 'A', 'C'))
+    function calculate() {
+      let input = document.getElementById('input').value;
+      let edges = parseInput(input);
+      let map = new Map();
 
-G2 = nx.Graph()
-G2.add_edge('A', 'B', resistance=6)
-G2.add_edge('A', 'B', resistance=3)
-G2.nodes['A']['terminal'] = True
-G2.nodes['B']['terminal'] = True
-print("Example 2 (Parallel):", calculate_equivalent_resistance(G2, 'A', 'B'))
+      for (let { u, v, r } of edges) {
+        let key = u < v ? `${u}-${v}` : `${v}-${u}`;
+        if (!map.has(key)) map.set(key, []);
+        map.get(key).push(r);
+      }
 
-G3 = nx.Graph()
-G3.add_edge('A', 'B', resistance=2)
-G3.add_edge('B', 'C', resistance=6)
-G3.add_edge('A', 'C', resistance=3)
-G3.nodes['A']['terminal'] = True
-G3.nodes['C']['terminal'] = True
-print("Example 3 (Nested):", calculate_equivalent_resistance(G3, 'A', 'C'))
+      let total = 0;
+      for (let resList of map.values()) {
+        if (resList.length === 1) {
+          total += resList[0];
+        } else {
+          let invSum = resList.reduce((acc, r) => acc + 1/r, 0);
+          total += 1 / invSum;
+        }
+      }
+
+      document.getElementById('output').innerText = `Equivalent Resistance: ${total.toFixed(3)} Ω`;
+    }
+  </script>
+
+  <p><strong>Examples:</strong></p>
+  <ul>
+    <li><a href="#" onclick="input.value='A-B:5, B-C:10'; calculate(); return false;">A-B:5, B-C:10 (Series)</a></li>
+    <li><a href="#" onclick="input.value='A-B:3, A-B:6'; calculate(); return false;">A-B:3, A-B:6 (Parallel)</a></li>
+    <li><a href="#" onclick="input.value='A-B:2, B-C:6, A-C:3'; calculate(); return false;">A-B:2, B-C:6, A-C:3 (Nested)</a></li>
+  </ul>
+</body>
+</html>
 ```
-
-
 
 ##  References
 - NetworkX Documentation: https://networkx.org
