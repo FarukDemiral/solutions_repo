@@ -57,18 +57,17 @@ $$
 ##  Test Cases
 
 ###  Example 1: Simple Series
-- Circuit: A --5Ω-- B --10Ω-- C
-- Expected Output: 15Ω
+- Circuit: A $ 5Ω $ B $ 10Ω $ C
+- Expected Output: $ 15Ω $
 
 ###  Example 2: Parallel
-- Circuit: A --6Ω-- B AND A --3Ω-- B
-- Expected Output: 2Ω
+- Circuit: A $ 6Ω $ B AND A $ 3Ω $ B
+- Expected Output: $ 2Ω $
 
 ###  Example 3: Nested
-- Circuit: A $$ 2Ω $$ B $$ 6Ω $$ C and A $$ 3Ω $$ C (parallel to series)
-- Expected Output: $$ 1.5Ω $$
+- Circuit: A $ 2Ω $ B $ 6Ω $ C and A $ 3Ω $ C (parallel to series)
+- Expected Output: $ 1.5Ω $
 
----
 
 ##  Handling Complex Circuits
 The algorithm can manage:
@@ -78,14 +77,12 @@ The algorithm can manage:
 
 For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchhoff's laws or node-voltage methods could be integrated.
 
----
 
 ##  Efficiency Analysis
 - **Series/parallel detection**: $$ O(n) $$ per iteration
 - **Graph size reduction** ensures convergence in a finite number of steps
 - Total complexity: approx $$ O(n^2) $$ in worst case for dense graphs
 
----
 
 ##  Potential Improvements
 - Add support for **voltage/current analysis**
@@ -93,7 +90,6 @@ For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchho
 - Extend for **AC circuits** with complex impedances
 - Add **user-friendly DSL input** for circuits like: `A-5-B, B-10-C, A-3-C`
 
----
 
 ##  Full Python Code
 
