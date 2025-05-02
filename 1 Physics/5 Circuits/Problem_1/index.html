@@ -162,34 +162,31 @@ $$</p>
 <h2 id="test-cases">Test Cases</h2>
 <h3 id="example-1-simple-series">Example 1: Simple Series</h3>
 <ul>
-<li>Circuit: A --5Ω-- B --10Ω-- C</li>
-<li>Expected Output: 15Ω</li>
+<li>Circuit: A $ 5Ω $ B $ 10Ω $ C</li>
+<li>Expected Output: $ 15Ω $</li>
 </ul>
 <h3 id="example-2-parallel">Example 2: Parallel</h3>
 <ul>
-<li>Circuit: A --6Ω-- B AND A --3Ω-- B</li>
-<li>Expected Output: 2Ω</li>
+<li>Circuit: A $ 6Ω $ B AND A $ 3Ω $ B</li>
+<li>Expected Output: $ 2Ω $</li>
 </ul>
 <h3 id="example-3-nested">Example 3: Nested</h3>
 <ul>
-<li>Circuit: A $$ 2Ω $$ B $$ 6Ω $$ C and A $$ 3Ω $$ C (parallel to series)</li>
-<li>Expected Output: $$ 1.5Ω $$</li>
+<li>Circuit: A $ 2Ω $ B $ 6Ω $ C and A $ 3Ω $ C (parallel to series)</li>
+<li>Expected Output: $ 1.5Ω $</li>
 </ul>
-<hr/>
 <h2 id="handling-complex-circuits">Handling Complex Circuits</h2>
 <p>The algorithm can manage:
 - <strong>Deeply nested</strong> structures by recursively simplifying subgraphs
 - <strong>Cyclic structures</strong> (e.g., bridges or loops) by flattening paths and reducing redundant edges
 - <strong>Multiple terminals</strong> (with some additional logic)</p>
 <p>For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchhoff's laws or node-voltage methods could be integrated.</p>
-<hr/>
 <h2 id="efficiency-analysis">Efficiency Analysis</h2>
 <ul>
 <li><strong>Series/parallel detection</strong>: $$ O(n) $$ per iteration</li>
 <li><strong>Graph size reduction</strong> ensures convergence in a finite number of steps</li>
 <li>Total complexity: approx $$ O(n^2) $$ in worst case for dense graphs</li>
 </ul>
-<hr/>
 <h2 id="potential-improvements">Potential Improvements</h2>
 <ul>
 <li>Add support for <strong>voltage/current analysis</strong></li>
@@ -197,7 +194,6 @@ $$</p>
 <li>Extend for <strong>AC circuits</strong> with complex impedances</li>
 <li>Add <strong>user-friendly DSL input</strong> for circuits like: <code>A-5-B, B-10-C, A-3-C</code></li>
 </ul>
-<hr/>
 <h2 id="full-python-code">Full Python Code</h2>
 <pre><code class="language-python">import networkx as nx
 
