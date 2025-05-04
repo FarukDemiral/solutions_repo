@@ -14,6 +14,7 @@ This project implements an algorithm to calculate the **equivalent resistance** 
 ##  Problem Overview
 
 Calculating equivalent resistance is crucial in circuit design and analysis. Traditionally, this requires manual simplification of resistors using:
+
 - Series Rule: $$ R_\text{eq} = R_1 + R_2 + \dots $$
 - Parallel Rule: $$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$
 
