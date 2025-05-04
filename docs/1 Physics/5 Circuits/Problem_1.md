@@ -53,20 +53,20 @@ $$
 
 ###  Example 1: Simple Series
 - Circuit: A $$ 5Ω $$
-- B $$ 10Ω $$
+- B: $$ 10Ω $$
 - C
   Expected Output: $$ 15Ω $$
 
 ###  Example 2: Parallel
 - Circuit: A $$ 6Ω $$
-- B AND A $$ 3Ω $$
+- B AND A: $$ 3Ω $$
 - B
  Expected Output: $$ 2Ω $$
 
 ###  Example 3: Nested
 - Circuit: A $$ 2Ω $$ 
-- B $$ 6Ω $$
-- C and A $$ 3Ω $$
+- B: $$ 6Ω $$
+- C and A: $$ 3Ω $$
 - C (parallel to series)
   Expected Output: $$ 1.5Ω $$
 
