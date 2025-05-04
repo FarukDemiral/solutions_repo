@@ -19,7 +19,7 @@ This simulation focuses on visualizing how different field configurations affect
 
 This simulation uses the **Euler method** to numerically integrate the equations of motion for a charged particle:
 
-$$ ec{F} = q(ec{E} + ec{v} 	imes ec{B}) = m ec{a} $$
+\[ ec{F} = q(ec{E} + ec{v} 	imes ec{B}) = m ec{a} \]
 
 We use **NumPy** for calculations and **Matplotlib** for visualization. The simulation starts with a uniform magnetic field and can be extended to crossed fields and more complex configurations.
 
@@ -99,7 +99,7 @@ We can modify the fields to simulate:
 
 
 ## 5. Future Work
-- Add interactive controls to vary $$ q, m, ec{E}, ec{B}, ec{v} $$
+- Add interactive controls to vary \( q, m, ec{E}, ec{B}, ec{v} \)
 - Compute and visualize **Larmor radius** and **gyrofrequency**
 - Extend to 3D drift and multiple particle systems
 - Implement alternative integration methods like **Runge-Kutta** for better accuracy
