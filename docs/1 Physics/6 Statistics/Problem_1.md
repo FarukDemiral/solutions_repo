@@ -1,5 +1,5 @@
 # Problem 1
-# 📘 Simulating the Effects of the Lorentz Force
+#  Simulating the Effects of the Lorentz Force
 
 ## 1. Introduction
 The Lorentz force describes how electric and magnetic fields influence the motion of charged particles. The force is defined as:
