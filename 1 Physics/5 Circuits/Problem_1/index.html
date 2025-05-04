@@ -130,9 +130,11 @@
 <li>Built using <strong>NetworkX</strong> for graph representation and manipulation</li>
 </ul>
 <h2 id="problem-overview">Problem Overview</h2>
-<p>Calculating equivalent resistance is crucial in circuit design and analysis. Traditionally, this requires manual simplification of resistors using:
-- Series Rule: $$ R_\text{eq} = R_1 + R_2 + \dots $$
-- Parallel Rule: $$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$</p>
+<p>Calculating equivalent resistance is crucial in circuit design and analysis. Traditionally, this requires manual simplification of resistors using:</p>
+<ul>
+<li>Series Rule: $$ R_\text{eq} = R_1 + R_2 + \dots $$</li>
+<li>Parallel Rule: $$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$</li>
+</ul>
 <p>In complex circuits, manual simplification becomes difficult. This implementation uses graph theory to automate the process:
 - <strong>Nodes</strong> represent junctions
 - <strong>Edges</strong> represent resistors (with weights)
