@@ -25,8 +25,6 @@ We numerically solve the equations of motion using a basic Euler method.
 
 ## Interactive Simulation
 
-To make the simulation functional on GitHub Pages, the HTML and JavaScript code must be placed inside a standalone `.html` file. Here's the correct structure:
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -94,13 +92,11 @@ To make the simulation functional on GitHub Pages, the HTML and JavaScript code 
 </body>
 </html>
 
-To view this simulation, save the code above into a file named `index.html`, then open it in a browser or deploy it on GitHub Pages.
-
 
 ## Observations
 
 * **Circular Motion**: When only $$ \mathbf{B}\ $$ is present, the particle follows a circular path.
-* **Drift Motion**: When both $$ \mathbf{E}\ $$ and $$ \mathbf{B}\ $$ are present and perpendicular, the particle drifts in a straight line $$\mathbf{E} \times \mathbf{B}\ $$ drift
+* **Drift Motion**: When both $$ \mathbf{E}\ $$ and $$ \mathbf{B}\ $$ are present and perpendicular, the particle drifts in a straight line drift $$\mathbf{E} \times \mathbf{B}\ $$ 
 * **Acceleration**: An electric field in the direction of motion results in acceleration, changing the radius and shape of the trajectory.
 
 
@@ -110,8 +106,7 @@ This simulation helps us visualize and understand important physical phenomena:
 
 * **Larmor Radius**: The radius of the circular trajectory in a magnetic field.
 * **Cyclotron Motion**: Periodic motion of charged particles in a uniform magnetic field.
-* **Crossed Fields Drift**: A constant drift velocity arises perpendicular to both $$ \mathbf{E}\ $$ and $$ \mathbf{B}\ $$ fields.
-
+* **Crossed Fields Drift**: A constant drift velocity arises perpendicular to both fields. $$ \mathbf{E}\ $$ and $$ \mathbf{B}\ $$ 
 
 ## Conclusion
 
