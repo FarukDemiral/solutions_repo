@@ -16,7 +16,6 @@
 
 <h1>Lorentz Force Simulation in Electromagnetic Fields</h1>
 
-
 <h2>Simulation 1: Circular Motion (Uniform B Field)</h2>
 <canvas id="canvas1" width="720" height="400"></canvas>
 
