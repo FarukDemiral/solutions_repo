@@ -229,6 +229,30 @@ $$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$</p>
 <button onclick="calculate()">Calculate &amp; Draw</button>
 <div class="result" id="output"></div>
 <canvas height="400" id="circuit" width="600"></canvas>
+<!--  SVG Diagram Below Canvas -->
+<div style="text-align:center; margin: 40px 0 20px 0;">
+<h3>Visual Equivalent Resistance Simulator</h3>
+<svg height="200" width="500" xmlns="http://www.w3.org/2000/svg">
+<!-- Nodes -->
+<circle cx="50" cy="100" fill="#000" r="10"></circle>
+<circle cx="200" cy="100" fill="#000" r="10"></circle>
+<circle cx="350" cy="100" fill="#000" r="10"></circle>
+<!-- Labels -->
+<text font-size="14" x="40" y="90">A</text>
+<text font-size="14" x="195" y="90">B</text>
+<text font-size="14" x="340" y="90">C</text>
+<!-- Resistor A-B -->
+<line stroke="#444" stroke-width="3" x1="60" x2="190" y1="100" y2="100"></line>
+<text fill="red" font-size="14" x="110" y="90">2Ω</text>
+<!-- Resistor B-C -->
+<line stroke="#444" stroke-width="3" x1="210" x2="340" y1="100" y2="100"></line>
+<text fill="red" font-size="14" x="265" y="90">6Ω</text>
+<!-- Parallel Resistor A-C -->
+<line stroke="#444" stroke-width="3" x1="60" x2="200" y1="100" y2="50"></line>
+<line stroke="#444" stroke-width="3" x1="200" x2="340" y1="50" y2="100"></line>
+<text fill="red" font-size="14" x="190" y="40">3Ω</text>
+</svg>
+</div>
 <script>
     const canvas = document.getElementById('circuit');
     const ctx = canvas.getContext('2d');
