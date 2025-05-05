@@ -34,16 +34,16 @@
       <text x="340" y="90" font-size="14">C</text>
 
       <!-- Resistor A-B -->
-      <line x1="60" y1="100" x2="190" y2="100" stroke="#444" stroke-width="3"/>
+      <line x1="60" y1="100" x2="190" y2="100" stroke="#444" stroke-width="6"/>
       <text x="110" y="90" font-size="14" fill="red">2Ω</text>
 
       <!-- Resistor B-C -->
-      <line x1="210" y1="100" x2="340" y2="100" stroke="#444" stroke-width="3"/>
+      <line x1="210" y1="100" x2="340" y2="100" stroke="#444" stroke-width="6"/>
       <text x="265" y="90" font-size="14" fill="red">6Ω</text>
 
       <!-- Parallel Resistor A-C -->
-      <line x1="60" y1="100" x2="200" y2="50" stroke="#444" stroke-width="3"/>
-      <line x1="200" y1="50" x2="340" y2="100" stroke="#444" stroke-width="3"/>
+      <line x1="60" y1="100" x2="200" y2="50" stroke="#444" stroke-width="6"/>
+      <line x1="200" y1="50" x2="340" y2="100" stroke="#444" stroke-width="6"/>
       <text x="190" y="40" font-size="14" fill="red">3Ω</text>
     </svg>
   </div>
