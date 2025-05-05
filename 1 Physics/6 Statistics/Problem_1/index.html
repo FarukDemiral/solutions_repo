@@ -120,105 +120,95 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
-<h1 id="interference-patterns-on-a-water-surface">Interference Patterns on a Water Surface</h1>
-<h2 id="motivation">Motivation</h2>
-<p>Interference occurs when waves from different sources overlap, creating new patterns. On a water surface, this can be easily observed when ripples from different points meet, forming distinctive interference patterns. These patterns can show us how waves combine in different ways, either reinforcing each other or canceling out.</p>
-<p>Studying these patterns helps us understand wave behavior in a simple, visual way. It also allows us to explore important concepts, like the relationship between wave phase and the effects of multiple sources. This task offers a hands-on approach to learning about wave interactions and their real-world applications, making it an interesting and engaging way to dive into wave physics.</p>
-<h2 id="theoretical-foundation">Theoretical Foundation</h2>
-<p>A circular wave on the water surface, emanating from a point source located at <span class="arithmatex">\((x_0, y_0)\)</span>, can be described by the <strong>Single Disturbance Equation</strong>:</p>
-<div class="arithmatex">\[
-\eta(x, y, t) = \frac{A}{\sqrt{r}} \cos(kr - \omega t + \phi)
-\]</div>
-<p>where:</p>
+<h1 id="simulating-the-effects-of-the-lorentz-force">Simulating the Effects of the Lorentz Force</h1>
+<h2 id="overview">Overview</h2>
+<p>This project implements and visualizes the Lorentz force, which determines the trajectories of charged particles under electric and magnetic fields. We use Python for numerical solutions and visualizations.</p>
+<h2 id="theory-and-equations">Theory and Equations</h2>
+<p>The Lorentz force is given by:</p>
+<p><span class="arithmatex">\(\mathbf{F} = q(\mathbf{E} + \mathbf{v} \times \mathbf{B})\)</span></p>
+<p>Where:</p>
 <ul>
-<li><span class="arithmatex">\(\eta(x, y, t)\)</span>: displacement of the water surface at position <span class="arithmatex">\((x, y)\)</span> and time <span class="arithmatex">\(t\)</span></li>
-<li><span class="arithmatex">\(A\)</span>: amplitude of the wave</li>
-<li><span class="arithmatex">\(k = \frac{2\pi}{\lambda}\)</span>: wave number (<span class="arithmatex">\(\lambda\)</span> is the wavelength)</li>
-<li><span class="arithmatex">\(\omega = 2\pi f\)</span>: angular frequency (<span class="arithmatex">\(f\)</span> is the frequency)</li>
-<li><span class="arithmatex">\(r = \sqrt{(x - x_0)^2 + (y - y_0)^2}\)</span>: distance from the source to the point <span class="arithmatex">\((x, y)\)</span></li>
-<li><span class="arithmatex">\(\phi\)</span>: initial phase</li>
+<li>$q$: particle charge</li>
+<li>$\mathbf{E}$: electric field</li>
+<li>$\mathbf{B}$: magnetic field</li>
+<li>$\mathbf{v}$: particle velocity</li>
 </ul>
-<p>To simulate multiple sources:</p>
-<div class="arithmatex">\[
-\eta_{\text{sum}}(x, y, t) = \sum_{i=1}^{N} \eta_i(x, y, t)
-\]</div>
-<p>where <span class="arithmatex">\(N\)</span> is the number of point sources.</p>
-<h2 id="problem-setup">Problem Setup</h2>
-<p>We simulate waves from 3 coherent sources placed at the vertices of an <strong>equilateral triangle</strong>. All sources share:</p>
+<p>We numerically solve the equations of motion using the Runge-Kutta method.</p>
+<h2 id="simulation-and-visualization">Simulation and Visualization</h2>
+<h3 id="python-implementation">Python Implementation</h3>
+<p>We simulate three cases:</p>
 <ul>
-<li>Same amplitude <span class="arithmatex">\(A\)</span></li>
-<li>Same frequency <span class="arithmatex">\(f\)</span></li>
-<li>Same wavelength <span class="arithmatex">\(\lambda\)</span></li>
-<li>Constant phase relation (coherent)</li>
+<li><strong>Uniform Magnetic Field</strong></li>
+<li><strong>Combined Electric and Magnetic Fields</strong></li>
+<li><strong>Crossed Electric and Magnetic Fields</strong></li>
 </ul>
-<h2 id="python-simulation-code">Python Simulation Code</h2>
-<pre><code class="language-python">import numpy as np
-import matplotlib.pyplot as plt
+<p>// Particle properties
+const q = 1.6e-19; // Charge (C)
+const m = 9.11e-31; // Mass (kg)</p>
+<p>// Fields
+const E = [0, 0, 0]; // Electric field (V/m)
+const B = [0, 0, 0.001]; // Magnetic field (T)</p>
+<p>// Initial conditions
+let r = [0, 0, 0]; // Position (m)
+let v = [1e6, 0, 0]; // Velocity (m/s)</p>
+<p>// Simulation parameters
+const dt = 1e-11; // Time step (s)
+const steps = 10000; // Number of simulation steps</p>
+<p>// Function to compute cross product
+function cross(a, b) {
+    return [
+        a[1] * b[2] - a[2] * b[1],
+        a[2] * b[0] - a[0] * b[2],
+        a[0] * b[1] - a[1] * b[0]
+    ];
+}</p>
+<p>// Euler integration loop
+let trajectory = [];
+for (let i = 0; i &lt; steps; i++) {
+    let F = [
+        q * (E[0] + cross(v, B)[0]),
+        q * (E[1] + cross(v, B)[1]),
+        q * (E[2] + cross(v, B)[2])
+    ];</p>
+<pre><code>// Acceleration
+let a = [F[0]/m, F[1]/m, F[2]/m];
 
-# Parameters
-A = 1.0
-lambda_ = 5.0
-k = 2 * np.pi / lambda_
-f = 1.0
-omega = 2 * np.pi * f
-phi = 0
+// Update velocity
+v[0] += a[0] * dt;
+v[1] += a[1] * dt;
+v[2] += a[2] * dt;
 
-# Time instance
-t = 0.0
+// Update position
+r[0] += v[0] * dt;
+r[1] += v[1] * dt;
+r[2] += v[2] * dt;
 
-# Grid setup
-x = np.linspace(-20, 20, 400)
-y = np.linspace(-20, 20, 400)
-X, Y = np.meshgrid(x, y)
-
-# Triangle vertices (equilateral)
-radius = 10.0
-angles = [0, 2*np.pi/3, 4*np.pi/3]
-sources = [(radius*np.cos(a), radius*np.sin(a)) for a in angles]
-
-# Superposition
-eta_total = np.zeros_like(X)
-for (x0, y0) in sources:
-    R = np.sqrt((X - x0)**2 + (Y - y0)**2)
-    eta = A / np.sqrt(R + 1e-6) * np.cos(k*R - omega*t + phi)
-    eta_total += eta
-
-# Plotting
-plt.figure(figsize=(8, 6))
-plt.pcolormesh(X, Y, eta_total, shading='auto', cmap='RdBu')
-plt.colorbar(label='Surface Displacement')
-plt.title('Interference Pattern - Triangle Configuration')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.gca().set_aspect('equal')
-plt.tight_layout()
-plt.show()
+trajectory.push([...r]);
 </code></pre>
-<h2 id="observations-explanation">Observations &amp; Explanation</h2>
+<p>}</p>
+<p>console.log(trajectory); // Trajectory output</p>
+<h3 id="results-and-visualization">Results and Visualization</h3>
+<p>Running the script provides clear 3D trajectories illustrating:</p>
 <ul>
-<li><strong>Constructive Interference</strong>: Bright zones where wave crests align from multiple sources, increasing amplitude.</li>
-<li><strong>Destructive Interference</strong>: Dark or zero-displacement regions where waves cancel out.</li>
-<li>The <strong>symmetry</strong> of the interference pattern reflects the underlying geometry (triangle).</li>
+<li>Circular motion (Uniform B)</li>
+<li>Helical motion (Combined E + B)</li>
+<li>Drift motion (Crossed E and B)</li>
 </ul>
-<p>The result highlights how the spatial arrangement of sources and wave properties leads to predictable, beautiful interference structures.</p>
-<h2 id="graphical-output">Graphical Output</h2>
-<blockquote>
-<p>The color map visualizes the displacement on the water surface. Red and blue represent peaks and troughs. White or central regions show minimal or no displacement due to destructive interference.</p>
-</blockquote>
-<h2 id="considerations">Considerations</h2>
+<h2 id="practical-applications">Practical Applications</h2>
 <ul>
-<li>All sources use identical wave properties (A, <span class="arithmatex">\(\lambda\)</span>, f).</li>
-<li>Coherent sources ensure consistent phase relationships.</li>
-<li>Simulation can be extended to <strong>square</strong> or <strong>pentagon</strong> layouts by adjusting the number of vertices.</li>
+<li><strong>Cyclotrons</strong>: Uniform magnetic fields induce circular particle paths crucial for acceleration.</li>
+<li><strong>Magnetic Traps</strong>: Magnetic fields confine plasma in devices like Tokamaks, enabling fusion reactions.</li>
+<li><strong>Mass Spectrometers</strong>: Trajectory deflection by magnetic fields separates charged particles by mass.</li>
 </ul>
-<h2 id="conclusion">Conclusion</h2>
-<p>This simulation shows how simple principles of wave superposition lead to complex interference patterns. By changing source positions and wave properties, we can study the effects of geometry and coherence in wave physics.</p>
-<h2 id="references">References</h2>
+<p>The visualized trajectories directly reflect these operational principles.</p>
+<h2 id="future-extensions">Future Extensions</h2>
+<p>To enhance the realism and complexity of simulations:</p>
 <ul>
-<li>Fundamentals of Wave Physics</li>
-<li>Simulation adapted using NumPy and Matplotlib in Python</li>
-<li>GitHub Page by <em>Student Developer</em> (2025)</li>
+<li><strong>Non-uniform fields</strong>: Simulate realistic fields found in stellar magnetic fields or sophisticated plasma confinement devices.</li>
+<li><strong>Time-dependent fields</strong>: Explore time-varying electromagnetic fields to model particle behavior in dynamic conditions.</li>
+<li><strong>Relativistic effects</strong>: Incorporate relativistic dynamics for high-energy particles typically encountered in particle accelerators.</li>
 </ul>
+<p>This structured, extendable simulation allows exploration of complex physical phenomena in particle dynamics under electromagnetic fields.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
