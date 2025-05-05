@@ -74,16 +74,16 @@ We'll explore real-world applications such as cyclotrons, magnetic traps, and pl
 <h1>Lorentz Force Simulation in Electromagnetic Fields</h1>
 
 <h2>Simulation 1: Circular Motion (Uniform B Field)</h2>
-<canvas id="canvas1" width="720" height="400"></canvas>
+<canvas id="canvas1" width="700" height="400"></canvas>
 
 <h2>Simulation 2: E × B Drift</h2>
-<canvas id="canvas2" width="720" height="400"></canvas>
+<canvas id="canvas2" width="700" height="400"></canvas>
 
 <h2>Simulation 3: Pure Electric Field Acceleration</h2>
-<canvas id="canvas3" width="720" height="400"></canvas>
+<canvas id="canvas3" width="700" height="400"></canvas>
 
 <h2>Simulation 4: Helical Motion (Spiral View)</h2>
-<canvas id="canvas4" width="720" height="400"></canvas>
+<canvas id="canvas4" width="700" height="400"></canvas>
 
 <h2>Simulation 5: Interactive Simulation (2D)</h2>
 <div>
