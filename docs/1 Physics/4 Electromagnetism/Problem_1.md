@@ -42,7 +42,7 @@ The Lorentz force determines how charged particles move through electromagnetic 
 - Simulate circular, helical, and drift motion
 
 # Parameter Exploration
-# Allow variation of
+ Allow variation of
   - Field strengths $\vec{E}, \vec{B}$
   - Initial velocity $\vec{v}$
   - Particle properties $q, m$
