@@ -106,7 +106,7 @@ To support even more complex topologies (e.g., Wheatstone Bridge), the system co
 - Add support for **voltage/current analysis**
 - Add UI to **edit circuits graphically**
 - Extend to **AC circuits** with complex impedances
-- Add parser for input like: `A-B:5, B-C:10, A-C:3`
+- Add parser for input like: **A-B:5, B-C:10, A-C:3**
 
 
 <!DOCTYPE html>
