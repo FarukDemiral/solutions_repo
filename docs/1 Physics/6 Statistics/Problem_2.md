@@ -48,62 +48,70 @@ We simulate waves from 3 coherent sources placed at the vertices of an **equilat
 ## Interactive JavaScript Simulation
 
 Below is an interactive 3D surface plot implemented using Plotly.js. It simulates the interference pattern from point sources arranged in a triangle.
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interference Pattern Simulation</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <h1>Interference Patterns on a Water Surface</h1>
+  <div id="plot"></div>
 
-```html
-<div id="plot"></div>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script>
-const A = 1.0;
-const lambda = 5.0;
-const k = 2 * Math.PI / lambda;
-const f = 1.0;
-const omega = 2 * Math.PI * f;
-const phi = 0;
-const t = 0.0;
-const N = 200;
+  <script>
+    const A = 1.0;
+    const lambda = 5.0;
+    const k = 2 * Math.PI / lambda;
+    const f = 1.0;
+    const omega = 2 * Math.PI * f;
+    const phi = 0;
+    const t = 0.0;
+    const N = 200;
 
-const x = [...Array(N)].map((_, i) => -20 + i * 40 / (N - 1));
-const y = [...Array(N)].map((_, i) => -20 + i * 40 / (N - 1));
+    const x = [...Array(N)].map((_, i) => -20 + i * 40 / (N - 1));
+    const y = [...Array(N)].map((_, i) => -20 + i * 40 / (N - 1));
 
-const sources = [
-  [10 * Math.cos(0), 10 * Math.sin(0)],
-  [10 * Math.cos(2 * Math.PI / 3), 10 * Math.sin(2 * Math.PI / 3)],
-  [10 * Math.cos(4 * Math.PI / 3), 10 * Math.sin(4 * Math.PI / 3)]
-];
+    const sources = [
+      [10 * Math.cos(0), 10 * Math.sin(0)],
+      [10 * Math.cos(2 * Math.PI / 3), 10 * Math.sin(2 * Math.PI / 3)],
+      [10 * Math.cos(4 * Math.PI / 3), 10 * Math.sin(4 * Math.PI / 3)]
+    ];
 
-let z = [];
-for (let i = 0; i < N; i++) {
-  let row = [];
-  for (let j = 0; j < N; j++) {
-    let xi = x[j];
-    let yi = y[i];
-    let sum = 0;
-    for (let s = 0; s < sources.length; s++) {
-      let [x0, y0] = sources[s];
-      let r = Math.sqrt((xi - x0) ** 2 + (yi - y0) ** 2) + 0.001;
-      sum += A / Math.sqrt(r) * Math.cos(k * r - omega * t + phi);
+    let z = [];
+    for (let i = 0; i < N; i++) {
+      let row = [];
+      for (let j = 0; j < N; j++) {
+        let xi = x[j];
+        let yi = y[i];
+        let sum = 0;
+        for (let s = 0; s < sources.length; s++) {
+          let [x0, y0] = sources[s];
+          let r = Math.sqrt((xi - x0) ** 2 + (yi - y0) ** 2) + 0.001;
+          sum += A / Math.sqrt(r) * Math.cos(k * r - omega * t + phi);
+        }
+        row.push(sum);
+      }
+      z.push(row);
     }
-    row.push(sum);
-  }
-  z.push(row);
-}
 
-Plotly.newPlot('plot', [{
-  z: z,
-  x: x,
-  y: y,
-  type: 'surface',
-  colorscale: 'RdBu',
-  contours: {
-    z: { show: true, usecolormap: true }
-  }
-}], {
-  title: 'Interference Pattern - Triangle Configuration',
-  autosize: true,
-  scene: { aspectratio: { x: 1, y: 1, z: 0.5 } }
-});
-</script>
-```
+    Plotly.newPlot('plot', [{
+      z: z,
+      x: x,
+      y: y,
+      type: 'surface',
+      colorscale: 'RdBu',
+      contours: {
+        z: { show: true, usecolormap: true }
+      }
+    }], {
+      title: 'Interference Pattern - Triangle Configuration',
+      autosize: true,
+      scene: { aspectratio: { x: 1, y: 1, z: 0.5 } }
+    });
+  </script>
+</body>
+</html>
+
 
 
 ## Observations & Explanation
