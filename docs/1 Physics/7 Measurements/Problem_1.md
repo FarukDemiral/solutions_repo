@@ -17,8 +17,8 @@ This fundamental equation governs how particles like electrons and ions behave i
 To simulate the motion of a particle under the Lorentz force, we consider a 2D plane (x-y) where:
 
 * The **magnetic field** is applied in the z-direction $B_z$
-* The **electric field** is applied in the y-direction $$ E\_y\ $$
-* The particle starts with an initial velocity in the x-direction $$ v\_x\ $$
+* The **electric field** is applied in the y-direction $E_y$
+* The particle starts with an initial velocity in the x-direction $v_x$
 
 We numerically solve the equations of motion using a basic Euler method.
 
