@@ -44,13 +44,13 @@
 <h2>Simulation 1: Interactive 2D Motion with Sliders</h2>
 
 <h2>Simulation 2: Circular Motion (Uniform B Field)</h2>
-<canvas id="canvas1" width="720" height="600"></canvas>
+<canvas id="canvas1" width="720" height="400"></canvas>
 
 <h2>Simulation 3: E × B Drift</h2>
-<canvas id="canvas2" width="720" height="600"></canvas>
+<canvas id="canvas2" width="720" height="400"></canvas>
 
 <h2>Simulation 4: Helical Motion (Spiral View)</h2>
-<canvas id="canvas4" width="720" height="600"></canvas>
+<canvas id="canvas4" width="720" height="400"></canvas>
 
 <div>
   <label>Magnetic Field Bz (T):
