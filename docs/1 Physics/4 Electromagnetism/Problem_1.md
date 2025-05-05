@@ -12,7 +12,7 @@ $\vec{F} = q\vec{E} + q\vec{v} \times \vec{B}$
 We'll explore real-world applications such as cyclotrons, magnetic traps, and plasma confinement devices by modeling particle trajectories using numerical techniques
 
 # Theoretical Foundation
-The Lorentz force determines how charged particles move through electromagnetic fields. Its effects depend on
+**The Lorentz force determines how charged particles move through electromagnetic fields. Its effects depend on**
 
 - The magnitude and direction of the electric field $\vec{E}$
 - The direction and strength of the magnetic field $\vec{B}$
@@ -26,7 +26,7 @@ The Lorentz force determines how charged particles move through electromagnetic 
 - **Drift motion** in crossed $\vec{E}$ and $\vec{B}$ 
 
 # Exploration of Applications
- Identify real-world systems using Lorentz force
+ **Identify real-world systems using Lorentz force**
 
   - Particle accelerators (cyclotrons, synchrotrons)
   - Plasma confinement (tokamaks)
@@ -35,7 +35,7 @@ The Lorentz force determines how charged particles move through electromagnetic 
 - and $\vec{B}$ fields influence motion
 
 # Simulating Particle Motion
- Compute and visualize trajectories under
+ **Compute and visualize trajectories under**
 
   - A uniform magnetic field
   - Combined uniform electric and magnetic fields
@@ -44,7 +44,7 @@ The Lorentz force determines how charged particles move through electromagnetic 
 - Simulate circular, helical, and drift motion
 
 # Parameter Exploration
-   Allow variation of
+   **Allow variation of**
 
   - Field strengths $\vec{E}, \vec{B}$
   - Initial velocity $\vec{v}$
