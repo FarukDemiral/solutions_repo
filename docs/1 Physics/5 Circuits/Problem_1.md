@@ -1,51 +1,60 @@
-# Problem 1
-#  Equivalent Resistance Using Graph Theory
+# Problem 1  
+# Equivalent Resistance Using Graph Theory
 
-This project implements an algorithm to calculate the **equivalent resistance** of an electrical circuit using **graph theory**. It detects and reduces **series and parallel connections** using **graph traversal** techniques (DFS) and tools like **NetworkX** in Python. The approach is designed to handle even complex circuit configurations, including **nested combinations** and **cyclic connections**.
+## Introduction
+
+In electrical engineering, calculating the equivalent resistance of a circuit is essential for understanding how current flows and for simplifying complex networks. While simple circuits can be solved using basic series and parallel rules, real-world circuits often contain nested, cyclic, or non-obvious configurations.
+
+This project explores an algorithmic approach using **graph theory** to automate the simplification of resistor networks. By modeling circuits as graphs, we can apply powerful techniques to detect and reduce series and parallel combinations — even in complex topologies. 
+
+Alongside the theoretical explanation and Python pseudocode, an interactive **JavaScript-based visual simulator** is provided so users can input custom circuits and instantly view the equivalent resistance and graphical layout.
 
 
-##  Features
-- Full support for **series** and **parallel** resistor detection
-- Handles **nested resistor configurations**
-- Works on graphs with **cycles and multiple paths**
-- Built using **NetworkX** for graph representation and manipulation
+
+## Features
+- Full support for **series** and **parallel** resistor detection  
+- Handles **nested resistor configurations**  
+- Works on graphs with **cycles and multiple paths**  
+- Built using **NetworkX** (Python) and **HTML5/JavaScript** for simulation
 
 
-##  Problem Overview
+## Problem Overview
 
 Calculating equivalent resistance is crucial in circuit design and analysis. Traditionally, this requires manual simplification of resistors using:
 
-- Series Rule: $$ R_\text{eq} = R_1 + R_2 + \dots $$
-- Parallel Rule: $$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$
+- Series Rule:  
+  $$ R_\text{eq} = R_1 + R_2 + \dots $$
+
+- Parallel Rule:  
+  $$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$
 
 In complex circuits, manual simplification becomes difficult. This implementation uses graph theory to automate the process:
-- **Nodes** represent junctions
-- **Edges** represent resistors (with weights)
+- **Nodes** represent junctions  
+- **Edges** represent resistors (with weights)  
 - Repeatedly apply simplification rules using traversal techniques
 
 
+## Algorithm Description
 
-##  Algorithm Description
-
-### 1. **Series Detection**
+### 1. Series Detection
 A node is part of a series if:
 - It connects exactly 2 other nodes (degree = 2)
-- It is not marked as a terminal (i.e., input/output node)
+- It is not marked as a terminal (input/output)
 
-**Reduction Rule**:
-Merge the resistors: $$ R_\text{eq} = R_1 + R_2 $$
+**Reduction Rule**:  
+$$ R_\text{eq} = R_1 + R_2 $$
 
-### 2. **Parallel Detection**
+
+### 2. Parallel Detection
 Two or more resistors are in parallel if they connect the same two nodes.
 
-**Reduction Rule**:
-$$
-\frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots
-$$
+**Reduction Rule**:  
+$$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$
 
-### 3. **Simplification Loop**
-- Detect and reduce **series** nodes first
-- Detect and reduce **parallel** edges
+
+### 3. Simplification Loop
+- Detect and reduce **series** nodes first  
+- Then reduce **parallel** edges  
 - Repeat until only one edge remains between input and output
 
 
@@ -58,12 +67,12 @@ $$
   $$ R_{AC} = 15\,\Omega $$
 
 
-
 ### Example 2: Parallel
 - Circuit:  
   $$ A \xrightarrow{6\,\Omega} B,\quad A \xrightarrow{3\,\Omega} B $$
 - Expected Output:  
   $$ R_{AB} = \left( \frac{1}{6} + \frac{1}{3} \right)^{-1} = 2\,\Omega $$
+
 
 ### Example 3: Nested (Parallel + Series)
 - Circuit:  
@@ -74,27 +83,31 @@ $$
   $$ R_{AC} = \left( \frac{1}{2 + 6} + \frac{1}{3} \right)^{-1} = 1.5\,\Omega $$
 
 
-##  Handling Complex Circuits
-The algorithm can manage:
-- **Deeply nested** structures by recursively simplifying subgraphs
-- **Cyclic structures** (e.g., bridges or loops) by flattening paths and reducing redundant edges
-- **Multiple terminals** (with some additional logic)
+## Handling Complex Circuits
 
-For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchhoff's laws or node-voltage methods could be integrated.
+This algorithm can manage:
+- **Deeply nested** resistor trees
+- **Cyclic topologies** (loops, bridges)
+- Configurations with **multiple terminals**
 
-
-##  Efficiency Analysis
-- **Series/parallel detection**: $$ O(n) $$ per iteration
-- **Graph size reduction** ensures convergence in a finite number of steps
-- Total complexity: approx $$ O(n^2) $$ in worst case for dense graphs
+To support even more complex topologies (e.g., Wheatstone Bridge), the system could be extended using **Kirchhoff’s Laws** or **node-voltage analysis**.
 
 
-##  Potential Improvements
+## Efficiency Analysis
+
+- Each series/parallel detection pass:  
+  $$ O(n) $$
+- Total simplification loop (worst-case dense graphs):  
+  $$ O(n^2) $$
+
+
+
+## Potential Improvements
 - Add support for **voltage/current analysis**
-- Visualize circuit graph simplification using matplotlib or Plotly
-- Extend for **AC circuits** with complex impedances
-- Add **user-friendly DSL input** for circuits like: `A-B:5, B-C:10, A-C:3`
- 
+- Add UI to **edit circuits graphically**
+- Extend to **AC circuits** with complex impedances
+- Add parser for input like: `A-B:5, B-C:10, A-C:3`
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -109,7 +122,7 @@ For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchho
   </style>
 </head>
 <body>
-  <h2> Visual Equivalent Resistance Simulator</h2>
+  <h2>Visual Equivalent Resistance Simulator</h2>
   <p>Enter connections like: <code>A-B:5, B-C:10, A-C:15</code></p>
   <input id="input" placeholder="A-B:5, B-C:10, A-C:15">
   <button onclick="calculate()">Calculate & Draw</button>
@@ -167,7 +180,6 @@ For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchho
       const cy = canvas.height / 2;
       const radius = 140;
 
-      // Place nodes in a circle
       nodes.forEach((node, i) => {
         const angle = i * angleStep;
         const x = cx + radius * Math.cos(angle);
@@ -183,7 +195,6 @@ For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchho
         ctx.fillText(node, x - 5, y + 5);
       });
 
-      // Draw edges
       edges.forEach(({ u, v, r }) => {
         const x1 = pos[u].x;
         const y1 = pos[u].y;
@@ -195,7 +206,6 @@ For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchho
         ctx.strokeStyle = '#333';
         ctx.stroke();
 
-        // Draw resistance label
         const mx = (x1 + x2) / 2;
         const my = (y1 + y2) / 2;
         ctx.fillStyle = '#cc0000';
@@ -206,10 +216,7 @@ For more complex tasks (e.g., Wheatstone Bridge), further extension with Kirchho
 </body>
 </html>
 
-##  References
+## References
+
 - NetworkX Documentation: https://networkx.org
 - Resistor Combination Rules: Physics and Engineering Textbooks
-
-
-
-
