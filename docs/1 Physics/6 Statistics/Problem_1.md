@@ -21,8 +21,8 @@
 
   <!-- 🔽 SVG Diagram Below Canvas -->
   <div style="text-align:center; margin: 40px 0 20px 0;">
-    <h3>Illustration: Nested Series + Parallel Configuration</h3>
-    <svg width="500" height="200" xmlns="http://www.w3.org/2000/svg">
+    <h3>Visual Equivalent Resistance Simulator</h3>
+    <svg width="500" height="400" xmlns="http://www.w3.org/2000/svg">
       <!-- Nodes -->
       <circle cx="50" cy="100" r="10" fill="#000" />
       <circle cx="200" cy="100" r="10" fill="#000" />
