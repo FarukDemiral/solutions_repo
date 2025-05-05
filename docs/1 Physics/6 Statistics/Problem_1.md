@@ -42,16 +42,6 @@
 <p>We'll simulate and visualize real-world effects such as circular, helical, and drift motion, and study how field strength, charge, mass, and velocity affect the trajectory.</p>
 
 <h2>Simulation 1: Interactive 2D Motion with Sliders</h2>
-
-<h2>Simulation 2: Circular Motion (Uniform B Field)</h2>
-<canvas id="canvas1" width="720" height="400"></canvas>
-
-<h2>Simulation 3: E × B Drift</h2>
-<canvas id="canvas2" width="720" height="400"></canvas>
-
-<h2>Simulation 4: Helical Motion (Spiral View)</h2>
-<canvas id="canvas4" width="720" height="400"></canvas>
-
 <div>
   <label>Magnetic Field Bz (T):
     <input type="range" id="Bz" min="-5" max="5" value="1" step="0.1">
@@ -68,14 +58,21 @@
 </div>
 <div id="plot" style="width:100%;height:500px;margin-top:20px;"></div>
 
+<h2>Simulation 2: Circular Motion (Uniform B Field)</h2>
+<canvas id="canvas1" width="720" height="600"></canvas>
+
+<h2>Simulation 3: E × B Drift</h2>
+<canvas id="canvas2" width="720" height="600"></canvas>
+
+<h2>Simulation 4: Helical Motion (Spiral View)</h2>
+<canvas id="canvas4" width="720" height="600"></canvas>
+
 <script>
   const steps = 2000;
 
-
-  // --- Simulation 1: Interactive with Plotly.js ---
+  // --- Simulation 1 (Sliders) ---
   const q = 1, m = 1;
   let dt = 0.05, tMax = 20;
-
   function simulate(Bz, Ey, vx0) {
     let x = 0, y = 0, vx = vx0, vy = 0;
     let xData = [], yData = [];
@@ -102,10 +99,24 @@
     });
   }
 
+  function updateSim() {
+    let Bz = parseFloat(document.getElementById('Bz').value);
+    let Ey = parseFloat(document.getElementById('Ey').value);
+    let vx = parseFloat(document.getElementById('vx').value);
+    document.getElementById('BzVal').innerText = Bz;
+    document.getElementById('EyVal').innerText = Ey;
+    document.getElementById('vxVal').innerText = vx;
+    simulate(Bz, Ey, vx);
+  }
+
+  ['Bz', 'Ey', 'vx'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updateSim);
+  });
+
   // --- Simulation 2: Circular Motion ---
   const ctx1 = document.getElementById("canvas1").getContext("2d");
   let pos1 = { x: 400, y: 150 }, vel1 = { x: 2, y: 0 };
-  const B1 = 1, E1 = { x: 0, y: 0 }, dt1 = 0.1;
+  const B1 = 1, dt1 = 0.1;
   function simulate1() {
     ctx1.beginPath(); ctx1.moveTo(pos1.x, pos1.y);
     for (let i = 0; i < steps; i++) {
@@ -132,7 +143,6 @@
     ctx2.strokeStyle = '#FF5733'; ctx2.stroke();
   }
 
-
   // --- Simulation 4: Helical Motion ---
   const ctx4 = document.getElementById("canvas4").getContext("2d");
   let x4 = 0, y4 = 0, z4 = 0;
@@ -156,27 +166,11 @@
     ctx4.stroke();
   }
 
-
-  function updateSim() {
-    let Bz = parseFloat(document.getElementById('Bz').value);
-    let Ey = parseFloat(document.getElementById('Ey').value);
-    let vx = parseFloat(document.getElementById('vx').value);
-    document.getElementById('BzVal').innerText = Bz;
-    document.getElementById('EyVal').innerText = Ey;
-    document.getElementById('vxVal').innerText = vx;
-    simulate(Bz, Ey, vx);
-  }
-
-  ['Bz', 'Ey', 'vx'].forEach(id => {
-    document.getElementById(id).addEventListener('input', updateSim);
-  });
-
-  // Run all
+  // Run all simulations
+  updateSim();
   simulate1();
   simulate2();
-  simulate3();
   simulate4();
-  updateSim();
 </script>
 
 </body>
