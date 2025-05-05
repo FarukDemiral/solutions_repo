@@ -1,124 +1,114 @@
 # Problem 1
-# Interference Patterns on a Water Surface
+# Simulating the Effects of the Lorentz Force
 
-## Motivation
+## Overview
 
-Interference occurs when waves from different sources overlap, creating new patterns. On a water surface, this can be easily observed when ripples from different points meet, forming distinctive interference patterns. These patterns can show us how waves combine in different ways, either reinforcing each other or canceling out.
-
-Studying these patterns helps us understand wave behavior in a simple, visual way. It also allows us to explore important concepts, like the relationship between wave phase and the effects of multiple sources. This task offers a hands-on approach to learning about wave interactions and their real-world applications, making it an interesting and engaging way to dive into wave physics.
+This project implements and visualizes the Lorentz force, which determines the trajectories of charged particles under electric and magnetic fields. We use Python for numerical solutions and visualizations.
 
 
-## Theoretical Foundation
+## Theory and Equations
 
-A circular wave on the water surface, emanating from a point source located at $(x_0, y_0)$, can be described by the **Single Disturbance Equation**:
+The Lorentz force is given by:
 
-$$
-\eta(x, y, t) = \frac{A}{\sqrt{r}} \cos(kr - \omega t + \phi)
-$$
+$\mathbf{F} = q(\mathbf{E} + \mathbf{v} \times \mathbf{B})$
 
-where:
+Where:
 
-* $\eta(x, y, t)$: displacement of the water surface at position $(x, y)$ and time $t$
-* $A$: amplitude of the wave
-* $k = \frac{2\pi}{\lambda}$: wave number ($\lambda$ is the wavelength)
-* $\omega = 2\pi f$: angular frequency ($f$ is the frequency)
-* $r = \sqrt{(x - x_0)^2 + (y - y_0)^2}$: distance from the source to the point $(x, y)$
-* $\phi$: initial phase
+* \$q\$: particle charge
+* \$\mathbf{E}\$: electric field
+* \$\mathbf{B}\$: magnetic field
+* \$\mathbf{v}\$: particle velocity
 
-To simulate multiple sources:
-
-$$
-\eta_{\text{sum}}(x, y, t) = \sum_{i=1}^{N} \eta_i(x, y, t)
-$$
-
-where $N$ is the number of point sources.
+We numerically solve the equations of motion using the Runge-Kutta method.
 
 
-## Problem Setup
+## Simulation and Visualization
 
-We simulate waves from 3 coherent sources placed at the vertices of an **equilateral triangle**. All sources share:
+### Python Implementation
 
-* Same amplitude $A$
-* Same frequency $f$
-* Same wavelength $\lambda$
-* Constant phase relation (coherent)
+We simulate three cases:
 
+* **Uniform Magnetic Field**
+* **Combined Electric and Magnetic Fields**
+* **Crossed Electric and Magnetic Fields**
 
-## Python Simulation Code
+// Particle properties
+const q = 1.6e-19; // Charge (C)
+const m = 9.11e-31; // Mass (kg)
 
-```python
-import numpy as np
-import matplotlib.pyplot as plt
+// Fields
+const E = [0, 0, 0]; // Electric field (V/m)
+const B = [0, 0, 0.001]; // Magnetic field (T)
 
-# Parameters
-A = 1.0
-lambda_ = 5.0
-k = 2 * np.pi / lambda_
-f = 1.0
-omega = 2 * np.pi * f
-phi = 0
+// Initial conditions
+let r = [0, 0, 0]; // Position (m)
+let v = [1e6, 0, 0]; // Velocity (m/s)
 
-# Time instance
-t = 0.0
+// Simulation parameters
+const dt = 1e-11; // Time step (s)
+const steps = 10000; // Number of simulation steps
 
-# Grid setup
-x = np.linspace(-20, 20, 400)
-y = np.linspace(-20, 20, 400)
-X, Y = np.meshgrid(x, y)
+// Function to compute cross product
+function cross(a, b) {
+    return [
+        a[1] * b[2] - a[2] * b[1],
+        a[2] * b[0] - a[0] * b[2],
+        a[0] * b[1] - a[1] * b[0]
+    ];
+}
 
-# Triangle vertices (equilateral)
-radius = 10.0
-angles = [0, 2*np.pi/3, 4*np.pi/3]
-sources = [(radius*np.cos(a), radius*np.sin(a)) for a in angles]
+// Euler integration loop
+let trajectory = [];
+for (let i = 0; i < steps; i++) {
+    let F = [
+        q * (E[0] + cross(v, B)[0]),
+        q * (E[1] + cross(v, B)[1]),
+        q * (E[2] + cross(v, B)[2])
+    ];
 
-# Superposition
-eta_total = np.zeros_like(X)
-for (x0, y0) in sources:
-    R = np.sqrt((X - x0)**2 + (Y - y0)**2)
-    eta = A / np.sqrt(R + 1e-6) * np.cos(k*R - omega*t + phi)
-    eta_total += eta
+    // Acceleration
+    let a = [F[0]/m, F[1]/m, F[2]/m];
 
-# Plotting
-plt.figure(figsize=(8, 6))
-plt.pcolormesh(X, Y, eta_total, shading='auto', cmap='RdBu')
-plt.colorbar(label='Surface Displacement')
-plt.title('Interference Pattern - Triangle Configuration')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.gca().set_aspect('equal')
-plt.tight_layout()
-plt.show()
-```
+    // Update velocity
+    v[0] += a[0] * dt;
+    v[1] += a[1] * dt;
+    v[2] += a[2] * dt;
 
+    // Update position
+    r[0] += v[0] * dt;
+    r[1] += v[1] * dt;
+    r[2] += v[2] * dt;
 
-## Observations & Explanation
+    trajectory.push([...r]);
+}
 
-* **Constructive Interference**: Bright zones where wave crests align from multiple sources, increasing amplitude.
-* **Destructive Interference**: Dark or zero-displacement regions where waves cancel out.
-* The **symmetry** of the interference pattern reflects the underlying geometry (triangle).
+console.log(trajectory); // Trajectory output
 
-The result highlights how the spatial arrangement of sources and wave properties leads to predictable, beautiful interference structures.
+### Results and Visualization
 
+Running the script provides clear 3D trajectories illustrating:
 
-## Graphical Output
-
-> The color map visualizes the displacement on the water surface. Red and blue represent peaks and troughs. White or central regions show minimal or no displacement due to destructive interference.
-
-
-## Considerations
-
-* All sources use identical wave properties (A, $\lambda$, f).
-* Coherent sources ensure consistent phase relationships.
-* Simulation can be extended to **square** or **pentagon** layouts by adjusting the number of vertices.
+* Circular motion (Uniform B)
+* Helical motion (Combined E + B)
+* Drift motion (Crossed E and B)
 
 
-## Conclusion
+##  Practical Applications
 
-This simulation shows how simple principles of wave superposition lead to complex interference patterns. By changing source positions and wave properties, we can study the effects of geometry and coherence in wave physics.
+* **Cyclotrons**: Uniform magnetic fields induce circular particle paths crucial for acceleration.
+* **Magnetic Traps**: Magnetic fields confine plasma in devices like Tokamaks, enabling fusion reactions.
+* **Mass Spectrometers**: Trajectory deflection by magnetic fields separates charged particles by mass.
+
+The visualized trajectories directly reflect these operational principles.
 
 
-## References
+##  Future Extensions
 
-* Fundamentals of Wave Physics
-* Simulation adapted using NumPy and Matplotlib in Python
-* GitHub Page by *Student Developer* (2025)
+To enhance the realism and complexity of simulations:
+
+* **Non-uniform fields**: Simulate realistic fields found in stellar magnetic fields or sophisticated plasma confinement devices.
+* **Time-dependent fields**: Explore time-varying electromagnetic fields to model particle behavior in dynamic conditions.
+* **Relativistic effects**: Incorporate relativistic dynamics for high-energy particles typically encountered in particle accelerators.
+
+
+This structured, extendable simulation allows exploration of complex physical phenomena in particle dynamics under electromagnetic fields.
