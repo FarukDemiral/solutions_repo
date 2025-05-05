@@ -95,9 +95,9 @@ To support even more complex topologies (e.g., Wheatstone Bridge), the system co
 
 ## Efficiency Analysis
 
-- Each series/parallel detection pass:  
+ **Each series/parallel detection pass:**  
   $$ O(n) $$
-- Total simplification loop (worst-case dense graphs):  
+**Total simplification loop (worst-case dense graphs):**  
   $$ O(n^2) $$
 
 
