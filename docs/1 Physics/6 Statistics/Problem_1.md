@@ -1,8 +1,7 @@
-# Problem 1
 # Problem 1  
 # Equivalent Resistance Using Graph Theory
 
-## 🔍 Introduction
+## Introduction
 
 In electrical engineering, calculating the equivalent resistance of a circuit is essential for understanding how current flows and for simplifying complex networks. While simple circuits can be solved using basic series and parallel rules, real-world circuits often contain nested, cyclic, or non-obvious configurations.
 
@@ -10,7 +9,7 @@ This project explores an algorithmic approach using **graph theory** to automate
 
 Alongside the theoretical explanation and Python pseudocode, an interactive **JavaScript-based visual simulator** is provided so users can input custom circuits and instantly view the equivalent resistance and graphical layout.
 
----
+
 
 ## Features
 - Full support for **series** and **parallel** resistor detection  
@@ -18,7 +17,6 @@ Alongside the theoretical explanation and Python pseudocode, an interactive **Ja
 - Works on graphs with **cycles and multiple paths**  
 - Built using **NetworkX** (Python) and **HTML5/JavaScript** for simulation
 
----
 
 ## Problem Overview
 
@@ -35,7 +33,6 @@ In complex circuits, manual simplification becomes difficult. This implementatio
 - **Edges** represent resistors (with weights)  
 - Repeatedly apply simplification rules using traversal techniques
 
----
 
 ## Algorithm Description
 
@@ -47,7 +44,6 @@ A node is part of a series if:
 **Reduction Rule**:  
 $$ R_\text{eq} = R_1 + R_2 $$
 
----
 
 ### 2. Parallel Detection
 Two or more resistors are in parallel if they connect the same two nodes.
@@ -55,16 +51,14 @@ Two or more resistors are in parallel if they connect the same two nodes.
 **Reduction Rule**:  
 $$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$
 
----
 
 ### 3. Simplification Loop
 - Detect and reduce **series** nodes first  
 - Then reduce **parallel** edges  
 - Repeat until only one edge remains between input and output
 
----
 
-## ✅ Test Cases
+##  Test Cases
 
 ### Example 1: Simple Series
 - Circuit:  
@@ -72,7 +66,6 @@ $$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$
 - Expected Output:  
   $$ R_{AC} = 15\,\Omega $$
 
----
 
 ### Example 2: Parallel
 - Circuit:  
@@ -80,7 +73,6 @@ $$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$
 - Expected Output:  
   $$ R_{AB} = \left( \frac{1}{6} + \frac{1}{3} \right)^{-1} = 2\,\Omega $$
 
----
 
 ### Example 3: Nested (Parallel + Series)
 - Circuit:  
@@ -90,7 +82,6 @@ $$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$
 - Expected Output:  
   $$ R_{AC} = \left( \frac{1}{2 + 6} + \frac{1}{3} \right)^{-1} = 1.5\,\Omega $$
 
----
 
 ## Handling Complex Circuits
 
@@ -101,7 +92,6 @@ This algorithm can manage:
 
 To support even more complex topologies (e.g., Wheatstone Bridge), the system could be extended using **Kirchhoff’s Laws** or **node-voltage analysis**.
 
----
 
 ## Efficiency Analysis
 
@@ -110,7 +100,7 @@ To support even more complex topologies (e.g., Wheatstone Bridge), the system co
 - Total simplification loop (worst-case dense graphs):  
   $$ O(n^2) $$
 
----
+
 
 ## Potential Improvements
 - Add support for **voltage/current analysis**
@@ -118,11 +108,7 @@ To support even more complex topologies (e.g., Wheatstone Bridge), the system co
 - Extend to **AC circuits** with complex impedances
 - Add parser for input like: `A-B:5, B-C:10, A-C:3`
 
----
 
-## 💻 Visual Equivalent Resistance Simulator (JavaScript)
-
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -229,3 +215,8 @@ To support even more complex topologies (e.g., Wheatstone Bridge), the system co
   </script>
 </body>
 </html>
+
+## References
+
+- NetworkX Documentation: https://networkx.org
+- Resistor Combination Rules: Physics and Engineering Textbooks
