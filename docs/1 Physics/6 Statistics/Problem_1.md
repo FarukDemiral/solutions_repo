@@ -19,10 +19,10 @@
   <div class="result" id="output"></div>
   <canvas id="circuit" width="600" height="400"></canvas>
 
-  <!-- 🔽 SVG Diagram Below Canvas -->
+  <!--  SVG Diagram Below Canvas -->
   <div style="text-align:center; margin: 40px 0 20px 0;">
     <h3>Visual Equivalent Resistance Simulator</h3>
-    <svg width="500" height="400" xmlns="http://www.w3.org/2000/svg">
+    <svg width="500" height="200" xmlns="http://www.w3.org/2000/svg">
       <!-- Nodes -->
       <circle cx="50" cy="100" r="10" fill="#000" />
       <circle cx="200" cy="100" r="10" fill="#000" />
@@ -34,16 +34,16 @@
       <text x="340" y="90" font-size="14">C</text>
 
       <!-- Resistor A-B -->
-      <line x1="60" y1="100" x2="190" y2="100" stroke="#444" stroke-width="6"/>
+      <line x1="60" y1="100" x2="190" y2="100" stroke="#444" stroke-width="3"/>
       <text x="110" y="90" font-size="14" fill="red">2Ω</text>
 
       <!-- Resistor B-C -->
-      <line x1="210" y1="100" x2="340" y2="100" stroke="#444" stroke-width="6"/>
+      <line x1="210" y1="100" x2="340" y2="100" stroke="#444" stroke-width="3"/>
       <text x="265" y="90" font-size="14" fill="red">6Ω</text>
 
       <!-- Parallel Resistor A-C -->
-      <line x1="60" y1="100" x2="200" y2="50" stroke="#444" stroke-width="6"/>
-      <line x1="200" y1="50" x2="340" y2="100" stroke="#444" stroke-width="6"/>
+      <line x1="60" y1="100" x2="200" y2="50" stroke="#444" stroke-width="3"/>
+      <line x1="200" y1="50" x2="340" y2="100" stroke="#444" stroke-width="3"/>
       <text x="190" y="40" font-size="14" fill="red">3Ω</text>
     </svg>
   </div>
