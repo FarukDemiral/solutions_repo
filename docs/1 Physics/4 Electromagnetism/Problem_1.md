@@ -26,7 +26,8 @@ The Lorentz force determines how charged particles move through electromagnetic 
 - **Drift motion** in crossed $\vec{E}$ and $\vec{B}$ 
 
 # Exploration of Applications
-# Identify real-world systems using Lorentz force
+ Identify real-world systems using Lorentz force
+
   - Particle accelerators (cyclotrons, synchrotrons)
   - Plasma confinement (tokamaks)
   - Mass spectrometers
@@ -34,7 +35,8 @@ The Lorentz force determines how charged particles move through electromagnetic 
 - and $\vec{B}$ fields influence motion
 
 # Simulating Particle Motion
-### Compute and visualize trajectories under
+ Compute and visualize trajectories under
+
   - A uniform magnetic field
   - Combined uniform electric and magnetic fields
   - Crossed $\vec{E}$ 
