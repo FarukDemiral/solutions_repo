@@ -196,12 +196,10 @@ $$ \frac{1}{R_\text{eq}} = \frac{1}{R_1} + \frac{1}{R_2} + \dots $$</p>
 - Configurations with <strong>multiple terminals</strong></p>
 <p>To support even more complex topologies (e.g., Wheatstone Bridge), the system could be extended using <strong>Kirchhoff’s Laws</strong> or <strong>node-voltage analysis</strong>.</p>
 <h2 id="efficiency-analysis">Efficiency Analysis</h2>
-<ul>
-<li>Each series/parallel detection pass:<br/>
-  $$ O(n) $$</li>
-<li>Total simplification loop (worst-case dense graphs):<br/>
-  $$ O(n^2) $$</li>
-</ul>
+<p><strong>Each series/parallel detection pass:</strong><br/>
+  $$ O(n) $$
+<strong>Total simplification loop (worst-case dense graphs):</strong><br/>
+  $$ O(n^2) $$</p>
 <h2 id="potential-improvements">Potential Improvements</h2>
 <ul>
 <li>Add support for <strong>voltage/current analysis</strong></li>
