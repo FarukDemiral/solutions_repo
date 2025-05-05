@@ -1,6 +1,6 @@
 # Problem 1
 # Lorentz Force Simulation in Electromagnetic Fields
-# Project Goal
+
 - This project aims to simulate and visualize the behavior of charged particles under the influence of electric $\vec{E}$ 
 
 - magnetic $\vec{B}$ 
@@ -12,7 +12,7 @@ $\vec{F} = q\vec{E} + q\vec{v} \times \vec{B}$
 We'll explore real-world applications such as cyclotrons, magnetic traps, and plasma confinement devices by modeling particle trajectories using numerical techniques
 
 # Theoretical Foundation
-# The Lorentz force determines how charged particles move through electromagnetic fields. Its effects depend on
+The Lorentz force determines how charged particles move through electromagnetic fields. Its effects depend on
 
 - The magnitude and direction of the electric field $\vec{E}$
 - The direction and strength of the magnetic field $\vec{B}$
@@ -24,8 +24,6 @@ We'll explore real-world applications such as cyclotrons, magnetic traps, and pl
 
 - **Circular or helical motion** in uniform $\vec{B}$ 
 - **Drift motion** in crossed $\vec{E}$ and $\vec{B}$ 
-
-# Task Breakdown
 
 # Exploration of Applications
 # Identify real-world systems using Lorentz force
