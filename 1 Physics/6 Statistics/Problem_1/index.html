@@ -84,6 +84,16 @@
 <ul class="current">
 <li class="toctree-l2 current"><a class="reference internal current" href="#">Problem 1</a>
 <ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="#test-cases">Test Cases</a>
+<ul>
+<li class="toctree-l4"><a class="reference internal" href="#example-1-simple-series">Example 1: Simple Series</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#example-2-parallel">Example 2: Parallel</a>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="#example-3-nested-parallel-series">Example 3: Nested (Parallel + Series)</a>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="../Problem_2/">Problem 2</a>
@@ -120,102 +130,29 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
-<h1 id="simulating-the-effects-of-the-lorentz-force">Simulating the Effects of the Lorentz Force</h1>
-<h2 id="1-introduction">1. Introduction</h2>
-<p>The Lorentz force describes how electric and magnetic fields influence the motion of charged particles. The force is defined as:</p>
-<div class="arithmatex">\[ \vec{F} = q (\vec{E} + \vec{v} \times \vec{B}) \]</div>
-<p>Where:
-- $$ q $$: charge of the particle
-- $$ \vec{E} $$: electric field
-- $$ \vec{B} $$: magnetic field
-- $$ \vec{v} $$: velocity of the particle</p>
-<p>This simulation focuses on visualizing how different field configurations affect the trajectory of a charged particle.</p>
-<h2 id="2-python-simulation-code">2. Python Simulation Code</h2>
-<p>This simulation uses the <strong>Euler method</strong> to numerically integrate the equations of motion for a charged particle:</p>
-<div class="arithmatex">\[ ec{F} = q(ec{E} + ec{v}   imes ec{B}) = m ec{a} \]</div>
-<p>We use <strong>NumPy</strong> for calculations and <strong>Matplotlib</strong> for visualization. The simulation starts with a uniform magnetic field and can be extended to crossed fields and more complex configurations.</p>
-<pre><code class="language-python">import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-
-# Physical Constants and Initial Parameters
-q = 1.6e-19   # Charge (Coulombs)
-m = 9.11e-31  # Mass (kg) — electron
-
-# Field Definitions
-E = np.array([0.0, 0.0, 0.0])  # Uniform electric field (V/m)
-B = np.array([0.0, 0.0, 1.0])  # Uniform magnetic field (T)
-
-# Initial Conditions
-v0 = np.array([1e6, 0.0, 0.0])  # Initial velocity (m/s)
-r0 = np.array([0.0, 0.0, 0.0])  # Initial position (m)
-
-# Simulation Parameters
-dt = 1e-11  # Time step (s)
-steps = 2000  # Number of steps
-
-# Arrays to store trajectory
-positions = np.zeros((steps, 3))
-velocities = np.zeros((steps, 3))
-positions[0] = r0
-velocities[0] = v0
-
-# Lorentz Force Simulation Loop
-for i in range(1, steps):
-    v = velocities[i-1]
-    r = positions[i-1]
-    F = q * (E + np.cross(v, B))
-    a = F / m
-    velocities[i] = v + a * dt
-    positions[i] = r + velocities[i] * dt
-
-# Plotting the Trajectory
-fig = plt.figure(figsize=(8,6))
-ax = fig.add_subplot(111, projection='3d')
-ax.plot(positions[:,0], positions[:,1], positions[:,2], label='Particle Path')
-ax.set_title("Charged Particle Trajectory under Lorentz Force")
-ax.set_xlabel("x [m]")
-ax.set_ylabel("y [m]")
-ax.set_zlabel("z [m]")
-ax.legend()
-plt.tight_layout()
-plt.show()
-</code></pre>
-<hr/>
-<h2 id="3-visualization-summary">3. Visualization Summary</h2>
-<p>The figure above shows the trajectory of a charged particle under a <strong>uniform magnetic field</strong>. With an initial velocity perpendicular to the field, the particle undergoes <strong>circular motion</strong>, as expected from Lorentz force theory.</p>
-<p>We can modify the fields to simulate:
-- Helical motion (initial velocity at an angle to the field)
-- Drift in crossed $$ \vec{E} ) and ( \vec{B} $$ fields
-- Straight-line acceleration in electric fields</p>
-<h2 id="4-practical-applications">4. Practical Applications</h2>
-<h3 id="cyclotrons">Cyclotrons:</h3>
+<h2 id="test-cases">Test Cases</h2>
+<h3 id="example-1-simple-series">Example 1: Simple Series</h3>
 <ul>
-<li>Cyclotrons use uniform magnetic fields to spiral charged particles outward.</li>
-<li>The simulation shows circular motion as a core feature of cyclotron operation.</li>
+<li>Circuit:<br/>
+  $$ A \xrightarrow{5\,\Omega} B \xrightarrow{10\,\Omega} C $$</li>
+<li>Expected Output:<br/>
+  $$ R_{AC} = 15\,\Omega $$</li>
 </ul>
-<h3 id="magnetic-traps-eg-penning-traps">Magnetic Traps (e.g. Penning traps):</h3>
+<h3 id="example-2-parallel">Example 2: Parallel</h3>
 <ul>
-<li>Charged particles are confined using static magnetic and electric fields.</li>
-<li>By adjusting $$ \vec{E} ) and ( \vec{B} $$, the simulation can mimic this confinement.</li>
+<li>Circuit:<br/>
+  $$ A \xrightarrow{6\,\Omega} B,\quad A \xrightarrow{3\,\Omega} B $$</li>
+<li>Expected Output:<br/>
+  $$ R_{AB} = \left( \frac{1}{6} + \frac{1}{3} \right)^{-1} = 2\,\Omega $$</li>
 </ul>
-<h3 id="plasma-physics">Plasma Physics:</h3>
+<h3 id="example-3-nested-parallel-series">Example 3: Nested (Parallel + Series)</h3>
 <ul>
-<li>Lorentz force governs particle dynamics in magnetic confinement fusion.</li>
-<li>The drift motion under crossed fields relates directly to <strong>E × B</strong> drift in plasmas.</li>
-</ul>
-<h2 id="5-future-work">5. Future Work</h2>
-<ul>
-<li>Add interactive controls to vary <span class="arithmatex">\( q, m, ec{E}, ec{B}, ec{v} \)</span></li>
-<li>Compute and visualize <strong>Larmor radius</strong> and <strong>gyrofrequency</strong></li>
-<li>Extend to 3D drift and multiple particle systems</li>
-<li>Implement alternative integration methods like <strong>Runge-Kutta</strong> for better accuracy</li>
-<li>Simulate motion under <strong>non-uniform fields</strong> (e.g., magnetic field gradients or spatially varying electric fields)</li>
-<li>Add trajectory comparisons between uniform and non-uniform field configurations</li>
-<li>Incorporate energy and momentum plots to analyze particle dynamics more deeply</li>
-<li>Add interactive controls to vary $$ q, m, \vec{E}, \vec{B}, \vec{v} $$</li>
-<li>Compute and visualize <strong>Larmor radius</strong> and <strong>gyrofrequency</strong></li>
-<li>Extend to 3D drift and multiple particle systems</li>
+<li>Circuit:<br/>
+  $$ A \xrightarrow{2\,\Omega} B \xrightarrow{6\,\Omega} C,\quad A \xrightarrow{3\,\Omega} C $$</li>
+<li>Description:<br/>
+  A–B–C path is in series, A–C path is in parallel with it.</li>
+<li>Expected Output:<br/>
+  $$ R_{AC} = \left( \frac{1}{2 + 6} + \frac{1}{3} \right)^{-1} = 1.5\,\Omega $$</li>
 </ul>
 </div>
 </div><footer>
