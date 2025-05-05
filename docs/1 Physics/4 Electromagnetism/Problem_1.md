@@ -65,7 +65,7 @@ We'll explore real-world applications such as cyclotrons, magnetic traps, and pl
   <style>
     body { font-family: Arial; background: #f9f9f9; padding: 20px; color: #222; }
     canvas { border: 1px solid #aaa; margin: 20px 0; background: white; }
-    h2 { margin-top: 40px; color: #1a237e; }
+    h2 { margin-top: 40px; color:rgb(0, 0, 0); }
     label { font-weight: bold; margin-right: 10px; }
   </style>
 </head>
