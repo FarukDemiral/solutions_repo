@@ -16,9 +16,9 @@ This fundamental equation governs how particles like electrons and ions behave i
 
 To simulate the motion of a particle under the Lorentz force, we consider a 2D plane (x-y) where:
 
-* The **magnetic field** is applied in the z-direction (\$B\_z\$).
-* The **electric field** is applied in the y-direction (\$E\_y\$).
-* The particle starts with an initial velocity in the x-direction (\$v\_x\$).
+* The **magnetic field** is applied in the z-direction $$ B\_z\ $$
+* The **electric field** is applied in the y-direction $$ E\_y\ $$
+* The particle starts with an initial velocity in the x-direction $$ v\_x\ $$
 
 We numerically solve the equations of motion using a basic Euler method.
 
@@ -99,8 +99,8 @@ To view this simulation, save the code above into a file named `index.html`, the
 
 ## Observations
 
-* **Circular Motion**: When only \$\mathbf{B}\$ is present, the particle follows a circular path.
-* **Drift Motion**: When both \$\mathbf{E}\$ and \$\mathbf{B}\$ are present and perpendicular, the particle drifts in a straight line (\$\mathbf{E} \times \mathbf{B}\$ drift).
+* **Circular Motion**: When only $$ \mathbf{B}\ $$ is present, the particle follows a circular path.
+* **Drift Motion**: When both $$ \mathbf{E}\ $$ and $$ \mathbf{B}\ $$ are present and perpendicular, the particle drifts in a straight line $$\mathbf{E} \times \mathbf{B}\ $$ drift
 * **Acceleration**: An electric field in the direction of motion results in acceleration, changing the radius and shape of the trajectory.
 
 
@@ -110,7 +110,7 @@ This simulation helps us visualize and understand important physical phenomena:
 
 * **Larmor Radius**: The radius of the circular trajectory in a magnetic field.
 * **Cyclotron Motion**: Periodic motion of charged particles in a uniform magnetic field.
-* **Crossed Fields Drift**: A constant drift velocity arises perpendicular to both \$\mathbf{E}\$ and \$\mathbf{B}\$ fields.
+* **Crossed Fields Drift**: A constant drift velocity arises perpendicular to both $$ \mathbf{E}\ $$ and $$ \mathbf{B}\ $$ fields.
 
 
 ## Conclusion
