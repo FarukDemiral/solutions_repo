@@ -59,13 +59,13 @@
 <div id="plot" style="width:100%;height:500px;margin-top:20px;"></div>
 
 <h2>Simulation 2: Circular Motion (Uniform B Field)</h2>
-<canvas id="canvas1" width="100" height="500"></canvas>
+<canvas id="canvas1" width="720" height="400"></canvas>
 
 <h2>Simulation 3: E × B Drift</h2>
-<canvas id="canvas2" width="100" height="500"></canvas>
+<canvas id="canvas2" width="720" height="400"></canvas>
 
 <h2>Simulation 4: Helical Motion (Spiral View)</h2>
-<canvas id="canvas4" width="100" height="500"></canvas>
+<canvas id="canvas4" width="720" height="400"></canvas>
 
 <script>
   const steps = 2000;
