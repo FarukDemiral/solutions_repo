@@ -120,6 +120,160 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<h1 id="simulating-the-effects-of-the-lorentz-force">📘 Simulating the Effects of the Lorentz Force</h1>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>The Lorentz force describes how electric and magnetic fields influence the motion of charged particles. The force is defined as:</p>
+<div class="arithmatex">\[ \vec{F} = q (\vec{E} + \vec{v} \times \vec{B}) \]</div>
+<p>Where:
+- <span class="arithmatex">\( q \)</span>: charge of the particle
+- <span class="arithmatex">\( \vec{E} \)</span>: electric field
+- <span class="arithmatex">\( \vec{B} \)</span>: magnetic field
+- <span class="arithmatex">\( \vec{v} \)</span>: velocity of the particle</p>
+<p>This simulation focuses on visualizing how different field configurations affect the trajectory of a charged particle.</p>
+<hr/>
+<h2 id="2-javascript-simulation-code-for-github-pages">2. JavaScript Simulation Code for GitHub Pages</h2>
+<p>Since this project is intended to run on GitHub Pages, the following code implements the Lorentz force simulation in <strong>JavaScript</strong> using the HTML5 <code>&lt;canvas&gt;</code> element. This allows users to run the simulation directly in the browser.</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Lorentz Force Simulator&lt;/title&gt;
+  &lt;style&gt;
+    body { font-family: Arial; padding: 20px; background: #f5f5f5; }
+    canvas { border: 1px solid #ccc; background: white; }
+    input, label { margin-top: 10px; display: block; }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h2&gt;Lorentz Force Simulator (JavaScript)&lt;/h2&gt;
+  &lt;canvas id="simCanvas" width="600" height="400"&gt;&lt;/canvas&gt;
+
+  &lt;label&gt;Charge (q, C): &lt;input type="number" id="charge" value="1.6e-19" step="1e-21"&gt;&lt;/label&gt;
+  &lt;label&gt;Mass (m, kg): &lt;input type="number" id="mass" value="9.11e-31" step="1e-33"&gt;&lt;/label&gt;
+  &lt;label&gt;Electric Field (E&lt;sub&gt;x&lt;/sub&gt;, E&lt;sub&gt;y&lt;/sub&gt;, E&lt;sub&gt;z&lt;/sub&gt;):
+    &lt;input type="number" id="Ex" value="0" step="1e3"&gt;
+    &lt;input type="number" id="Ey" value="0" step="1e3"&gt;
+    &lt;input type="number" id="Ez" value="0" step="1e3"&gt;
+  &lt;/label&gt;
+  &lt;label&gt;Magnetic Field (B&lt;sub&gt;x&lt;/sub&gt;, B&lt;sub&gt;y&lt;/sub&gt;, B&lt;sub&gt;z&lt;/sub&gt;):
+    &lt;input type="number" id="Bx" value="0" step="0.1"&gt;
+    &lt;input type="number" id="By" value="0" step="0.1"&gt;
+    &lt;input type="number" id="Bz" value="1" step="0.1"&gt;
+  &lt;/label&gt;
+  &lt;label&gt;Initial Velocity (v&lt;sub&gt;x&lt;/sub&gt;, v&lt;sub&gt;y&lt;/sub&gt;, v&lt;sub&gt;z&lt;/sub&gt;):
+    &lt;input type="number" id="vx" value="1e5" step="1e4"&gt;
+    &lt;input type="number" id="vy" value="0" step="1e4"&gt;
+    &lt;input type="number" id="vz" value="0" step="1e4"&gt;
+  &lt;/label&gt;
+
+  &lt;script&gt;
+    const canvas = document.getElementById('simCanvas');
+    const ctx = canvas.getContext('2d');
+
+    // Constants
+    let q = parseFloat(document.getElementById('charge').value);
+let m = parseFloat(document.getElementById('mass').value);
+let E = [
+  parseFloat(document.getElementById('Ex').value),
+  parseFloat(document.getElementById('Ey').value),
+  parseFloat(document.getElementById('Ez').value)
+];
+let B = [
+  parseFloat(document.getElementById('Bx').value),
+  parseFloat(document.getElementById('By').value),
+  parseFloat(document.getElementById('Bz').value)
+];
+let dt = 1e-9;       // Time step (s)
+
+    // Initial Conditions
+    let pos = [300, 200, 0];
+let vel = [
+  parseFloat(document.getElementById('vx').value),
+  parseFloat(document.getElementById('vy').value),
+  parseFloat(document.getElementById('vz').value)
+];                // Initial velocity (m/s)
+    let trail = [];
+
+    function cross(a, b) {
+      return [
+        a[1]*b[2] - a[2]*b[1],
+        a[2]*b[0] - a[0]*b[2],
+        a[0]*b[1] - a[1]*b[0]
+      ];
+    }
+
+    function update() {
+      const vxB = cross(vel, B);
+      const F = [
+        q * (E[0] + vxB[0]),
+        q * (E[1] + vxB[1]),
+        q * (E[2] + vxB[2])
+      ];
+      const a = [F[0]/m, F[1]/m, F[2]/m];
+      vel[0] += a[0] * dt;
+      vel[1] += a[1] * dt;
+      vel[2] += a[2] * dt;
+      pos[0] += vel[0] * dt;
+      pos[1] += vel[1] * dt;
+      trail.push([pos[0], pos[1]]);
+      if (trail.length &gt; 300) trail.shift();
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.beginPath();
+      trail.forEach((p, i) =&gt; {
+        ctx.lineTo(p[0], p[1]);
+      });
+      ctx.strokeStyle = 'blue';
+      ctx.stroke();
+    }
+
+    function loop() {
+      update();
+      draw();
+      requestAnimationFrame(loop);
+    }
+
+    loop();
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<hr/>
+<h2 id="3-visualization-summary">3. Visualization Summary</h2>
+<p>The simulation displays a charged particle under a <strong>uniform magnetic field</strong> in the z-direction. The particle exhibits <strong>circular motion</strong> due to the magnetic Lorentz force acting perpendicular to its velocity.</p>
+<p>Modify the <code>E</code> and <code>B</code> vectors to simulate:
+- Helical trajectories
+- E×B drift
+- Linear acceleration in electric fields</p>
+<hr/>
+<h2 id="4-practical-applications">4. Practical Applications</h2>
+<h3 id="cyclotrons">Cyclotrons</h3>
+<ul>
+<li>Accelerate charged particles in a spiral path using magnetic fields.</li>
+<li>The circular motion in this simulation reflects the principle of cyclotron operation.</li>
+</ul>
+<h3 id="magnetic-traps">Magnetic Traps</h3>
+<ul>
+<li>Particles are confined using a combination of electric and magnetic fields.</li>
+<li>Visualization of confinement mechanisms in simplified 2D space.</li>
+</ul>
+<h3 id="plasma-physics">Plasma Physics</h3>
+<ul>
+<li>Simulates motion of charged particles in magnetically confined plasma.</li>
+<li>Basis for understanding particle drift and confinement in fusion reactors.</li>
+</ul>
+<hr/>
+<h2 id="5-future-work">5. Future Work</h2>
+<ul>
+<li>Add UI controls to adjust <span class="arithmatex">\( q, m, \vec{E}, \vec{B}, \vec{v} \)</span></li>
+<li>Include advanced integration methods (e.g. <strong>Runge-Kutta</strong>)</li>
+<li>Simulate <strong>non-uniform fields</strong> (field gradients or varying fields)</li>
+<li>Visualize <strong>Larmor radius</strong> and <strong>gyrofrequency</strong></li>
+<li>Include plots of energy vs. time or phase space</li>
+<li>Extend to full 3D visualization using WebGL or Plotly.js</li>
+</ul>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
