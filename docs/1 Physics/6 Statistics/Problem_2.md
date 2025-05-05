@@ -16,10 +16,6 @@
 
 <h1>Lorentz Force Simulation in Electromagnetic Fields</h1>
 
-<p>This project simulates charged particle behavior in electric ($$\vec{E}$$) and magnetic ($$\vec{B}$$) fields using:</p>
-<pre><code>$$\vec{F} = q\vec{E} + q\vec{v} \times \vec{B}$$</code></pre>
-
----
 
 <h2>Simulation 1: Circular Motion (Uniform B Field)</h2>
 <canvas id="canvas1" width="720" height="400"></canvas>
