@@ -120,6 +120,105 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
+<h1 id="interference-patterns-on-a-water-surface">Interference Patterns on a Water Surface</h1>
+<h2 id="motivation">Motivation</h2>
+<p>Interference occurs when waves from different sources overlap, creating new patterns. On a water surface, this can be easily observed when ripples from different points meet, forming distinctive interference patterns. These patterns can show us how waves combine in different ways, either reinforcing each other or canceling out.</p>
+<p>Studying these patterns helps us understand wave behavior in a simple, visual way. It also allows us to explore important concepts, like the relationship between wave phase and the effects of multiple sources. This task offers a hands-on approach to learning about wave interactions and their real-world applications, making it an interesting and engaging way to dive into wave physics.</p>
+<h2 id="theoretical-foundation">Theoretical Foundation</h2>
+<p>A circular wave on the water surface, emanating from a point source located at <span class="arithmatex">\((x_0, y_0)\)</span>, can be described by the <strong>Single Disturbance Equation</strong>:</p>
+<div class="arithmatex">\[
+\eta(x, y, t) = \frac{A}{\sqrt{r}} \cos(kr - \omega t + \phi)
+\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(\eta(x, y, t)\)</span>: displacement of the water surface at position <span class="arithmatex">\((x, y)\)</span> and time <span class="arithmatex">\(t\)</span></li>
+<li><span class="arithmatex">\(A\)</span>: amplitude of the wave</li>
+<li><span class="arithmatex">\(k = \frac{2\pi}{\lambda}\)</span>: wave number (<span class="arithmatex">\(\lambda\)</span> is the wavelength)</li>
+<li><span class="arithmatex">\(\omega = 2\pi f\)</span>: angular frequency (<span class="arithmatex">\(f\)</span> is the frequency)</li>
+<li><span class="arithmatex">\(r = \sqrt{(x - x_0)^2 + (y - y_0)^2}\)</span>: distance from the source to the point <span class="arithmatex">\((x, y)\)</span></li>
+<li><span class="arithmatex">\(\phi\)</span>: initial phase</li>
+</ul>
+<p>To simulate multiple sources:</p>
+<div class="arithmatex">\[
+\eta_{\text{sum}}(x, y, t) = \sum_{i=1}^{N} \eta_i(x, y, t)
+\]</div>
+<p>where <span class="arithmatex">\(N\)</span> is the number of point sources.</p>
+<h2 id="problem-setup">Problem Setup</h2>
+<p>We simulate waves from 3 coherent sources placed at the vertices of an <strong>equilateral triangle</strong>. All sources share:</p>
+<ul>
+<li>Same amplitude <span class="arithmatex">\(A\)</span></li>
+<li>Same frequency <span class="arithmatex">\(f\)</span></li>
+<li>Same wavelength <span class="arithmatex">\(\lambda\)</span></li>
+<li>Constant phase relation (coherent)</li>
+</ul>
+<h2 id="python-simulation-code">Python Simulation Code</h2>
+<pre><code class="language-python">import numpy as np
+import matplotlib.pyplot as plt
+
+# Parameters
+A = 1.0
+lambda_ = 5.0
+k = 2 * np.pi / lambda_
+f = 1.0
+omega = 2 * np.pi * f
+phi = 0
+
+# Time instance
+t = 0.0
+
+# Grid setup
+x = np.linspace(-20, 20, 400)
+y = np.linspace(-20, 20, 400)
+X, Y = np.meshgrid(x, y)
+
+# Triangle vertices (equilateral)
+radius = 10.0
+angles = [0, 2*np.pi/3, 4*np.pi/3]
+sources = [(radius*np.cos(a), radius*np.sin(a)) for a in angles]
+
+# Superposition
+eta_total = np.zeros_like(X)
+for (x0, y0) in sources:
+    R = np.sqrt((X - x0)**2 + (Y - y0)**2)
+    eta = A / np.sqrt(R + 1e-6) * np.cos(k*R - omega*t + phi)
+    eta_total += eta
+
+# Plotting
+plt.figure(figsize=(8, 6))
+plt.pcolormesh(X, Y, eta_total, shading='auto', cmap='RdBu')
+plt.colorbar(label='Surface Displacement')
+plt.title('Interference Pattern - Triangle Configuration')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.gca().set_aspect('equal')
+plt.tight_layout()
+plt.show()
+</code></pre>
+<h2 id="observations-explanation">Observations &amp; Explanation</h2>
+<ul>
+<li><strong>Constructive Interference</strong>: Bright zones where wave crests align from multiple sources, increasing amplitude.</li>
+<li><strong>Destructive Interference</strong>: Dark or zero-displacement regions where waves cancel out.</li>
+<li>The <strong>symmetry</strong> of the interference pattern reflects the underlying geometry (triangle).</li>
+</ul>
+<p>The result highlights how the spatial arrangement of sources and wave properties leads to predictable, beautiful interference structures.</p>
+<h2 id="graphical-output">Graphical Output</h2>
+<blockquote>
+<p>The color map visualizes the displacement on the water surface. Red and blue represent peaks and troughs. White or central regions show minimal or no displacement due to destructive interference.</p>
+</blockquote>
+<h2 id="considerations">Considerations</h2>
+<ul>
+<li>All sources use identical wave properties (A, <span class="arithmatex">\(\lambda\)</span>, f).</li>
+<li>Coherent sources ensure consistent phase relationships.</li>
+<li>Simulation can be extended to <strong>square</strong> or <strong>pentagon</strong> layouts by adjusting the number of vertices.</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>This simulation shows how simple principles of wave superposition lead to complex interference patterns. By changing source positions and wave properties, we can study the effects of geometry and coherence in wave physics.</p>
+<h2 id="references">References</h2>
+<ul>
+<li>Fundamentals of Wave Physics</li>
+<li>Simulation adapted using NumPy and Matplotlib in Python</li>
+<li>GitHub Page by <em>Student Developer</em> (2025)</li>
+</ul>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
