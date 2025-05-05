@@ -159,7 +159,7 @@
       x4 += vx4 * dt4;
       y4 += vy4 * dt4;
       z4 += vz4 * dt4;
-      ctx4.lineTo(400 + x4 * scale4, 200 + z4 * scale4);
+      ctx4.lineTo(600 + x4 * scale4, 400 + z4 * scale4);
     }
     ctx4.strokeStyle = '#6f42c1';
     ctx4.lineWidth = 2;
