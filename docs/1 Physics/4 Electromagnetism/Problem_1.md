@@ -34,7 +34,7 @@ The Lorentz force determines how charged particles move through electromagnetic 
 - and $\vec{B}$ fields influence motion
 
 # Simulating Particle Motion
-# Compute and visualize trajectories under
+### Compute and visualize trajectories under
   - A uniform magnetic field
   - Combined uniform electric and magnetic fields
   - Crossed $\vec{E}$ 
