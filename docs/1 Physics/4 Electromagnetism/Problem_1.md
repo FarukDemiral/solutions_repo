@@ -22,8 +22,8 @@ We'll explore real-world applications such as cyclotrons, magnetic traps, and pl
 
 # Key motion behaviors
 
-- **Circular or helical motion** in uniform $\vec{B}$ 
-- **Drift motion** in crossed $\vec{E}$ and $\vec{B}$ 
+- Circular or helical motion in uniform $\vec{B}$ 
+- Drift motion in crossed $\vec{E}$ and $\vec{B}$ 
 
 # Exploration of Applications
  **Identify real-world systems using Lorentz force**
