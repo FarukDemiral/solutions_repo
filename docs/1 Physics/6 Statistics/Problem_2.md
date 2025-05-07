@@ -1,9 +1,15 @@
 # Problem 2
 # Exploring the Central Limit Theorem through Simulations
 
+## Introduction
+
+In the field of statistics, the Central Limit Theorem (CLT) is one of the most powerful and widely used theoretical results. It explains why the normal distribution arises so frequently in practice and forms the theoretical basis for many statistical procedures. The CLT states that when independent random samples are drawn from a population, the distribution of the sample means approaches a normal distribution as the sample size increases, regardless of the population’s original distribution.
+
+This project explores the Central Limit Theorem through computational simulations. By generating synthetic populations and sampling from them repeatedly, we observe the transformation of sampling distributions into a bell-shaped curve, demonstrating the CLT in action. The interactive JavaScript-based simulation further enhances understanding by enabling users to dynamically explore how sample size and distribution type affect convergence to normality.
+
 ## Motivation
 
-The Central Limit Theorem (CLT) is a fundamental principle in probability theory and statistics. It states that, irrespective of the shape of the original population distribution, the sampling distribution of the sample mean approximates a normal distribution as the sample size increases. This phenomenon is central to many statistical procedures, including hypothesis testing and confidence interval estimation. The objective of this project is to provide a clear, interactive, and visually-supported demonstration of the CLT using simulations.
+The Central Limit Theorem is a fundamental principle in probability theory and statistics. It states that, irrespective of the shape of the original population distribution, the sampling distribution of the sample mean approximates a normal distribution as the sample size increases. This phenomenon is central to many statistical procedures, including hypothesis testing and confidence interval estimation. The objective of this project is to provide a clear, interactive, and visually-supported demonstration of the CLT using simulations.
 
 ## Objectives
 
