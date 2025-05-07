@@ -36,7 +36,6 @@ For each distribution:
 2. Calculate the sample mean for each.
 3. Plot histograms of these sample means using Matplotlib and Seaborn.
 
-### Simulation Code
 
 <!DOCTYPE html>
 <html>
