@@ -24,9 +24,9 @@ The Central Limit Theorem (CLT) is a foundational concept in probability and sta
 
 For each distribution, generate a synthetic population of size 10,000 using appropriate random generators:
 
-* Uniform: values between $0 and 10$
+* Uniform: values between $ 0 and 10 $
 * Exponential: mean = $2$
-* Binomial: n = $10, p = 0.5$
+* Binomial: $ n = 10, p = 0.5 $
 
 
 ### Sampling and Visualization
