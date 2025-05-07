@@ -22,11 +22,12 @@ The Central Limit Theorem (CLT) is a foundational concept in probability and sta
 
 ### Population Generation
 
-For each distribution, generate a synthetic population of size 10,000 using appropriate NumPy random generators:
+For each distribution, generate a synthetic population of size 10,000 using appropriate random generators:
 
-*  np.random.uniform $(0, 10, 10000)$
-*  np.random.exponential $(scale=2, size=10000)$
-*  np.random.binomial $(n=10, p=0.5, size=10000)$
+* Uniform: values between 0 and 10
+* Exponential: mean = 2
+* Binomial: n = 10, p = 0.5
+
 
 ### Sampling and Visualization
 
