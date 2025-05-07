@@ -120,58 +120,48 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
-<h1 id="exploring-the-central-limit-theorem-through-simulations">📊 Exploring the Central Limit Theorem through Simulations</h1>
-<h2 id="motivation">🎯 Motivation</h2>
-<p>The <strong>Central Limit Theorem (CLT)</strong> is a cornerstone of probability and statistics. It states that as the sample size increases, the sampling distribution of the sample mean approaches a <strong>normal distribution</strong>, regardless of the population's original distribution.</p>
-<p>This project provides an intuitive, hands-on way to observe this phenomenon through simulations.</p>
-<hr/>
-<h2 id="task-overview">🧪 Task Overview</h2>
-<h3 id="1-simulating-sampling-distributions">1. Simulating Sampling Distributions</h3>
-<p>We use the following population distributions:
-- Uniform distribution
-- Exponential distribution
-- Binomial distribution</p>
-<h3 id="2-sampling-and-visualization">2. Sampling and Visualization</h3>
-<p>For each distribution:
-- Generate a population dataset
-- Sample data with different sample sizes (e.g., 5, 10, 30, 50)
-- Compute the mean of each sample
-- Repeat 1000 times to build the sampling distribution
-- Plot histograms of sample means</p>
-<h3 id="3-parameter-exploration">3. Parameter Exploration</h3>
+<h1 id="exploring-the-central-limit-theorem-through-simulations">Exploring the Central Limit Theorem through Simulations</h1>
+<h2 id="motivation">Motivation</h2>
+<p>The Central Limit Theorem (CLT) is a foundational concept in probability and statistics. It asserts that, regardless of the original population's distribution, the sampling distribution of the sample mean tends toward a normal distribution as the sample size increases. This project provides a practical and visual exploration of this principle through simulation.</p>
+<h2 id="objectives">Objectives</h2>
+<ol>
+<li>Simulate sampling distributions using various population types.</li>
+<li>Visualize the convergence toward normality.</li>
+<li>Analyze the effects of sample size and population shape.</li>
+<li>Discuss practical implications of the Central Limit Theorem.</li>
+</ol>
+<h2 id="distributions-considered">Distributions Considered</h2>
 <ul>
-<li>Observe how the sample size and distribution shape affect the convergence to normality.</li>
-<li>Discuss variance effects on spread.</li>
+<li>Uniform distribution</li>
+<li>Exponential distribution</li>
+<li>Binomial distribution</li>
 </ul>
-<h3 id="4-practical-applications">4. Practical Applications</h3>
+<h2 id="methodology">Methodology</h2>
+<h3 id="population-generation">Population Generation</h3>
+<p>For each distribution, generate a synthetic population of size 10,000 using appropriate NumPy random generators:</p>
 <ul>
-<li>Estimating population parameters</li>
-<li>Quality control in manufacturing</li>
-<li>Predicting outcomes in financial models</li>
+<li><code>np.random.uniform(0, 10, 10000)</code></li>
+<li><code>np.random.exponential(scale=2, size=10000)</code></li>
+<li><code>np.random.binomial(n=10, p=0.5, size=10000)</code></li>
 </ul>
-<hr/>
-<h2 id="central-limit-theorem-clt-intuition">🧠 Central Limit Theorem (CLT) Intuition</h2>
-<blockquote>
-<p>As sample size <span class="arithmatex">\( n \to \infty \)</span>, the distribution of the sample mean<br/>
-<span class="arithmatex">\( \bar{X} = \frac{1}{n}\sum_{i=1}^{n}X_i \)</span> approaches a normal distribution,<br/>
-even if the underlying <span class="arithmatex">\( X_i \)</span> are not normally distributed.</p>
-</blockquote>
-<hr/>
-<h2 id="python-simulation-code">💻 Python Simulation Code</h2>
-<p>```python
-import numpy as np
+<h3 id="sampling-and-visualization">Sampling and Visualization</h3>
+<p>For each distribution:</p>
+<ol>
+<li>Draw 1,000 random samples of sizes 5, 10, 30, and 50.</li>
+<li>Calculate the sample mean for each.</li>
+<li>Plot histograms of these sample means using Matplotlib and Seaborn.</li>
+</ol>
+<h3 id="python-simulation-code">Python Simulation Code</h3>
+<pre><code class="language-python">import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import os</p>
-<h1 id="set-seaborn-style-for-better-visuals">Set Seaborn style for better visuals</h1>
-<p>sns.set(style="whitegrid")</p>
-<h1 id="output-directory">Output directory</h1>
-<p>output_dir = "clt_plots"
-os.makedirs(output_dir, exist_ok=True)</p>
-<p>def simulate_clt(population, dist_name, sample_sizes=[5, 10, 30, 50], num_samples=1000):
-    """
-    Simulate sample means and plot their distribution for various sample sizes.
-    """
+import os
+
+sns.set(style="whitegrid")
+output_dir = "clt_plots"
+os.makedirs(output_dir, exist_ok=True)
+
+def simulate_clt(population, dist_name, sample_sizes=[5, 10, 30, 50], num_samples=1000):
     for n in sample_sizes:
         sample_means = [
             np.mean(np.random.choice(population, size=n, replace=True))
@@ -186,17 +176,38 @@ os.makedirs(output_dir, exist_ok=True)</p>
         filename = f"{dist_name.lower()}_n{n}.png"
         plt.savefig(os.path.join(output_dir, filename))
         plt.close()
-        print(f"Saved: {filename}")</p>
-<h1 id="set-seed">Set seed</h1>
-<p>np.random.seed(42)</p>
-<h1 id="create-populations">Create populations</h1>
-<p>pop_uniform = np.random.uniform(0, 10, 10000)
+        print(f"Saved: {filename}")
+
+np.random.seed(42)
+
+pop_uniform = np.random.uniform(0, 10, 10000)
 pop_exponential = np.random.exponential(scale=2, size=10000)
-pop_binomial = np.random.binomial(n=10, p=0.5, size=10000)</p>
-<h1 id="run-simulations">Run simulations</h1>
-<p>simulate_clt(pop_uniform, "Uniform")
+pop_binomial = np.random.binomial(n=10, p=0.5, size=10000)
+
+simulate_clt(pop_uniform, "Uniform")
 simulate_clt(pop_exponential, "Exponential")
-simulate_clt(pop_binomial, "Binomial")</p>
+simulate_clt(pop_binomial, "Binomial")
+</code></pre>
+<h2 id="results-and-analysis">Results and Analysis</h2>
+<p>The histograms generated reveal that as sample size increases:</p>
+<ul>
+<li>The sampling distribution becomes more symmetric and bell-shaped.</li>
+<li>The effect is visible across all distributions, even highly skewed ones like the exponential distribution.</li>
+<li>Larger sample sizes lead to more concentrated means, indicating reduced variance.</li>
+</ul>
+<h2 id="theoretical-justification">Theoretical Justification</h2>
+<p>Let <span class="arithmatex">\(X_1, X_2, \ldots, X_n\)</span> be independent and identically distributed random variables with mean <span class="arithmatex">\(\mu\)</span> and variance <span class="arithmatex">\(\sigma^2\)</span>. The Central Limit Theorem states:</p>
+<div class="arithmatex">\[
+\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \Rightarrow N(\mu, \frac{\sigma^2}{n}) \quad \text{as } n \to \infty
+\]</div>
+<h2 id="practical-applications">Practical Applications</h2>
+<ol>
+<li><strong>Estimation</strong>: Approximate population means using sample means.</li>
+<li><strong>Manufacturing</strong>: Monitor quality control through sample-based inspection.</li>
+<li><strong>Finance</strong>: Model average returns and associated risks over time.</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>This project confirms that the sampling distribution of the mean becomes increasingly normal with larger sample sizes, irrespective of the population's original shape. The Central Limit Theorem underpins much of inferential statistics, offering a bridge between raw data and probabilistic inference.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
