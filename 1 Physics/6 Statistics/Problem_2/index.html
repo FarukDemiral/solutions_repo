@@ -154,43 +154,39 @@
 <li>Compute the sample mean for each iteration.</li>
 <li>Use JavaScript and Plotly.js to dynamically plot histograms of sample means.</li>
 </ol>
-<h3 id="interactive-simulation-javascript-plotlyjs">Interactive Simulation (JavaScript + Plotly.js)</h3>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;title&gt;Central Limit Theorem Simulator&lt;/title&gt;
-  &lt;script src="https://cdn.plot.ly/plotly-latest.min.js"&gt;&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;h2&gt;Central Limit Theorem Interactive Simulation&lt;/h2&gt;
+<h3 id="interactive-simulation">Interactive Simulation</h3>
+<!DOCTYPE html>
 
-  &lt;label for="distribution"&gt;Choose a Distribution:&lt;/label&gt;
-  &lt;select id="distribution"&gt;
-    &lt;option value="uniform"&gt;Uniform&lt;/option&gt;
-    &lt;option value="exponential"&gt;Exponential&lt;/option&gt;
-    &lt;option value="binomial"&gt;Binomial&lt;/option&gt;
-  &lt;/select&gt;
-
-  &lt;label for="sampleSize"&gt;Sample Size:&lt;/label&gt;
-  &lt;input type="number" id="sampleSize" value="30" min="1" max="100"&gt;
-
-  &lt;button onclick="simulateCLT()"&gt;Simulate&lt;/button&gt;
-
-  &lt;div id="plot" style="width:100%;max-width:800px;height:500px;margin-top:20px;"&gt;&lt;/div&gt;
-
-  &lt;script&gt;
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Central Limit Theorem Simulator</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<h2>Central Limit Theorem Interactive Simulation</h2>
+<label for="distribution">Choose a Distribution:</label>
+<select id="distribution">
+<option value="uniform">Uniform</option>
+<option value="exponential">Exponential</option>
+<option value="binomial">Binomial</option>
+</select>
+<label for="sampleSize">Sample Size:</label>
+<input id="sampleSize" max="100" min="1" type="number" value="30"/>
+<button onclick="simulateCLT()">Simulate</button>
+<div id="plot" style="width:100%;max-width:800px;height:500px;margin-top:20px;"></div>
+<script>
     function generatePopulation(type, size = 10000) {
       const data = [];
       if (type === "uniform") {
-        for (let i = 0; i &lt; size; i++) data.push(Math.random() * 10);
+        for (let i = 0; i < size; i++) data.push(Math.random() * 10);
       } else if (type === "exponential") {
-        for (let i = 0; i &lt; size; i++) data.push(-2 * Math.log(1 - Math.random()));
+        for (let i = 0; i < size; i++) data.push(-2 * Math.log(1 - Math.random()));
       } else if (type === "binomial") {
-        for (let i = 0; i &lt; size; i++) {
+        for (let i = 0; i < size; i++) {
           let sum = 0;
-          for (let j = 0; j &lt; 10; j++) {
-            sum += Math.random() &lt; 0.5 ? 1 : 0;
+          for (let j = 0; j < 10; j++) {
+            sum += Math.random() < 0.5 ? 1 : 0;
           }
           data.push(sum);
         }
@@ -204,13 +200,13 @@
       const population = generatePopulation(dist);
       const sampleMeans = [];
 
-      for (let i = 0; i &lt; 1000; i++) {
+      for (let i = 0; i < 1000; i++) {
         const sample = [];
-        for (let j = 0; j &lt; sampleSize; j++) {
+        for (let j = 0; j < sampleSize; j++) {
           const idx = Math.floor(Math.random() * population.length);
           sample.push(population[idx]);
         }
-        const mean = sample.reduce((a, b) =&gt; a + b, 0) / sample.length;
+        const mean = sample.reduce((a, b) => a + b, 0) / sample.length;
         sampleMeans.push(mean);
       }
 
@@ -229,10 +225,9 @@
 
       Plotly.newPlot('plot', [trace], layout);
     }
-  &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+  </script>
+</body>
+</html>
 <h2 id="results-and-analysis">Results and Analysis</h2>
 <p>The simulation confirms that:</p>
 <ul>
