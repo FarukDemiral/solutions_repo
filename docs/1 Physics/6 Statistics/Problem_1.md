@@ -36,45 +36,79 @@ For each distribution:
 2. Calculate the sample mean for each.
 3. Plot histograms of these sample means using Matplotlib and Seaborn.
 
-### Python Simulation Code
+### Simulation Code
 
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import os
+<!DOCTYPE html>
+<html>
+<head>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <h2>Central Limit Theorem Simulation</h2>
+  <label for="distribution">Distribution:</label>
+  <select id="distribution">
+    <option value="uniform">Uniform</option>
+    <option value="exponential">Exponential</option>
+    <option value="binomial">Binomial</option>
+  </select>
+  <label for="sampleSize">Sample Size:</label>
+  <input type="number" id="sampleSize" value="30">
+  <button onclick="simulateCLT()">Simulate</button>
 
-sns.set(style="whitegrid")
-output_dir = "clt_plots"
-os.makedirs(output_dir, exist_ok=True)
+  <div id="plot" style="width:100%;max-width:700px;height:500px;"></div>
 
-def simulate_clt(population, dist_name, sample_sizes=[5, 10, 30, 50], num_samples=1000):
-    for n in sample_sizes:
-        sample_means = [
-            np.mean(np.random.choice(population, size=n, replace=True))
-            for _ in range(num_samples)
-        ]
-        plt.figure(figsize=(8, 5))
-        sns.histplot(sample_means, bins=30, kde=True, color="skyblue")
-        plt.title(f"{dist_name} Distribution - Sample Means (n={n})")
-        plt.xlabel("Sample Mean")
-        plt.ylabel("Frequency")
-        plt.tight_layout()
-        filename = f"{dist_name.lower()}_n{n}.png"
-        plt.savefig(os.path.join(output_dir, filename))
-        plt.close()
-        print(f"Saved: {filename}")
+  <script>
+    function generatePopulation(type, size = 10000) {
+      const data = [];
+      if (type === "uniform") {
+        for (let i = 0; i < size; i++) data.push(Math.random() * 10);
+      } else if (type === "exponential") {
+        for (let i = 0; i < size; i++) data.push(-2 * Math.log(1 - Math.random()));
+      } else if (type === "binomial") {
+        for (let i = 0; i < size; i++) {
+          let sum = 0;
+          for (let j = 0; j < 10; j++) {
+            sum += Math.random() < 0.5 ? 1 : 0;
+          }
+          data.push(sum);
+        }
+      }
+      return data;
+    }
 
-np.random.seed(42)
+    function simulateCLT() {
+      const dist = document.getElementById("distribution").value;
+      const sampleSize = parseInt(document.getElementById("sampleSize").value);
+      const population = generatePopulation(dist);
+      const sampleMeans = [];
 
-pop_uniform = np.random.uniform(0, 10, 10000)
-pop_exponential = np.random.exponential(scale=2, size=10000)
-pop_binomial = np.random.binomial(n=10, p=0.5, size=10000)
+      for (let i = 0; i < 1000; i++) {
+        const sample = [];
+        for (let j = 0; j < sampleSize; j++) {
+          const idx = Math.floor(Math.random() * population.length);
+          sample.push(population[idx]);
+        }
+        const mean = sample.reduce((a, b) => a + b, 0) / sample.length;
+        sampleMeans.push(mean);
+      }
 
-simulate_clt(pop_uniform, "Uniform")
-simulate_clt(pop_exponential, "Exponential")
-simulate_clt(pop_binomial, "Binomial")
-```
+      const trace = {
+        x: sampleMeans,
+        type: 'histogram',
+        marker: { color: 'skyblue' },
+      };
+
+      const layout = {
+        title: `${dist.charAt(0).toUpperCase() + dist.slice(1)} Distribution - Sample Means (n=${sampleSize})`,
+        xaxis: { title: 'Sample Mean' },
+        yaxis: { title: 'Frequency' }
+      };
+
+      Plotly.newPlot('plot', [trace], layout);
+    }
+  </script>
+</body>
+</html>
 
 ## Results and Analysis
 
