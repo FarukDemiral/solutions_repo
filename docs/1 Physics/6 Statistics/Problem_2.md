@@ -42,9 +42,8 @@ For each distribution:
 2. Compute the sample mean for each iteration.
 3. Use JavaScript and Plotly.js to dynamically plot histograms of sample means.
 
-### Interactive Simulation (JavaScript + Plotly.js)
+### Interactive Simulation 
 
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -122,7 +121,6 @@ For each distribution:
   </script>
 </body>
 </html>
-```
 
 ## Results and Analysis
 
