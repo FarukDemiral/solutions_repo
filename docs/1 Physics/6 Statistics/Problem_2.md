@@ -42,13 +42,12 @@ For each distribution:
 2. Compute the sample mean for each iteration.
 3. Use JavaScript and Plotly.js to dynamically plot histograms of sample means.
 
-### Interactive Simulation 
+## Central Limit Theorem Simulator
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Central Limit Theorem Simulator</title>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
