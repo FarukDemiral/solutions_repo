@@ -120,6 +120,137 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-2">Problem 2</h1>
+<h1 id="exploring-the-central-limit-theorem-through-simulations">Exploring the Central Limit Theorem through Simulations</h1>
+<h2 id="motivation">Motivation</h2>
+<p>The Central Limit Theorem (CLT) is a fundamental principle in probability theory and statistics. It states that, irrespective of the shape of the original population distribution, the sampling distribution of the sample mean approximates a normal distribution as the sample size increases. This phenomenon is central to many statistical procedures, including hypothesis testing and confidence interval estimation. The objective of this project is to provide a clear, interactive, and visually-supported demonstration of the CLT using simulations.</p>
+<h2 id="objectives">Objectives</h2>
+<ol>
+<li>Construct sampling distributions using different population types.</li>
+<li>Demonstrate convergence to normality as sample size increases.</li>
+<li>Explore how distribution shape and variance affect sampling behavior.</li>
+<li>Connect the CLT to practical applications across real-world domains.</li>
+</ol>
+<h2 id="distributions-considered">Distributions Considered</h2>
+<ul>
+<li><strong>Uniform distribution</strong>: equal probability over a fixed interval.</li>
+<li><strong>Exponential distribution</strong>: skewed distribution with memoryless property.</li>
+<li><strong>Binomial distribution</strong>: discrete distribution modeling binary outcomes.</li>
+</ul>
+<h2 id="methodology">Methodology</h2>
+<h3 id="population-generation">Population Generation</h3>
+<p>To simulate realistic sampling behavior, we generate synthetic populations of size 10,000 for each distribution type:</p>
+<ul>
+<li><strong>Uniform</strong>: values randomly selected from the interval [0, 10].</li>
+<li><strong>Exponential</strong>: values generated with a mean of 2 using inverse transform sampling.</li>
+<li><strong>Binomial</strong>: outcomes based on 10 independent Bernoulli trials with success probability 0.5.</li>
+</ul>
+<h3 id="sampling-and-visualization">Sampling and Visualization</h3>
+<p>For each distribution:</p>
+<ol>
+<li>Draw 1,000 random samples with varying sample sizes: 5, 10, 30, and 50.</li>
+<li>Compute the sample mean for each iteration.</li>
+<li>Use JavaScript and Plotly.js to dynamically plot histograms of sample means.</li>
+</ol>
+<h3 id="interactive-simulation-javascript-plotlyjs">Interactive Simulation (JavaScript + Plotly.js)</h3>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;title&gt;Central Limit Theorem Simulator&lt;/title&gt;
+  &lt;script src="https://cdn.plot.ly/plotly-latest.min.js"&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;h2&gt;Central Limit Theorem Interactive Simulation&lt;/h2&gt;
+
+  &lt;label for="distribution"&gt;Choose a Distribution:&lt;/label&gt;
+  &lt;select id="distribution"&gt;
+    &lt;option value="uniform"&gt;Uniform&lt;/option&gt;
+    &lt;option value="exponential"&gt;Exponential&lt;/option&gt;
+    &lt;option value="binomial"&gt;Binomial&lt;/option&gt;
+  &lt;/select&gt;
+
+  &lt;label for="sampleSize"&gt;Sample Size:&lt;/label&gt;
+  &lt;input type="number" id="sampleSize" value="30" min="1" max="100"&gt;
+
+  &lt;button onclick="simulateCLT()"&gt;Simulate&lt;/button&gt;
+
+  &lt;div id="plot" style="width:100%;max-width:800px;height:500px;margin-top:20px;"&gt;&lt;/div&gt;
+
+  &lt;script&gt;
+    function generatePopulation(type, size = 10000) {
+      const data = [];
+      if (type === "uniform") {
+        for (let i = 0; i &lt; size; i++) data.push(Math.random() * 10);
+      } else if (type === "exponential") {
+        for (let i = 0; i &lt; size; i++) data.push(-2 * Math.log(1 - Math.random()));
+      } else if (type === "binomial") {
+        for (let i = 0; i &lt; size; i++) {
+          let sum = 0;
+          for (let j = 0; j &lt; 10; j++) {
+            sum += Math.random() &lt; 0.5 ? 1 : 0;
+          }
+          data.push(sum);
+        }
+      }
+      return data;
+    }
+
+    function simulateCLT() {
+      const dist = document.getElementById("distribution").value;
+      const sampleSize = parseInt(document.getElementById("sampleSize").value);
+      const population = generatePopulation(dist);
+      const sampleMeans = [];
+
+      for (let i = 0; i &lt; 1000; i++) {
+        const sample = [];
+        for (let j = 0; j &lt; sampleSize; j++) {
+          const idx = Math.floor(Math.random() * population.length);
+          sample.push(population[idx]);
+        }
+        const mean = sample.reduce((a, b) =&gt; a + b, 0) / sample.length;
+        sampleMeans.push(mean);
+      }
+
+      const trace = {
+        x: sampleMeans,
+        type: 'histogram',
+        marker: { color: 'steelblue' },
+      };
+
+      const layout = {
+        title: `${dist.charAt(0).toUpperCase() + dist.slice(1)} Distribution – Sample Means (n=${sampleSize})`,
+        xaxis: { title: 'Sample Mean' },
+        yaxis: { title: 'Frequency' },
+        bargap: 0.05
+      };
+
+      Plotly.newPlot('plot', [trace], layout);
+    }
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h2 id="results-and-analysis">Results and Analysis</h2>
+<p>The simulation confirms that:</p>
+<ul>
+<li>Sampling distributions approximate a normal shape as the sample size increases.</li>
+<li>This behavior holds even when the original population is skewed or discrete.</li>
+<li>The variance of the sampling distribution decreases with increasing sample size.</li>
+</ul>
+<h2 id="theoretical-justification">Theoretical Justification</h2>
+<p>Let <span class="arithmatex">\(X_1, X_2, \ldots, X_n\)</span> be i.i.d. random variables with mean <span class="arithmatex">\(\mu\)</span> and variance <span class="arithmatex">\(\sigma^2\)</span>. The Central Limit Theorem states:</p>
+<div class="arithmatex">\[
+\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{d} N(\mu, \frac{\sigma^2}{n}) \quad \text{as } n \to \infty
+\]</div>
+<p>This convergence to normality forms the theoretical foundation for many inferential methods.</p>
+<h2 id="practical-applications">Practical Applications</h2>
+<ol>
+<li><strong>Estimation of Population Parameters</strong>: Enables inference from samples to populations.</li>
+<li><strong>Manufacturing and Quality Control</strong>: Supports defect monitoring through sampling.</li>
+<li><strong>Finance and Economics</strong>: Justifies modeling average returns and risk forecasts.</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>This project provides a hands-on demonstration of the Central Limit Theorem using an interactive, browser-based simulation. It reinforces the theoretical insights by visualizing the normality of sample means across varying distributions and sample sizes. The CLT remains a cornerstone of modern statistics, essential for reliable data-driven decision making.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
