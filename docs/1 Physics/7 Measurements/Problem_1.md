@@ -127,24 +127,38 @@ For each distribution:
 
 To complement the interactive simulation, we also generated fixed plots showing how the sampling distribution changes with increasing sample size.
 
+## Comparative Visualization
+
+The following grid offers a direct visual comparison of the distributions at low and high sample sizes:
+
+| Distribution    | Sample Size = 5                                          | Sample Size = 30                                           |
+| --------------- | -------------------------------------------------------- | ---------------------------------------------------------- |
+| **Uniform**     | ![Uniform n=5](clt_static_images/uniform_n5.png)         | ![Uniform n=30](clt_static_images/uniform_n30.png)         |
+| **Exponential** | ![Exponential n=5](clt_static_images/exponential_n5.png) | ![Exponential n=30](clt_static_images/exponential_n30.png) |
+| **Binomial**    | ![Binomial n=5](clt_static_images/binomial_n5.png)       | ![Binomial n=30](clt_static_images/binomial_n30.png)       |
+
+To complement the interactive simulation, we also generated fixed plots showing how the sampling distribution changes with increasing sample size.
+
 ### Uniform Distribution
 
-* Sample size = 5:\\
-
-* Sample size = 30:\\
+* Sample size = 5:
+  ![Uniform n=5](clt_static_images/uniform_n5.png)
+* Sample size = 30:
+  ![Uniform n=30](clt_static_images/uniform_n30.png)
 
 ### Exponential Distribution
 
-* Sample size = 5:\\
-
-* Sample size = 30:\\
+* Sample size = 5:
+  ![Exponential n=5](clt_static_images/exponential_n5.png)
+* Sample size = 30:
+  ![Exponential n=30](clt_static_images/exponential_n30.png)
 
 ### Binomial Distribution
 
-* Sample size = 5:\\
-
+* Sample size = 5:
+  ![Binomial n=5](clt_static_images/binomial_n5.png)
 * Sample size = 30:
-  &#x20;
+  ![Binomial n=30](clt_static_images/binomial_n30.png)
 
 ## Results and Analysis
 
