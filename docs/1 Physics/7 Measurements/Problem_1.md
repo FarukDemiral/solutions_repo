@@ -26,15 +26,14 @@ standinUnderg this theorem visually through simulation enhances intuition and re
 
 ---
 
-## Methodology
-
 ### Step 1: Population Generation
 
 We generate a large population of 10,000 values for each distribution:
 
-* **Uniform**: $Math.random() * 10$
-* **Exponential**: $-λ * log(1 - U)$ with λ = 2
-* **Binomial**: Sum of 10 Bernoulli trials with p = 0.5
+- **Uniform Distribution**: Values are sampled using the formula \\( x = \\text{random()} \\times 10 \\), generating a flat, bounded distribution between 0 and 10.
+- **Exponential Distribution**: Values are derived from the inverse transform method: \\( x = -2 \\times \\ln(1 - U) \\), where \\( U \\sim \\text{Uniform}(0,1) \\).
+- **Binomial Distribution**: Each value is the sum of 10 independent Bernoulli trials with success probability \\( p = 0.5 \\), simulating outcomes from a discrete binary process.
+
 
 ### Step 2: Sampling and Mean Calculation
 
