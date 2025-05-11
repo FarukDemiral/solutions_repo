@@ -19,7 +19,7 @@ $\Rightarrow \pi \approx 4 \cdot \frac{\text{points inside circle}}{\text{total 
 
 ---
 
-### 2. Simulation & Visualization 
+### 1. Visualization 
 
 <h3>Circle-based π Estimation</h3>
 <input type="number" id="numPoints" placeholder="Enter number of points" value="10000" />
@@ -77,7 +77,7 @@ Where:
 
 ---
 
-### 2. Simulation & Visualization 
+### 2. Visualization 
 
 <h3>Buffon's Needle Simulation</h3>
 <input type="number" id="needleCount" placeholder="Number of throws" value="5000">
