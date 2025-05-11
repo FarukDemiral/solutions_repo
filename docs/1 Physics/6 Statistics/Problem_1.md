@@ -195,7 +195,7 @@ $$
 \bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{d} N(\mu, \frac{\sigma^2}{n}) \text{ as } n \to \infty
 $$
 
-Where:
+**Where:**
 
 * $\mu$ is the population mean
 * $\sigma^2$ is the population variance
