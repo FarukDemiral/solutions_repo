@@ -3,15 +3,9 @@
 
 ## Introduction
 
-In statistics, the **Central Limit Theorem (CLT)** is one of the most significant results, with wide-ranging applications in data science, quality control, econometrics, psychology, and more. It states that the sampling distribution of the sample mean will approximate a normal distribution as the sample size becomes large, regardless of the shape of the population distribution, provided the samples are independent and identically distributed (i.i.d.).
+In the field of statistics, the Central Limit Theorem (CLT) stands as one of the most powerful and widely utilized theoretical results. It elucidates why the normal distribution appears so frequently in practice and forms the theoretical foundation for many fundamental statistical procedures, including hypothesis testing and confidence interval estimation. Essentially, the CLT states that when independent random samples are drawn from any population, the distribution of the sample means will approach a normal (bell-shaped) distribution as the sample size increases, regardless of the shape of the original population's distribution.
 
-This project presents a comprehensive and visual exploration of the CLT using both **interactive JavaScript-based simulation** and **static graphical comparisons**. By incorporating different population distributions—**uniform**, **exponential**, and **binomial**—we illustrate how the convergence behavior varies across different shapes and variances.
-
-## Motivation
-
-The CLT serves as the theoretical foundation for inferential statistics. Without assuming that data is normally distributed, we can still use normal distribution models for inference if the sample size is sufficiently large. This powerful concept allows analysts and scientists to apply statistical tests, confidence intervals, and predictive modeling even when the population is unknown or skewed.
-
-Understanding this theorem visually through simulation enhances intuition and reveals how convergence depends on sample size and population characteristics.
+ This project investigates this crucial theorem through computational simulations. By generating synthetic populations and repeatedly sampling from them, we observe the gradual transformation of the sampling distributions into a normal distribution, visually demonstrating the CLT in action. The developed interactive JavaScript-based simulation aims to further deepen this conceptual understanding by allowing users to dynamically explore how the sample size and the distribution type of the underlying population influence the convergence to normality.
 
 ## Objectives
 
@@ -173,12 +167,6 @@ To reinforce the findings from the interactive simulation above, the following s
 > The two charts above visually contrast the shape of the population with the emerging normality of the sampling distribution. This dual-view visualization helps students better understand the convergence guaranteed by the Central Limit Theorem.
 
 > Each row in the table below corresponds to one population distribution. The left-hand column shows the sampling distribution of the sample mean for small sample sizes (n = 5), while the right-hand column illustrates the distribution for larger sample sizes (n = 30), where normality becomes more evident.
-
-These plots show how sampling distributions change with increasing sample size for each population.
-
-```
-|                 |                  |   |   |   |   |   |   |   |   |   |   |   |   |
-```
 
 ---
 
