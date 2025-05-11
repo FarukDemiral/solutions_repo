@@ -160,40 +160,37 @@
 </ul>
 <hr/>
 <h2 id="interactive-simulation-live-on-github-pages">Interactive Simulation (Live on GitHub Pages)</h2>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;title&gt;CLT Interactive Simulation&lt;/title&gt;
-  &lt;script src="https://cdn.plot.ly/plotly-latest.min.js"&gt;&lt;/script&gt;
-&lt;/head&gt;
-&lt;body&gt;
-  &lt;h2&gt;Central Limit Theorem: Interactive Simulation&lt;/h2&gt;
-  &lt;label&gt;Distribution:&lt;/label&gt;
-  &lt;select id="distribution"&gt;
-    &lt;option value="uniform"&gt;Uniform&lt;/option&gt;
-    &lt;option value="exponential"&gt;Exponential&lt;/option&gt;
-    &lt;option value="binomial"&gt;Binomial&lt;/option&gt;
-  &lt;/select&gt;
+<!DOCTYPE html>
 
-  &lt;label&gt;Sample Size:&lt;/label&gt;
-  &lt;input id="sampleSize" type="number" value="30" min="1" max="100"&gt;
-
-  &lt;button onclick="simulateCLT()"&gt;Run Simulation&lt;/button&gt;
-
-  &lt;div id="plot" style="width: 100%; height: 500px; margin-top: 20px;"&gt;&lt;/div&gt;
-
-  &lt;script&gt;
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>CLT Interactive Simulation</title>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+<h2>Central Limit Theorem: Interactive Simulation</h2>
+<label>Distribution:</label>
+<select id="distribution">
+<option value="uniform">Uniform</option>
+<option value="exponential">Exponential</option>
+<option value="binomial">Binomial</option>
+</select>
+<label>Sample Size:</label>
+<input id="sampleSize" max="100" min="1" type="number" value="30"/>
+<button onclick="simulateCLT()">Run Simulation</button>
+<div id="plot" style="width: 100%; height: 500px; margin-top: 20px;"></div>
+<script>
     function generatePopulation(type, size = 10000) {
       let data = [];
       if (type === "uniform") {
-        for (let i = 0; i &lt; size; i++) data.push(Math.random() * 10);
+        for (let i = 0; i < size; i++) data.push(Math.random() * 10);
       } else if (type === "exponential") {
-        for (let i = 0; i &lt; size; i++) data.push(-2 * Math.log(1 - Math.random()));
+        for (let i = 0; i < size; i++) data.push(-2 * Math.log(1 - Math.random()));
       } else if (type === "binomial") {
-        for (let i = 0; i &lt; size; i++) {
+        for (let i = 0; i < size; i++) {
           let x = 0;
-          for (let j = 0; j &lt; 10; j++) x += Math.random() &lt; 0.5 ? 1 : 0;
+          for (let j = 0; j < 10; j++) x += Math.random() < 0.5 ? 1 : 0;
           data.push(x);
         }
       }
@@ -206,13 +203,13 @@
       let population = generatePopulation(type);
       let sampleMeans = [];
 
-      for (let i = 0; i &lt; 1000; i++) {
+      for (let i = 0; i < 1000; i++) {
         let sample = [];
-        for (let j = 0; j &lt; sampleSize; j++) {
+        for (let j = 0; j < sampleSize; j++) {
           let index = Math.floor(Math.random() * population.length);
           sample.push(population[index]);
         }
-        let mean = sample.reduce((a, b) =&gt; a + b, 0) / sample.length;
+        let mean = sample.reduce((a, b) => a + b, 0) / sample.length;
         sampleMeans.push(mean);
       }
 
@@ -229,11 +226,9 @@
       };
       Plotly.newPlot("plot", [trace], layout);
     }
-  &lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<hr/>
+  </script>
+</body>
+</html>
 <h2 id="static-visual-results">Static Visual Results</h2>
 <p>These plots show how sampling distributions change with increasing sample size for each population.</p>
 <table>
@@ -242,6 +237,9 @@
 <th>Distribution</th>
 <th>Sample Size = 5</th>
 <th>Sample Size = 30</th>
+<th></th>
+<th></th>
+<th></th>
 <th></th>
 <th></th>
 <th></th>
@@ -255,6 +253,9 @@
 <td></td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><strong>Exponential</strong></td>
@@ -263,11 +264,17 @@
 <td></td>
 <td></td>
 <td></td>
+<td></td>
+<td></td>
+<td></td>
 </tr>
 <tr>
 <td><strong>Binomial</strong></td>
 <td><img alt="Binomial n=5" src="clt_static_images/binomial_n5.png"/></td>
 <td><img alt="Binomial n=30" src="clt_static_images/binomial_n30.png"/></td>
+<td></td>
+<td></td>
+<td></td>
 <td></td>
 <td></td>
 <td></td>
