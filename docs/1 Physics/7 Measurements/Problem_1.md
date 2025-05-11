@@ -125,17 +125,18 @@ For each population:
 </body>
 </html>
 
-## Static Visual Results (JavaScript-Based Visual Enhancement)
+
+---
+
+## Static Visual Results
 
 To complement the simulation-based findings, we also embed a set of mini JavaScript-powered visuals to illustrate how the original population and the sampling distribution evolve side-by-side for different distributions.
-
-Paste the following HTML block into a `.html` file or your GitHub Pages `.md` file (in a rendered HTML container) to enable full interactivity:
 
 To complement the simulation-based findings, we provide the following curated static visualizations that represent the CLT's behavior across multiple distributions and sample sizes. These plots demonstrate the shape of the sampling distribution of the mean for each distribution type as the sample size increases. The visual results are generated using Python and are embedded below for immediate reference.
 
 To reinforce the findings from the interactive simulation above, the following static plots provide a clear visual representation of the CLT in action. Each image shows how the distribution of sample means becomes more bell-shaped as the sample size increases.
 
-### Side-by-Side JavaScript-Based Visualization (Original Population vs Sample Mean Distribution)
+### Visual Comparison: Original Population vs Sample Mean Distribution
 
 <div style="display: flex; flex-wrap: wrap; gap: 30px;">
   <div>
@@ -167,6 +168,7 @@ To reinforce the findings from the interactive simulation above, the following s
   }
   drawVisuals();
 </script>
+
 
 > The two charts above visually contrast the shape of the population with the emerging normality of the sampling distribution. This dual-view visualization helps students better understand the convergence guaranteed by the Central Limit Theorem.
 
