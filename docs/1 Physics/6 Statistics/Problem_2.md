@@ -87,7 +87,7 @@ Where:
 
 ### 2. Visualization 
 
-<h3>Buffon's Needle Visualization</h3>
+<h3>Buffon's Needle π Estimation</h3>
 <input type="number" id="needleCount" placeholder="Number of throws" value="5000">
 <button onclick="simulateNeedles()">Estimate π</button>
 <p id="buffonResult"></p>
