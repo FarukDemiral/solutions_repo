@@ -46,8 +46,6 @@ For each population:
 
 ---
 
-## Interactive Simulation 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
