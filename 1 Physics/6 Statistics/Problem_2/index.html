@@ -130,8 +130,8 @@
 <h2 id="part-1-estimating-pi-using-a-unit-circle">Part 1: Estimating <span class="arithmatex">\(\pi\)</span> using a Unit Circle</h2>
 <h3 id="1-theoretical-foundation">1. Theoretical Foundation</h3>
 <p>The probability of a randomly chosen point falling inside a unit circle inscribed in a square of side length 2 is equal to the ratio of the circle’s area to the square’s area.</p>
-<div class="arithmatex">\[ \text{Area of circle} = \pi r^2 = \pi \ (r = 1) \quad \text{Area of square} = 4 \Rightarrow \frac{\pi}{4} \approx \frac{\text{points inside circle}}{\text{total points}} $$
-$$ \Rightarrow \pi \approx 4 \cdot \frac{\text{points inside circle}}{\text{total points}} \]</div>
+<div class="arithmatex">\[ \text{Area of circle} = \pi r^2 = \pi \ (r = 1) \quad \text{Area of square} = 4 \Rightarrow \frac{\pi}{4} \approx \frac{\text{points inside circle}}{\text{total points}} \]</div>
+<div class="arithmatex">\[ \Rightarrow \pi \approx 4 \cdot \frac{\text{points inside circle}}{\text{total points}} \]</div>
 <hr/>
 <h3 id="2-simulation-visualization">2. Simulation &amp; Visualization</h3>
 <h3>Circle-based π Estimation</h3>
@@ -181,13 +181,12 @@ function simulatePi() {
 - <span class="arithmatex">\(C\)</span> : number of crossings</p>
 <hr/>
 <h3 id="2-simulation-visualization-javascript">2. Simulation &amp; Visualization (JavaScript)</h3>
-<pre><code class="language-html">&lt;h3&gt;Buffon's Needle Simulation&lt;/h3&gt;
-&lt;input type="number" id="needleCount" placeholder="Number of throws" value="5000"&gt;
-&lt;button onclick="simulateNeedles()"&gt;Estimate π&lt;/button&gt;
-&lt;p id="buffonResult"&gt;&lt;/p&gt;
-&lt;canvas id="buffonCanvas" width="400" height="400" style="border:1px solid #ccc;"&gt;&lt;/canvas&gt;
-
-&lt;script&gt;
+<h3>Buffon's Needle Simulation</h3>
+<p><input id="needleCount" placeholder="Number of throws" type="number" value="5000"/>
+<button onclick="simulateNeedles()">Estimate π</button></p>
+<p id="buffonResult"></p>
+<canvas height="400" id="buffonCanvas" style="border:1px solid #ccc;" width="400"></canvas>
+<script>
 function simulateNeedles() {
   const canvas = document.getElementById('buffonCanvas');
   const ctx = canvas.getContext('2d');
@@ -200,7 +199,7 @@ function simulateNeedles() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   // Draw horizontal lines
-  for (let y = 0; y &lt;= canvas.height; y += lineSpacing) {
+  for (let y = 0; y <= canvas.height; y += lineSpacing) {
     ctx.beginPath();
     ctx.moveTo(0, y);
     ctx.lineTo(canvas.width, y);
@@ -208,7 +207,7 @@ function simulateNeedles() {
     ctx.stroke();
   }
 
-  for (let i = 0; i &lt; N; i++) {
+  for (let i = 0; i < N; i++) {
     const xMid = Math.random() * canvas.width;
     const yMid = Math.random() * canvas.height;
     const theta = Math.random() * Math.PI;
@@ -221,9 +220,9 @@ function simulateNeedles() {
     const y2 = yMid + dy;
 
     let cross = false;
-    const yLines = Array.from({length: Math.floor(canvas.height / lineSpacing) + 1}, (_, k) =&gt; k * lineSpacing);
+    const yLines = Array.from({length: Math.floor(canvas.height / lineSpacing) + 1}, (_, k) => k * lineSpacing);
     for (const yLine of yLines) {
-      if ((y1 &lt; yLine &amp;&amp; y2 &gt; yLine) || (y2 &lt; yLine &amp;&amp; y1 &gt; yLine)) {
+      if ((y1 < yLine && y2 > yLine) || (y2 < yLine && y1 > yLine)) {
         crosses++;
         cross = true;
         break;
@@ -240,8 +239,7 @@ function simulateNeedles() {
   const piEstimate = (2 * l * N) / (d * crosses);
   document.getElementById('buffonResult').innerText = `Estimated π: ${piEstimate.toFixed(6)}`;
 }
-&lt;/script&gt;
-</code></pre>
+</script>
 <hr/>
 <h3 id="3-analysis_1">3. Analysis</h3>
 <ul>
