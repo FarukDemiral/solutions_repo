@@ -120,6 +120,142 @@
 <div class="document" itemscope="itemscope" itemtype="http://schema.org/Article" role="main">
 <div class="section" itemprop="articleBody">
 <h1 id="problem-2">Problem 2</h1>
+<h1 id="estimating-pi-using-monte-carlo-methods">Estimating <span class="arithmatex">\(\pi\)</span> using Monte Carlo Methods</h1>
+<p>Monte Carlo simulations provide an intuitive and visual way to estimate mathematical constants like <span class="arithmatex">\( \pi \)</span>. This project implements two classic Monte Carlo techniques:</p>
+<ul>
+<li><strong>Estimating <span class="arithmatex">\(\pi\)</span> using a Unit Circle</strong></li>
+<li><strong>Estimating <span class="arithmatex">\(\pi\)</span> using Buffon’s Needle</strong></li>
+</ul>
+<hr/>
+<h2 id="part-1-estimating-pi-using-a-unit-circle">Part 1: Estimating <span class="arithmatex">\(\pi\)</span> using a Unit Circle</h2>
+<h3 id="1-theoretical-foundation">1. Theoretical Foundation</h3>
+<p>The probability of a randomly chosen point falling inside a unit circle inscribed in a square of side length 2 is equal to the ratio of the circle’s area to the square’s area.</p>
+<div class="arithmatex">\[ \text{Area of circle} = \pi r^2 = \pi \ (r = 1) \quad \text{Area of square} = 4 \Rightarrow \frac{\pi}{4} \approx \frac{\text{points inside circle}}{\text{total points}} $$
+$$ \Rightarrow \pi \approx 4 \cdot \frac{\text{points inside circle}}{\text{total points}} \]</div>
+<hr/>
+<h3 id="2-simulation-visualization">2. Simulation &amp; Visualization</h3>
+<h3>Circle-based π Estimation</h3>
+<p><input id="numPoints" placeholder="Enter number of points" type="number" value="10000"/>
+<button onclick="simulatePi()">Estimate π</button></p>
+<p id="piEstimate"></p>
+<canvas height="400" id="circleCanvas" style="border:1px solid #ccc;" width="400"></canvas>
+<script>
+function simulatePi() {
+  const canvas = document.getElementById('circleCanvas');
+  const ctx = canvas.getContext('2d');
+  const N = parseInt(document.getElementById('numPoints').value);
+  let inside = 0;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  for (let i = 0; i < N; i++) {
+    const x = Math.random() * 2 - 1;
+    const y = Math.random() * 2 - 1;
+    const cx = 200 + x * 200;
+    const cy = 200 + y * 200;
+    const color = (x*x + y*y <= 1) ? 'blue' : 'red';
+    if (color === 'blue') inside++;
+
+    ctx.fillStyle = color;
+    ctx.fillRect(cx, cy, 1, 1);
+  }
+
+  const piEstimate = 4 * inside / N;
+  document.getElementById('piEstimate').innerText = `Estimated π: ${piEstimate.toFixed(6)}`;
+}
+</script>
+<hr/>
+<h3 id="3-analysis">3. Analysis</h3>
+<ul>
+<li>Accuracy improves as <span class="arithmatex">\(N \to \infty\)</span> .</li>
+<li>This method has a convergence rate of <span class="arithmatex">\( \mathcal{O}(1/\sqrt{N}) \)</span>.</li>
+<li>Good for visual understanding, but not the fastest convergence for precision.</li>
+</ul>
+<hr/>
+<h2 id="part-2-estimating-pi-using-buffons-needle">Part 2: Estimating <span class="arithmatex">\(\pi\)</span> using Buffon's Needle</h2>
+<h3 id="1-theoretical-foundation_1">1. Theoretical Foundation</h3>
+<p>If we drop a needle of length <span class="arithmatex">\(l\)</span> on a floor with parallel lines spaced <span class="arithmatex">\(d\)</span> apart <span class="arithmatex">\(l \leq d\)</span> , the probability <span class="arithmatex">\(P\)</span>  that the needle crosses a line is:</p>
+<div class="arithmatex">\[ P = \frac{2l}{\pi d} \Rightarrow \pi \approx \frac{2l \cdot N}{d \cdot C} \]</div>
+<p>Where:
+- <span class="arithmatex">\(N\)</span> : total throws
+- <span class="arithmatex">\(C\)</span> : number of crossings</p>
+<hr/>
+<h3 id="2-simulation-visualization-javascript">2. Simulation &amp; Visualization (JavaScript)</h3>
+<pre><code class="language-html">&lt;h3&gt;Buffon's Needle Simulation&lt;/h3&gt;
+&lt;input type="number" id="needleCount" placeholder="Number of throws" value="5000"&gt;
+&lt;button onclick="simulateNeedles()"&gt;Estimate π&lt;/button&gt;
+&lt;p id="buffonResult"&gt;&lt;/p&gt;
+&lt;canvas id="buffonCanvas" width="400" height="400" style="border:1px solid #ccc;"&gt;&lt;/canvas&gt;
+
+&lt;script&gt;
+function simulateNeedles() {
+  const canvas = document.getElementById('buffonCanvas');
+  const ctx = canvas.getContext('2d');
+  const N = parseInt(document.getElementById('needleCount').value);
+  const l = 40; // Needle length
+  const d = 50; // Distance between lines
+  const lineSpacing = d;
+  let crosses = 0;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Draw horizontal lines
+  for (let y = 0; y &lt;= canvas.height; y += lineSpacing) {
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(canvas.width, y);
+    ctx.strokeStyle = '#aaa';
+    ctx.stroke();
+  }
+
+  for (let i = 0; i &lt; N; i++) {
+    const xMid = Math.random() * canvas.width;
+    const yMid = Math.random() * canvas.height;
+    const theta = Math.random() * Math.PI;
+    const dx = (l / 2) * Math.cos(theta);
+    const dy = (l / 2) * Math.sin(theta);
+
+    const x1 = xMid - dx;
+    const y1 = yMid - dy;
+    const x2 = xMid + dx;
+    const y2 = yMid + dy;
+
+    let cross = false;
+    const yLines = Array.from({length: Math.floor(canvas.height / lineSpacing) + 1}, (_, k) =&gt; k * lineSpacing);
+    for (const yLine of yLines) {
+      if ((y1 &lt; yLine &amp;&amp; y2 &gt; yLine) || (y2 &lt; yLine &amp;&amp; y1 &gt; yLine)) {
+        crosses++;
+        cross = true;
+        break;
+      }
+    }
+
+    ctx.beginPath();
+    ctx.moveTo(x1, y1);
+    ctx.lineTo(x2, y2);
+    ctx.strokeStyle = cross ? 'green' : 'orange';
+    ctx.stroke();
+  }
+
+  const piEstimate = (2 * l * N) / (d * crosses);
+  document.getElementById('buffonResult').innerText = `Estimated π: ${piEstimate.toFixed(6)}`;
+}
+&lt;/script&gt;
+</code></pre>
+<hr/>
+<h3 id="3-analysis_1">3. Analysis</h3>
+<ul>
+<li>Typically slower convergence than circle method.</li>
+<li>Gives insight into geometric probability.</li>
+<li>Useful for experimental mathematics and probability classes.</li>
+</ul>
+<hr/>
+<h2 id="references">References</h2>
+<ul>
+<li>Monte Carlo Methods in JS - Canvas and Math</li>
+<li>Buffon’s Needle: https://en.wikipedia.org/wiki/Buffon%27s_needle</li>
+<li>Statistical Computing with Web Simulations</li>
+</ul>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
