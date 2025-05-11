@@ -14,6 +14,7 @@ Monte Carlo simulations provide an intuitive and visual way to estimate mathemat
 The probability of a randomly chosen point falling inside a unit circle inscribed in a square of side length 2 is equal to the ratio of the circle’s area to the square’s area.
 
 $$ \text{Area of circle} = \pi r^2 = \pi \ (r = 1) \quad \text{Area of square} = 4 \Rightarrow \frac{\pi}{4} \approx \frac{\text{points inside circle}}{\text{total points}} $$
+
 $$ \Rightarrow \pi \approx 4 \cdot \frac{\text{points inside circle}}{\text{total points}} $$
 
 ---
@@ -77,7 +78,7 @@ Where:
 ---
 
 ### 2. Simulation & Visualization (JavaScript)
-```html
+
 <h3>Buffon's Needle Simulation</h3>
 <input type="number" id="needleCount" placeholder="Number of throws" value="5000">
 <button onclick="simulateNeedles()">Estimate π</button>
@@ -138,7 +139,6 @@ function simulateNeedles() {
   document.getElementById('buffonResult').innerText = `Estimated π: ${piEstimate.toFixed(6)}`;
 }
 </script>
-```
 
 ---
 
