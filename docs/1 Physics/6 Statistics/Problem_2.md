@@ -15,8 +15,11 @@ The probability of a randomly chosen point falling inside a unit circle inscribe
 
 
 $\textbf{Area of circle:} \quad \pi r^2 = \pi \quad (r = 1) \\$
+
 $\textbf{Area of square:} \quad 2^2 = 4 \\$
+
 $\frac{\pi}{4} \approx \frac{\text{points inside circle}}{\text{total points}} \\$
+
 $\Rightarrow \pi \approx 4 \cdot \frac{\text{points inside circle}}{\text{total points}}$
 
 
