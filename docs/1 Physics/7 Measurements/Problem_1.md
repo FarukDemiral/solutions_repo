@@ -176,11 +176,9 @@ To reinforce the findings from the interactive simulation above, the following s
 
 These plots show how sampling distributions change with increasing sample size for each population.
 
-| Distribution    | Sample Size = 5                                                                   | Sample Size = 30                                                                    |   |                                                |                                                 |   |   |   |   |   |   |   |   |   |
-| --------------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | - | ---------------------------------------------- | ----------------------------------------------- | - | - | - | - | - | - | - | - | - |
-| **Uniform**     | <img src="images/uniform_n5.png" width="250" alt="Uniform Sample Size 5">         | <img src="images/uniform_n30.png" width="250" alt="Uniform Sample Size 30">         |   |                                                |                                                 |   |   |   |   |   |   |   |   |   |
-| **Exponential** | <img src="images/exponential_n5.png" width="250" alt="Exponential Sample Size 5"> | <img src="images/exponential_n30.png" width="250" alt="Exponential Sample Size 30"> |   |                                                |                                                 |   |   |   |   |   |   |   |   |   |
-| **Binomial**    | <img src="images/binomial_n5.png" width="250" alt="Binomial Sample Size 5">       | <img src="images/binomial_n30.png" width="250" alt="Binomial Sample Size 30">       |   | <img src="images/binomial_n5.png" width="250"> | <img src="images/binomial_n30.png" width="250"> |   |   |   |   |   |   |   |   |   |
+```
+|                 |                  |   |   |   |   |   |   |   |   |   |   |   |   |
+```
 
 ---
 
