@@ -130,13 +130,13 @@ For each population:
 
 These plots show how sampling distributions change with increasing sample size for each population.
 
-| Distribution    | Sample Size = 5                                          | Sample Size = 30                                           |   |   |   |   |   |   |
-| --------------- | -------------------------------------------------------- | ---------------------------------------------------------- | - | - | - | - | - | - |
-| **Uniform**     | ![Uniform n=5](clt_static_images/uniform_n5.png)         | ![Uniform n=30](clt_static_images/uniform_n30.png)         |   |   |   |   |   |   |
-| **Exponential** | ![Exponential n=5](clt_static_images/exponential_n5.png) | ![Exponential n=30](clt_static_images/exponential_n30.png) |   |   |   |   |   |   |
-| **Binomial**    | ![Binomial n=5](clt_static_images/binomial_n5.png)       | ![Binomial n=30](clt_static_images/binomial_n30.png)       |   |   |   |   |   |   |
+| Distribution    | Sample Size = 5                                   | Sample Size = 30                                   |   |   |   |   |   |   |   |   |   |
+| --------------- | ------------------------------------------------- | -------------------------------------------------- | - | - | - | - | - | - | - | - | - |
+| **Uniform**     | <img src="images/uniform_n5.png" width="250">     | <img src="images/uniform_n30.png" width="250">     |   |   |   |   |   |   |   |   |   |
+| **Exponential** | <img src="images/exponential_n5.png" width="250"> | <img src="images/exponential_n30.png" width="250"> |   |   |   |   |   |   |   |   |   |
+| **Binomial**    | <img src="images/binomial_n5.png" width="250">    | <img src="images/binomial_n30.png" width="250">    |   |   |   |   |   |   |   |   |   |
 
----
+
 
 ## Analysis and Insights
 
@@ -148,7 +148,6 @@ These plots show how sampling distributions change with increasing sample size f
 
 Smaller variance results in tighter clustering of sample means. Larger variance causes more spread.
 
----
 
 ## Real-World Applications
 
@@ -160,7 +159,6 @@ Smaller variance results in tighter clustering of sample means. Larger variance 
 | Psychology      | Behavioral study averaging                |
 | Climate Science | Averaging over environmental sensors      |
 
----
 
 ## Theoretical Foundation
 
@@ -174,7 +172,6 @@ Where:
 * $\sigma^2$ is the population variance
 * $\bar{X}_n$ is the sample mean of size $n$
 
----
 
 ## Conclusion
 
