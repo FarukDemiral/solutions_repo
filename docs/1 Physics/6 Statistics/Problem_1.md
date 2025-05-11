@@ -205,6 +205,6 @@ $$
 
 ## Conclusion
 
-This project provides a comprehensive and visually rich demonstration of the Central Limit Theorem using both **interactive JavaScript** and **Python-generated plots**. Through side-by-side comparisons, theoretical derivations, and real-world applications, we show how and why the CLT holds regardless of population shape.
+This project provides a comprehensive and visually rich demonstration of the Central Limit Theorem using both interactive JavaScript and Python-generated plots. Through side-by-side comparisons, theoretical derivations, and real-world applications, we show how and why the CLT holds regardless of population shape.
 
 This blend of simulation and explanation builds deep intuition and prepares the reader to apply the CLT with confidence in practical statistical analysis.
