@@ -77,7 +77,7 @@ Where:
 
 ---
 
-### 2. Simulation & Visualization (JavaScript)
+### 2. Simulation & Visualization 
 
 <h3>Buffon's Needle Simulation</h3>
 <input type="number" id="needleCount" placeholder="Number of throws" value="5000">
