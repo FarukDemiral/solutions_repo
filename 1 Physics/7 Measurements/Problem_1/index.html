@@ -141,13 +141,12 @@
 <li><strong>Binomial Distribution</strong>: Discrete distribution arising from repeated binary trials.</li>
 </ul>
 <hr/>
-<h2 id="methodology">Methodology</h2>
 <h3 id="step-1-population-generation">Step 1: Population Generation</h3>
 <p>We generate a large population of 10,000 values for each distribution:</p>
 <ul>
-<li><strong>Uniform</strong>: <span class="arithmatex">\(Math.random() * 10\)</span></li>
-<li><strong>Exponential</strong>: <span class="arithmatex">\(-λ * log(1 - U)\)</span> with λ = 2</li>
-<li><strong>Binomial</strong>: Sum of 10 Bernoulli trials with p = 0.5</li>
+<li><strong>Uniform Distribution</strong>: Values are sampled using the formula \( x = \text{random()} \times 10 \), generating a flat, bounded distribution between 0 and 10.</li>
+<li><strong>Exponential Distribution</strong>: Values are derived from the inverse transform method: \( x = -2 \times \ln(1 - U) \), where \( U \sim \text{Uniform}(0,1) \).</li>
+<li><strong>Binomial Distribution</strong>: Each value is the sum of 10 independent Bernoulli trials with success probability \( p = 0.5 \), simulating outcomes from a discrete binary process.</li>
 </ul>
 <h3 id="step-2-sampling-and-mean-calculation">Step 2: Sampling and Mean Calculation</h3>
 <p>For each population:</p>
