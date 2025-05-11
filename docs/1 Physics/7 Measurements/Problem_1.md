@@ -52,7 +52,6 @@ For each population:
 
 ## Interactive Simulation (Live on GitHub Pages)
 
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,19 +124,17 @@ For each population:
   </script>
 </body>
 </html>
-```
 
----
 
 ## Static Visual Results
 
 These plots show how sampling distributions change with increasing sample size for each population.
 
-| Distribution    | Sample Size = 5                                          | Sample Size = 30                                           |   |   |   |
-| --------------- | -------------------------------------------------------- | ---------------------------------------------------------- | - | - | - |
-| **Uniform**     | ![Uniform n=5](clt_static_images/uniform_n5.png)         | ![Uniform n=30](clt_static_images/uniform_n30.png)         |   |   |   |
-| **Exponential** | ![Exponential n=5](clt_static_images/exponential_n5.png) | ![Exponential n=30](clt_static_images/exponential_n30.png) |   |   |   |
-| **Binomial**    | ![Binomial n=5](clt_static_images/binomial_n5.png)       | ![Binomial n=30](clt_static_images/binomial_n30.png)       |   |   |   |
+| Distribution    | Sample Size = 5                                          | Sample Size = 30                                           |   |   |   |   |   |   |
+| --------------- | -------------------------------------------------------- | ---------------------------------------------------------- | - | - | - | - | - | - |
+| **Uniform**     | ![Uniform n=5](clt_static_images/uniform_n5.png)         | ![Uniform n=30](clt_static_images/uniform_n30.png)         |   |   |   |   |   |   |
+| **Exponential** | ![Exponential n=5](clt_static_images/exponential_n5.png) | ![Exponential n=30](clt_static_images/exponential_n30.png) |   |   |   |   |   |   |
+| **Binomial**    | ![Binomial n=5](clt_static_images/binomial_n5.png)       | ![Binomial n=30](clt_static_images/binomial_n30.png)       |   |   |   |   |   |   |
 
 ---
 
