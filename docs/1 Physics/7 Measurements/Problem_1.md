@@ -3,187 +3,184 @@
 
 ## Introduction
 
-In the field of statistics, the Central Limit Theorem (CLT) is one of the most powerful and widely used theoretical results. It explains why the normal distribution arises so frequently in practice and forms the theoretical basis for many statistical procedures. The CLT states that when independent random samples are drawn from a population, the distribution of the sample means approaches a normal distribution as the sample size increases, regardless of the population’s original distribution.
+In statistics, the **Central Limit Theorem (CLT)** is one of the most significant results, with wide-ranging applications in data science, quality control, econometrics, psychology, and more. It states that the sampling distribution of the sample mean will approximate a normal distribution as the sample size becomes large, regardless of the shape of the population distribution, provided the samples are independent and identically distributed (i.i.d.).
 
-This project explores the Central Limit Theorem through both dynamic and static simulations. The goal is to help users visually and interactively grasp how sample size, variance, and population shape affect convergence to normality. One simulation is presented as an interactive JavaScript module, while other results are captured in static images for comparison and analysis.
+This project presents a comprehensive and visual exploration of the CLT using both **interactive JavaScript-based simulation** and **static graphical comparisons**. By incorporating different population distributions—**uniform**, **exponential**, and **binomial**—we illustrate how the convergence behavior varies across different shapes and variances.
 
 ## Motivation
 
-The Central Limit Theorem is a fundamental principle in probability theory and statistics. It states that, irrespective of the shape of the original population distribution, the sampling distribution of the sample mean approximates a normal distribution as the sample size increases. This phenomenon is central to many statistical procedures, including hypothesis testing and confidence interval estimation. The objective of this project is to provide a clear, interactive, and visually-supported demonstration of the CLT using simulations.
+The CLT serves as the theoretical foundation for inferential statistics. Without assuming that data is normally distributed, we can still use normal distribution models for inference if the sample size is sufficiently large. This powerful concept allows analysts and scientists to apply statistical tests, confidence intervals, and predictive modeling even when the population is unknown or skewed.
+
+Understanding this theorem visually through simulation enhances intuition and reveals how convergence depends on sample size and population characteristics.
 
 ## Objectives
 
-1. Construct sampling distributions using different population types.
-2. Demonstrate convergence to normality as sample size increases.
-3. Explore how distribution shape and variance affect sampling behavior.
-4. Connect the CLT to practical applications across real-world domains.
+* Simulate sampling from multiple types of population distributions.
+* Illustrate the convergence of sample means to a normal distribution.
+* Compare visual results across distributions and sample sizes.
+* Offer both interactive exploration and fixed graphical evidence.
+* Discuss convergence speed, variance effects, and theoretical expectations.
+* Connect simulations to real-world applications and inferential reasoning.
 
 ## Distributions Considered
 
-* **Uniform distribution**: equal probability over a fixed interval.
-* **Exponential distribution**: skewed distribution with memoryless property.
-* **Binomial distribution**: discrete distribution modeling binary outcomes.
+* **Uniform Distribution**: Flat shape with all outcomes equally likely.
+* **Exponential Distribution**: Right-skewed, often used for time-between-events modeling.
+* **Binomial Distribution**: Discrete distribution arising from repeated binary trials.
+
+---
 
 ## Methodology
 
-### Population Generation
+### Step 1: Population Generation
 
-To simulate realistic sampling behavior, we generate synthetic populations of size 10,000 for each distribution type:
+We generate a large population of 10,000 values for each distribution:
 
-* **Uniform**: values randomly selected from the interval \[0, 10].
-* **Exponential**: values generated with a mean of 2 using inverse transform sampling.
-* **Binomial**: outcomes based on 10 independent Bernoulli trials with success probability 0.5.
+* **Uniform**: `Math.random() * 10`
+* **Exponential**: `-λ * log(1 - U)` with λ = 2
+* **Binomial**: Sum of 10 Bernoulli trials with p = 0.5
 
-### Sampling and Visualization
+### Step 2: Sampling and Mean Calculation
 
-For each distribution:
+For each population:
 
-1. Draw 1,000 random samples with varying sample sizes: 5, 10, 30, and 50.
-2. Compute the sample mean for each iteration.
-3. Visualize results using both interactive simulation and static plots.
+* Draw 1000 random samples of sizes 5, 10, 30, and 50
+* Calculate the mean of each sample
+* Store the distribution of sample means
 
-## Interactive Simulation (JavaScript + Plotly.js)
+---
+
+## Interactive Simulation (Live on GitHub Pages)
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Central Limit Theorem Simulator</title>
+  <title>CLT Interactive Simulation</title>
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 </head>
 <body>
-  <h3>Interactive Simulation</h3>
-  <label for="distribution">Choose a Distribution:</label>
+  <h2>Central Limit Theorem: Interactive Simulation</h2>
+  <label>Distribution:</label>
   <select id="distribution">
     <option value="uniform">Uniform</option>
     <option value="exponential">Exponential</option>
     <option value="binomial">Binomial</option>
   </select>
 
-  <label for="sampleSize">Sample Size:</label>
-  <input type="number" id="sampleSize" value="30" min="1" max="100">
+  <label>Sample Size:</label>
+  <input id="sampleSize" type="number" value="30" min="1" max="100">
 
-  <button onclick="simulateCLT()">Simulate</button>
+  <button onclick="simulateCLT()">Run Simulation</button>
 
-  <div id="plot" style="width:100%;max-width:800px;height:500px;margin-top:20px;"></div>
+  <div id="plot" style="width: 100%; height: 500px; margin-top: 20px;"></div>
 
   <script>
     function generatePopulation(type, size = 10000) {
-      const data = [];
+      let data = [];
       if (type === "uniform") {
         for (let i = 0; i < size; i++) data.push(Math.random() * 10);
       } else if (type === "exponential") {
         for (let i = 0; i < size; i++) data.push(-2 * Math.log(1 - Math.random()));
       } else if (type === "binomial") {
         for (let i = 0; i < size; i++) {
-          let sum = 0;
-          for (let j = 0; j < 10; j++) {
-            sum += Math.random() < 0.5 ? 1 : 0;
-          }
-          data.push(sum);
+          let x = 0;
+          for (let j = 0; j < 10; j++) x += Math.random() < 0.5 ? 1 : 0;
+          data.push(x);
         }
       }
       return data;
     }
 
     function simulateCLT() {
-      const dist = document.getElementById("distribution").value;
-      const sampleSize = parseInt(document.getElementById("sampleSize").value);
-      const population = generatePopulation(dist);
-      const sampleMeans = [];
+      let type = document.getElementById("distribution").value;
+      let sampleSize = parseInt(document.getElementById("sampleSize").value);
+      let population = generatePopulation(type);
+      let sampleMeans = [];
 
       for (let i = 0; i < 1000; i++) {
-        const sample = [];
+        let sample = [];
         for (let j = 0; j < sampleSize; j++) {
-          const idx = Math.floor(Math.random() * population.length);
-          sample.push(population[idx]);
+          let index = Math.floor(Math.random() * population.length);
+          sample.push(population[index]);
         }
-        const mean = sample.reduce((a, b) => a + b, 0) / sample.length;
+        let mean = sample.reduce((a, b) => a + b, 0) / sample.length;
         sampleMeans.push(mean);
       }
 
-      const trace = {
+      let trace = {
         x: sampleMeans,
         type: 'histogram',
-        marker: { color: 'steelblue' },
+        marker: { color: 'skyblue' }
       };
-
-      const layout = {
-        title: `${dist.charAt(0).toUpperCase() + dist.slice(1)} Distribution – Sample Means (n=${sampleSize})`,
-        xaxis: { title: 'Sample Mean' },
-        yaxis: { title: 'Frequency' },
+      let layout = {
+        title: `${type.charAt(0).toUpperCase() + type.slice(1)} Sample Means (n = ${sampleSize})`,
+        xaxis: { title: "Sample Mean" },
+        yaxis: { title: "Frequency" },
         bargap: 0.05
       };
-
-      Plotly.newPlot('plot', [trace], layout);
+      Plotly.newPlot("plot", [trace], layout);
     }
   </script>
 </body>
 </html>
 ```
 
+---
+
 ## Static Visual Results
 
-To complement the interactive simulation, we also generated fixed plots showing how the sampling distribution changes with increasing sample size.
+These plots show how sampling distributions change with increasing sample size for each population.
 
-## Comparative Visualization
+| Distribution    | Sample Size = 5                                          | Sample Size = 30                                           |   |   |   |
+| --------------- | -------------------------------------------------------- | ---------------------------------------------------------- | - | - | - |
+| **Uniform**     | ![Uniform n=5](clt_static_images/uniform_n5.png)         | ![Uniform n=30](clt_static_images/uniform_n30.png)         |   |   |   |
+| **Exponential** | ![Exponential n=5](clt_static_images/exponential_n5.png) | ![Exponential n=30](clt_static_images/exponential_n30.png) |   |   |   |
+| **Binomial**    | ![Binomial n=5](clt_static_images/binomial_n5.png)       | ![Binomial n=30](clt_static_images/binomial_n30.png)       |   |   |   |
 
-The following grid offers a direct visual comparison of the distributions at low and high sample sizes:
+---
 
-| Distribution    | Sample Size = 5                                          | Sample Size = 30                                           |
-| --------------- | -------------------------------------------------------- | ---------------------------------------------------------- |
-| **Uniform**     | ![Uniform n=5](clt_static_images/uniform_n5.png)         | ![Uniform n=30](clt_static_images/uniform_n30.png)         |
-| **Exponential** | ![Exponential n=5](clt_static_images/exponential_n5.png) | ![Exponential n=30](clt_static_images/exponential_n30.png) |
-| **Binomial**    | ![Binomial n=5](clt_static_images/binomial_n5.png)       | ![Binomial n=30](clt_static_images/binomial_n30.png)       |
+## Analysis and Insights
 
-To complement the interactive simulation, we also generated fixed plots showing how the sampling distribution changes with increasing sample size.
+* **Uniform Distribution**: Converges quickly. At n=30, the histogram closely resembles a normal curve.
+* **Exponential Distribution**: Starts highly skewed. Needs larger sample sizes to normalize, but still converges.
+* **Binomial Distribution**: Already closer to normal at n=10 due to discrete symmetry. Converges rapidly.
 
-### Uniform Distribution
+### Variance Effect
 
-* Sample size = 5:
-  ![Uniform n=5](clt_static_images/uniform_n5.png)
-* Sample size = 30:
-  ![Uniform n=30](clt_static_images/uniform_n30.png)
+Smaller variance results in tighter clustering of sample means. Larger variance causes more spread.
 
-### Exponential Distribution
+---
 
-* Sample size = 5:
-  ![Exponential n=5](clt_static_images/exponential_n5.png)
-* Sample size = 30:
-  ![Exponential n=30](clt_static_images/exponential_n30.png)
+## Real-World Applications
 
-### Binomial Distribution
+| Domain          | CLT Usage                                 |
+| --------------- | ----------------------------------------- |
+| Medicine        | Drug efficacy trials, dosage estimation   |
+| Manufacturing   | Quality control with defect rate sampling |
+| Finance         | Predicting returns from portfolio samples |
+| Psychology      | Behavioral study averaging                |
+| Climate Science | Averaging over environmental sensors      |
 
-* Sample size = 5:
-  ![Binomial n=5](clt_static_images/binomial_n5.png)
-* Sample size = 30:
-  ![Binomial n=30](clt_static_images/binomial_n30.png)
+---
 
-## Results and Analysis
-
-The simulation confirms that:
-
-* Sampling distributions approximate a normal shape as the sample size increases.
-* This behavior holds even when the original population is skewed or discrete.
-* The variance of the sampling distribution decreases with increasing sample size.
-
-## Theoretical Justification
-
-Let $X_1, X_2, \ldots, X_n$ be i.i.d. random variables with mean $\mu$ and variance $\sigma^2$. The Central Limit Theorem states:
+## Theoretical Foundation
 
 $$
-\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{d} N(\mu, \frac{\sigma^2}{n}) \quad \text{as } n \to \infty
+\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{d} N(\mu, \frac{\sigma^2}{n}) \text{ as } n \to \infty
 $$
 
-This convergence to normality forms the theoretical foundation for many inferential methods.
+Where:
 
-## Practical Applications
+* $\mu$ is the population mean
+* $\sigma^2$ is the population variance
+* $\bar{X}_n$ is the sample mean of size $n$
 
-1. **Estimation of Population Parameters**: Enables inference from samples to populations.
-2. **Manufacturing and Quality Control**: Supports defect monitoring through sampling.
-3. **Finance and Economics**: Justifies modeling average returns and risk forecasts.
+---
 
 ## Conclusion
 
-This project provides a hands-on demonstration of the Central Limit Theorem using an interactive browser-based simulation, supported by static plots for cross-distribution comparisons. It reinforces the theoretical insights by visualizing the normality of sample means across varying distributions and sample sizes. The CLT remains a cornerstone of modern statistics, essential for reliable data-driven decision making.
+This project provides a comprehensive and visually rich demonstration of the Central Limit Theorem using both **interactive JavaScript** and **Python-generated plots**. Through side-by-side comparisons, theoretical derivations, and real-world applications, we show how and why the CLT holds regardless of population shape.
+
+This blend of simulation and explanation builds deep intuition and prepares the reader to apply the CLT with confidence in practical statistical analysis.
