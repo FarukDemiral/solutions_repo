@@ -11,7 +11,7 @@ The acceleration $g$ due to gravity is a fundamental physical constant essential
 
 * Measure Earth's gravitational acceleration ($g$) using a pendulum.
 * Conduct rigorous uncertainty analysis.
-* Visualize the concept interactively through a simulation.
+* Visualize the concept interactively through a JavaScript-based simulation.
 
 ---
 
@@ -85,47 +85,64 @@ $$
 
 ---
 
-## Interactive Simulation
+## Interactive JavaScript Simulation
 
-Experience the dynamics of a pendulum through this interactive visualization:
+Experience the pendulum dynamics interactively:
 
-<html>
+```html
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Pendulum Simulation</title>
+    <style>
+        canvas { border: 1px solid #ddd; margin-top: 10px; }
+    </style>
 </head>
 <body>
+<canvas id="pendulumCanvas" width="500" height="400"></canvas>
 <script>
-let angle, angleVel, angleAcc, len, gravity;
+    const canvas = document.getElementById('pendulumCanvas');
+    const ctx = canvas.getContext('2d');
 
-function setup() {
-createCanvas(500, 500);
-angle = PI / 6;
-angleVel = 0;
-gravity = 9.81;
-len = 200;
-}
+    let angle = Math.PI / 4;
+    let angleVelocity = 0;
+    let angleAcceleration = 0;
+    const gravity = 9.81;
+    const length = 150;
+    const originX = canvas.width / 2;
+    const originY = 0;
 
-function draw() {
-background(240);
-translate(width / 2, height / 4);
+    function drawPendulum() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-angleAcc = (-gravity / len) \* sin(angle);
-angleVel += angleAcc;
-angle += angleVel;
+        const bobX = originX + length * Math.sin(angle);
+        const bobY = originY + length * Math.cos(angle);
 
-angleVel \*= 0.995; // damping
+        ctx.beginPath();
+        ctx.moveTo(originX, originY);
+        ctx.lineTo(bobX, bobY);
+        ctx.stroke();
 
-stroke(0);
-strokeWeight(2);
-fill(50, 150, 200);
-let x = len \* sin(angle);
-let y = len \* cos(angle);
-line(0, 0, x, y);
-ellipse(x, y, 30, 30);
-} </script>
+        ctx.beginPath();
+        ctx.arc(bobX, bobY, 15, 0, Math.PI * 2);
+        ctx.fillStyle = 'steelblue';
+        ctx.fill();
 
+        angleAcceleration = (-gravity / length) * Math.sin(angle);
+        angleVelocity += angleAcceleration;
+        angle += angleVelocity;
+        angleVelocity *= 0.995; // damping
+
+        requestAnimationFrame(drawPendulum);
+    }
+
+    drawPendulum();
+</script>
 </body>
 </html>
+```
 
 ---
 
