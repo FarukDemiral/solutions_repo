@@ -1,114 +1,93 @@
 # Problem 1
 # Measuring Earth's Gravitational Acceleration with a Pendulum
 
-## Motivation
+## Introduction
 
-The acceleration $g$ due to gravity is a fundamental constant that influences a wide range of physical phenomena. Measuring $g$ accurately is crucial for understanding gravitational interactions, designing structures, and conducting experiments in various fields.
-
-One classic method for determining $g$ is through the oscillations of a simple pendulum, where the period of oscillation depends on the local gravitational field.
-
----
+The acceleration $g$ due to gravity is a fundamental constant crucial for understanding gravitational phenomena, structural design, and various physical experiments. This project uses a simple pendulum to determine the value of $g$, emphasizing precise measurement techniques and uncertainty analysis.
 
 ## Task
 
-Measure the acceleration $g$ due to gravity using a pendulum, and in detail analyze the uncertainties in the measurements.
-
-This experiment emphasizes:
-- Rigorous measurement practices
-- Uncertainty analysis
-- Understanding the role of experimental physics in verifying physical constants
+Measure the gravitational acceleration $g$ using a pendulum and analyze the uncertainties involved in the measurement process.
 
 ---
 
 ## Procedure
 
-### 1. Materials
+### Materials
 
-- String (1–1.5 meters)
-- Small weight (e.g., keychain, sugar bag, coins)
-- Stopwatch (or smartphone timer)
-- Ruler or measuring tape
+* String (1–1.5 meters long)
+* Small weight (e.g., coins, keychain)
+* Stopwatch or smartphone timer
+* Ruler or measuring tape
 
-### 2. Setup
+### Experimental Setup
 
-- Attach the weight to the string and fix the other end to a sturdy support.
-- Measure the length of the pendulum, $L$, from the suspension point to the center of mass of the weight.
-- Estimate the resolution of the measuring tool and compute:
-  
-  $$
-  \Delta L = \frac{\text{Ruler Resolution}}{2}
-  $$
+1. Attach the weight to one end of the string and fix the other end firmly to a support.
+2. Measure the pendulum's length $L$ from the suspension point to the center of the mass. Record the resolution of your ruler/tape measure and calculate uncertainty as:
 
----
+$$
+\Delta L = \frac{\text{Ruler Resolution}}{2}
+$$
 
-### 3. Data Collection
+### Data Collection
 
-- Displace the pendulum slightly ($<15^\circ$) and release it.
-- Measure the time for 10 full oscillations, denoted $T_{10}$, and repeat 10 times.
-- Record all 10 measurements.
-- Calculate:
-  - Mean time for 10 oscillations: $\overline{T_{10}}$
-  - Standard deviation: $\sigma_T$
-  - Uncertainty in the mean time:
-  
-    $$
-    \Delta T_{10} = \frac{\sigma_T}{\sqrt{n}}, \quad n = 10
-    $$
+1. Displace the pendulum slightly (< 15°) and release it.
+2. Measure the time for 10 full oscillations ($T_{10}$). Repeat 10 times.
+3. Calculate the mean oscillation time ($\overline{T_{10}}$) and standard deviation ($\sigma_T$).
+4. Determine uncertainty in mean oscillation time:
+
+$$
+\Delta T_{10} = \frac{\sigma_T}{\sqrt{n}}, \quad n=10
+$$
 
 ---
 
 ## Calculations
 
-### 1. Calculate the Period:
+### Calculate the Period
 
 $$
-T = \frac{T_{10}}{10}, \quad \Delta T = \frac{\Delta T_{10}}{10}
+T = \frac{\overline{T_{10}}}{10}, \quad \Delta T = \frac{\Delta T_{10}}{10}
 $$
 
-### 2. Determine $g$:
+### Determine $g$
 
 $$
 g = \frac{4\pi^2 L}{T^2}
 $$
 
-### 3. Propagate Uncertainties:
+### Propagate Uncertainties
 
 $$
-\Delta g = g \sqrt{\left( \frac{\Delta L}{L} \right)^2 + \left( 2 \cdot \frac{\Delta T}{T} \right)^2}
+\Delta g = g \sqrt{\left(\frac{\Delta L}{L}\right)^2 + \left(2\frac{\Delta T}{T}\right)^2}
 $$
 
 ---
 
 ## Analysis
 
-1. Compare your measured $g$ with the standard value: **9.81 m/s²**.
+### Comparison
 
-2. Discuss:
-- The effect of measurement resolution on $\Delta L$
-- Timing variability and its influence on $\Delta T$
-- Experimental limitations or assumptions
+* Compare your calculated $g$ with the standard value (9.81 m/s²).
+
+### Discussion
+
+* Impact of measurement resolution on $\Delta L$.
+* Variability and impact of timing measurements on $\Delta T$.
+* Discuss assumptions and experimental limitations.
 
 ---
 
 ## Deliverables
 
-1. Markdown Table with:
-   - $L$, $\Delta L$, $T_{10}$ measurements, $\overline{T_{10}}$, $\sigma_T$, $\Delta T$
-   - Calculated $g$ and $\Delta g$
+### Markdown Table of Results
 
-2. Written discussion on uncertainty sources and how they affected your results.
+| $L$ (m) | $\Delta L$ (m) | $\overline{T_{10}}$ (s) | $\sigma_T$ (s) | $\Delta T$ (s) | $g$ (m/s²) | $\Delta g$ (m/s²) |
+| ------- | -------------- | ----------------------- | -------------- | -------------- | ---------- | ----------------- |
+|         |                |                         |                |                |            |                   |
 
----
+*Fill this table with your experimental data.*
 
-## Optional Markdown Table Template
+### Discussion
 
-```markdown
-| Trial | $T_{10}$ (s) |
-|-------|--------------|
-| 1     |              |
-| 2     |              |
-| ...   |              |
-| 10    |              |
-| **Mean** | $\overline{T_{10}}$ |
-| **Std Dev** | $\sigma_T$ |
-| **ΔT** | $\Delta T$ |
+Provide a detailed analysis on the uncertainty sources and their impacts.
