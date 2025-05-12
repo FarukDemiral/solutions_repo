@@ -75,12 +75,12 @@ If:
 
   <div class="section">
     <h2> 2. Trajectory Comparison Based On Initial Velocity</h2>
-    <canvas id="comparisonChart" width="800" height="400"></canvas>
+    <canvas id="comparisonChart" width="720" height="400"></canvas>
   </div>
 
   <div class="section">
     <h2> 3. Payload Trajectories by Velocity Type</h2>
-    <canvas id="velocityTypeChart" width="800" height="400"></canvas>
+    <canvas id="velocityTypeChart" width="720" height="400"></canvas>
   </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
