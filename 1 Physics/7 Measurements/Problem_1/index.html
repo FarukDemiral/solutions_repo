@@ -128,7 +128,7 @@
 <ul>
 <li>Measure Earth's gravitational acceleration (<span class="arithmatex">\(g\)</span>) using a pendulum.</li>
 <li>Conduct rigorous uncertainty analysis.</li>
-<li>Visualize the concept interactively through a simulation.</li>
+<li>Visualize the concept interactively through a JavaScript-based simulation.</li>
 </ul>
 <hr/>
 <h2 id="theory-and-background">Theory and Background</h2>
@@ -183,44 +183,61 @@ g = \frac{4\pi^2 L}{T^2}
 \Delta g = g \sqrt{\left(\frac{\Delta L}{L}\right)^2 + \left(2\frac{\Delta T}{T}\right)^2}
 \]</div>
 <hr/>
-<h2 id="interactive-simulation">Interactive Simulation</h2>
-<p>Experience the dynamics of a pendulum through this interactive visualization:</p>
-<html>
-<head>
-<script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
-</head>
-<body>
-<script>
-let angle, angleVel, angleAcc, len, gravity;
+<h2 id="interactive-javascript-simulation">Interactive JavaScript Simulation</h2>
+<p>Experience the pendulum dynamics interactively:</p>
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;Simple Pendulum Simulation&lt;/title&gt;
+    &lt;style&gt;
+        canvas { border: 1px solid #ddd; margin-top: 10px; }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;canvas id="pendulumCanvas" width="500" height="400"&gt;&lt;/canvas&gt;
+&lt;script&gt;
+    const canvas = document.getElementById('pendulumCanvas');
+    const ctx = canvas.getContext('2d');
 
-function setup() {
-createCanvas(500, 500);
-angle = PI / 6;
-angleVel = 0;
-gravity = 9.81;
-len = 200;
-}
+    let angle = Math.PI / 4;
+    let angleVelocity = 0;
+    let angleAcceleration = 0;
+    const gravity = 9.81;
+    const length = 150;
+    const originX = canvas.width / 2;
+    const originY = 0;
 
-function draw() {
-background(240);
-translate(width / 2, height / 4);
+    function drawPendulum() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-angleAcc = (-gravity / len) \* sin(angle);
-angleVel += angleAcc;
-angle += angleVel;
+        const bobX = originX + length * Math.sin(angle);
+        const bobY = originY + length * Math.cos(angle);
 
-angleVel \*= 0.995; // damping
+        ctx.beginPath();
+        ctx.moveTo(originX, originY);
+        ctx.lineTo(bobX, bobY);
+        ctx.stroke();
 
-stroke(0);
-strokeWeight(2);
-fill(50, 150, 200);
-let x = len \* sin(angle);
-let y = len \* cos(angle);
-line(0, 0, x, y);
-ellipse(x, y, 30, 30);
-} </script>
-</body>
-</html>
+        ctx.beginPath();
+        ctx.arc(bobX, bobY, 15, 0, Math.PI * 2);
+        ctx.fillStyle = 'steelblue';
+        ctx.fill();
+
+        angleAcceleration = (-gravity / length) * Math.sin(angle);
+        angleVelocity += angleAcceleration;
+        angle += angleVelocity;
+        angleVelocity *= 0.995; // damping
+
+        requestAnimationFrame(drawPendulum);
+    }
+
+    drawPendulum();
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
 <hr/>
 <h2 id="detailed-analysis">Detailed Analysis</h2>
 <h3 id="comparison-with-standard-value">Comparison with Standard Value</h3>
