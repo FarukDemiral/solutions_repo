@@ -121,101 +121,93 @@
 <div class="section" itemprop="articleBody">
 <h1 id="problem-1">Problem 1</h1>
 <h1 id="measuring-earths-gravitational-acceleration-with-a-pendulum">Measuring Earth's Gravitational Acceleration with a Pendulum</h1>
-<h2 id="motivation">Motivation</h2>
-<p>The acceleration <span class="arithmatex">\(g\)</span> due to gravity is a fundamental constant that influences a wide range of physical phenomena. Measuring <span class="arithmatex">\(g\)</span> accurately is crucial for understanding gravitational interactions, designing structures, and conducting experiments in various fields.</p>
-<p>One classic method for determining <span class="arithmatex">\(g\)</span> is through the oscillations of a simple pendulum, where the period of oscillation depends on the local gravitational field.</p>
-<hr/>
+<h2 id="introduction">Introduction</h2>
+<p>The acceleration <span class="arithmatex">\(g\)</span> due to gravity is a fundamental constant crucial for understanding gravitational phenomena, structural design, and various physical experiments. This project uses a simple pendulum to determine the value of <span class="arithmatex">\(g\)</span>, emphasizing precise measurement techniques and uncertainty analysis.</p>
 <h2 id="task">Task</h2>
-<p>Measure the acceleration <span class="arithmatex">\(g\)</span> due to gravity using a pendulum, and in detail analyze the uncertainties in the measurements.</p>
-<p>This experiment emphasizes:
-- Rigorous measurement practices
-- Uncertainty analysis
-- Understanding the role of experimental physics in verifying physical constants</p>
+<p>Measure the gravitational acceleration <span class="arithmatex">\(g\)</span> using a pendulum and analyze the uncertainties involved in the measurement process.</p>
 <hr/>
 <h2 id="procedure">Procedure</h2>
-<h3 id="1-materials">1. Materials</h3>
+<h3 id="materials">Materials</h3>
 <ul>
-<li>String (1–1.5 meters)</li>
-<li>Small weight (e.g., keychain, sugar bag, coins)</li>
-<li>Stopwatch (or smartphone timer)</li>
+<li>String (1–1.5 meters long)</li>
+<li>Small weight (e.g., coins, keychain)</li>
+<li>Stopwatch or smartphone timer</li>
 <li>Ruler or measuring tape</li>
 </ul>
-<h3 id="2-setup">2. Setup</h3>
-<ul>
-<li>Attach the weight to the string and fix the other end to a sturdy support.</li>
-<li>Measure the length of the pendulum, <span class="arithmatex">\(L\)</span>, from the suspension point to the center of mass of the weight.</li>
-<li>Estimate the resolution of the measuring tool and compute:</li>
-</ul>
-<p>$$
-  \Delta L = \frac{\text{Ruler Resolution}}{2}
-  $$</p>
-<hr/>
-<h3 id="3-data-collection">3. Data Collection</h3>
-<ul>
-<li>Displace the pendulum slightly (<span class="arithmatex">\(&lt;15^\circ\)</span>) and release it.</li>
-<li>Measure the time for 10 full oscillations, denoted <span class="arithmatex">\(T_{10}\)</span>, and repeat 10 times.</li>
-<li>Record all 10 measurements.</li>
-<li>Calculate:</li>
-<li>Mean time for 10 oscillations: <span class="arithmatex">\(\overline{T_{10}}\)</span></li>
-<li>Standard deviation: <span class="arithmatex">\(\sigma_T\)</span></li>
-<li>
-<p>Uncertainty in the mean time:</p>
+<h3 id="experimental-setup">Experimental Setup</h3>
+<ol>
+<li>Attach the weight to one end of the string and fix the other end firmly to a support.</li>
+<li>Measure the pendulum's length <span class="arithmatex">\(L\)</span> from the suspension point to the center of the mass. Record the resolution of your ruler/tape measure and calculate uncertainty as:</li>
+</ol>
 <div class="arithmatex">\[
-\Delta T_{10} = \frac{\sigma_T}{\sqrt{n}}, \quad n = 10
+\Delta L = \frac{\text{Ruler Resolution}}{2}
 \]</div>
-</li>
-</ul>
+<h3 id="data-collection">Data Collection</h3>
+<ol>
+<li>Displace the pendulum slightly (&lt; 15°) and release it.</li>
+<li>Measure the time for 10 full oscillations (<span class="arithmatex">\(T_{10}\)</span>). Repeat 10 times.</li>
+<li>Calculate the mean oscillation time (<span class="arithmatex">\(\overline{T_{10}}\)</span>) and standard deviation (<span class="arithmatex">\(\sigma_T\)</span>).</li>
+<li>Determine uncertainty in mean oscillation time:</li>
+</ol>
+<div class="arithmatex">\[
+\Delta T_{10} = \frac{\sigma_T}{\sqrt{n}}, \quad n=10
+\]</div>
 <hr/>
 <h2 id="calculations">Calculations</h2>
-<h3 id="1-calculate-the-period">1. Calculate the Period:</h3>
+<h3 id="calculate-the-period">Calculate the Period</h3>
 <div class="arithmatex">\[
-T = \frac{T_{10}}{10}, \quad \Delta T = \frac{\Delta T_{10}}{10}
+T = \frac{\overline{T_{10}}}{10}, \quad \Delta T = \frac{\Delta T_{10}}{10}
 \]</div>
-<h3 id="2-determine-g">2. Determine <span class="arithmatex">\(g\)</span>:</h3>
+<h3 id="determine-g">Determine <span class="arithmatex">\(g\)</span></h3>
 <div class="arithmatex">\[
 g = \frac{4\pi^2 L}{T^2}
 \]</div>
-<h3 id="3-propagate-uncertainties">3. Propagate Uncertainties:</h3>
+<h3 id="propagate-uncertainties">Propagate Uncertainties</h3>
 <div class="arithmatex">\[
-\Delta g = g \sqrt{\left( \frac{\Delta L}{L} \right)^2 + \left( 2 \cdot \frac{\Delta T}{T} \right)^2}
+\Delta g = g \sqrt{\left(\frac{\Delta L}{L}\right)^2 + \left(2\frac{\Delta T}{T}\right)^2}
 \]</div>
 <hr/>
 <h2 id="analysis">Analysis</h2>
-<ol>
-<li>
-<p>Compare your measured <span class="arithmatex">\(g\)</span> with the standard value: <strong>9.81 m/s²</strong>.</p>
-</li>
-<li>
-<p>Discuss:</p>
-</li>
-<li>The effect of measurement resolution on <span class="arithmatex">\(\Delta L\)</span></li>
-<li>Timing variability and its influence on <span class="arithmatex">\(\Delta T\)</span></li>
-<li>Experimental limitations or assumptions</li>
-</ol>
+<h3 id="comparison">Comparison</h3>
+<ul>
+<li>Compare your calculated <span class="arithmatex">\(g\)</span> with the standard value (9.81 m/s²).</li>
+</ul>
+<h3 id="discussion">Discussion</h3>
+<ul>
+<li>Impact of measurement resolution on <span class="arithmatex">\(\Delta L\)</span>.</li>
+<li>Variability and impact of timing measurements on <span class="arithmatex">\(\Delta T\)</span>.</li>
+<li>Discuss assumptions and experimental limitations.</li>
+</ul>
 <hr/>
 <h2 id="deliverables">Deliverables</h2>
-<ol>
-<li>Markdown Table with:</li>
-<li><span class="arithmatex">\(L\)</span>, <span class="arithmatex">\(\Delta L\)</span>, <span class="arithmatex">\(T_{10}\)</span> measurements, <span class="arithmatex">\(\overline{T_{10}}\)</span>, <span class="arithmatex">\(\sigma_T\)</span>, <span class="arithmatex">\(\Delta T\)</span></li>
-<li>
-<p>Calculated <span class="arithmatex">\(g\)</span> and <span class="arithmatex">\(\Delta g\)</span></p>
-</li>
-<li>
-<p>Written discussion on uncertainty sources and how they affected your results.</p>
-</li>
-</ol>
-<hr/>
-<h2 id="optional-markdown-table-template">Optional Markdown Table Template</h2>
-<p>```markdown
-| Trial | <span class="arithmatex">\(T_{10}\)</span> (s) |
-|-------|--------------|
-| 1     |              |
-| 2     |              |
-| ...   |              |
-| 10    |              |
-| <strong>Mean</strong> | <span class="arithmatex">\(\overline{T_{10}}\)</span> |
-| <strong>Std Dev</strong> | <span class="arithmatex">\(\sigma_T\)</span> |
-| <strong>ΔT</strong> | <span class="arithmatex">\(\Delta T\)</span> |</p>
+<h3 id="markdown-table-of-results">Markdown Table of Results</h3>
+<table>
+<thead>
+<tr>
+<th><span class="arithmatex">\(L\)</span> (m)</th>
+<th><span class="arithmatex">\(\Delta L\)</span> (m)</th>
+<th><span class="arithmatex">\(\overline{T_{10}}\)</span> (s)</th>
+<th><span class="arithmatex">\(\sigma_T\)</span> (s)</th>
+<th><span class="arithmatex">\(\Delta T\)</span> (s)</th>
+<th><span class="arithmatex">\(g\)</span> (m/s²)</th>
+<th><span class="arithmatex">\(\Delta g\)</span> (m/s²)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><em>Fill this table with your experimental data.</em></p>
+<h3 id="discussion_1">Discussion</h3>
+<p>Provide a detailed analysis on the uncertainty sources and their impacts.</p>
 </div>
 </div><footer>
 <div aria-label="Footer Navigation" class="rst-footer-buttons" role="navigation">
