@@ -85,23 +85,32 @@ $$
 
 ---
 
-## Interactive JavaScript Simulation
+## Interactive Simulation
 
 Experience the pendulum dynamics interactively:
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Pendulum Simulation</title>
-    <style>
-        canvas { border: 1px solid #ddd; margin-top: 10px; }
-    </style>
+  <meta charset="UTF-8" />
+  <title>Pendulum Simulation and Visualization</title>
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+  <style>
+    canvas {
+      border: 1px solid #ddd;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-<canvas id="pendulumCanvas" width="500" height="400"></canvas>
-<script>
+  <h2>Pendulum Simulation</h2>
+  <canvas id="pendulumCanvas" width="500" height="400"></canvas>
+
+  <h2>Visualization: g vs. Pendulum Length</h2>
+  <div id="chart" style="width: 600px; height: 400px;"></div>
+
+  <script>
+    // Pendulum Simulation
     const canvas = document.getElementById('pendulumCanvas');
     const ctx = canvas.getContext('2d');
 
@@ -114,31 +123,62 @@ Experience the pendulum dynamics interactively:
     const originY = 0;
 
     function drawPendulum() {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const bobX = originX + length * Math.sin(angle);
-        const bobY = originY + length * Math.cos(angle);
+      const bobX = originX + length * Math.sin(angle);
+      const bobY = originY + length * Math.cos(angle);
 
-        ctx.beginPath();
-        ctx.moveTo(originX, originY);
-        ctx.lineTo(bobX, bobY);
-        ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(originX, originY);
+      ctx.lineTo(bobX, bobY);
+      ctx.stroke();
 
-        ctx.beginPath();
-        ctx.arc(bobX, bobY, 15, 0, Math.PI * 2);
-        ctx.fillStyle = 'steelblue';
-        ctx.fill();
+      ctx.beginPath();
+      ctx.arc(bobX, bobY, 15, 0, Math.PI * 2);
+      ctx.fillStyle = 'steelblue';
+      ctx.fill();
 
-        angleAcceleration = (-gravity / length) * Math.sin(angle);
-        angleVelocity += angleAcceleration;
-        angle += angleVelocity;
-        angleVelocity *= 0.995; // damping
+      angleAcceleration = (-gravity / length) * Math.sin(angle);
+      angleVelocity += angleAcceleration;
+      angle += angleVelocity;
+      angleVelocity *= 0.995; // damping
 
-        requestAnimationFrame(drawPendulum);
+      requestAnimationFrame(drawPendulum);
     }
 
     drawPendulum();
-</script>
+  </script>
+
+  <script>
+    // Visualization: g vs. L
+    const lengths = [0.5, 0.75, 1.0, 1.25, 1.5];
+    const periods = lengths.map(L => 2 * Math.PI * Math.sqrt(L / 9.81));
+    const g_values = lengths.map((L, i) => 4 * Math.PI * Math.PI * L / (periods[i] * periods[i]));
+
+    const data = [
+      {
+        x: lengths,
+        y: g_values,
+        mode: 'lines+markers',
+        name: 'Measured g'
+      },
+      {
+        x: lengths,
+        y: Array(lengths.length).fill(9.81),
+        mode: 'lines',
+        name: 'Standard g',
+        line: { dash: 'dot' }
+      }
+    ];
+
+    const layout = {
+      title: 'Gravitational Acceleration (g) vs. Pendulum Length (L)',
+      xaxis: { title: 'Length (m)' },
+      yaxis: { title: 'g (m/s²)' }
+    };
+
+    Plotly.newPlot('chart', data, layout);
+  </script>
 </body>
 </html>
 
