@@ -185,19 +185,20 @@ g = \frac{4\pi^2 L}{T^2}
 <hr/>
 <h2 id="interactive-javascript-simulation">Interactive JavaScript Simulation</h2>
 <p>Experience the pendulum dynamics interactively:</p>
-<pre><code class="language-html">&lt;!DOCTYPE html&gt;
-&lt;html lang="en"&gt;
-&lt;head&gt;
-    &lt;meta charset="UTF-8"&gt;
-    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-    &lt;title&gt;Simple Pendulum Simulation&lt;/title&gt;
-    &lt;style&gt;
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Simple Pendulum Simulation</title>
+<style>
         canvas { border: 1px solid #ddd; margin-top: 10px; }
-    &lt;/style&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;canvas id="pendulumCanvas" width="500" height="400"&gt;&lt;/canvas&gt;
-&lt;script&gt;
+    </style>
+</head>
+<body>
+<canvas height="400" id="pendulumCanvas" width="500"></canvas>
+<script>
     const canvas = document.getElementById('pendulumCanvas');
     const ctx = canvas.getContext('2d');
 
@@ -234,10 +235,9 @@ g = \frac{4\pi^2 L}{T^2}
     }
 
     drawPendulum();
-&lt;/script&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+</script>
+</body>
+</html>
 <hr/>
 <h2 id="detailed-analysis">Detailed Analysis</h2>
 <h3 id="comparison-with-standard-value">Comparison with Standard Value</h3>
