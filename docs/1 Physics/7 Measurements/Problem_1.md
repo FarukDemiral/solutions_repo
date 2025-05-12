@@ -89,7 +89,6 @@ $$
 
 Experience the pendulum dynamics interactively:
 
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -142,7 +141,6 @@ Experience the pendulum dynamics interactively:
 </script>
 </body>
 </html>
-```
 
 ---
 
