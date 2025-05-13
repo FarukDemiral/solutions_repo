@@ -44,6 +44,18 @@ For each population:
 * Store the distribution of sample means
 
 ---
+## Theoretical Foundation
+
+$$
+\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{d} N(\mu, \frac{\sigma^2}{n}) \text{ as } n \to \infty
+$$
+
+**Where:**
+
+* $\mu$ is the population mean
+* $\sigma^2$ is the population variance
+* $\bar{X}_n$ is the sample mean of size $n$
+---
 
 <!DOCTYPE html>
 <html lang="en">
@@ -186,20 +198,6 @@ Smaller variance results in tighter clustering of sample means. Larger variance 
 | Finance         | Predicting returns from portfolio samples |
 | Psychology      | Behavioral study averaging                |
 | Climate Science | Averaging over environmental sensors      |
-
----
-
-## Theoretical Foundation
-
-$$
-\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i \xrightarrow{d} N(\mu, \frac{\sigma^2}{n}) \text{ as } n \to \infty
-$$
-
-**Where:**
-
-* $\mu$ is the population mean
-* $\sigma^2$ is the population variance
-* $\bar{X}_n$ is the sample mean of size $n$
 
 ---
 
